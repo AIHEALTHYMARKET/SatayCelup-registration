@@ -228,6 +228,108 @@ h1 {
 
 
 /* =========================================
+   Google Login
+========================================= */
+
+.login-box {
+    position: relative;
+    z-index: 3;
+
+    margin: 10px 0 20px;
+
+    padding: 25px 18px;
+
+    background: #f3faf4;
+
+    border: 1px solid #dcecdf;
+
+    border-radius: 20px;
+
+    text-align: center;
+}
+
+.login-box-icon {
+    font-size: 42px;
+
+    margin-bottom: 8px;
+}
+
+.login-box h2 {
+    margin: 0 0 10px;
+
+    color: #3e704b;
+
+    font-size: 23px;
+
+    font-weight: 900;
+}
+
+.login-box p {
+    margin: 0 0 18px;
+
+    color: #748078;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+.google-login-btn {
+    width: 100%;
+
+    min-height: 52px;
+
+    border: none;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4285f4,
+            #2869c7
+        );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px rgba(66,133,244,0.20);
+
+    transition:
+        transform 0.2s,
+        opacity 0.2s;
+}
+
+.google-login-btn:hover {
+    transform: translateY(-2px);
+}
+
+.google-login-btn:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+.login-status {
+    min-height: 22px;
+
+    margin: 12px 0 0 !important;
+
+    font-size: 13px !important;
+
+    color: #68766d !important;
+}
+
+
+/* =========================================
    Google Email
 ========================================= */
 
@@ -809,6 +911,46 @@ input[type="file"]::file-selector-button {
 
 
     <!-- =====================================
+         Google Login
+    ====================================== -->
+
+    <div
+        id="loginContainer"
+        class="login-box"
+        style="display:none;">
+
+        <div class="login-box-icon">
+            🔐
+        </div>
+
+        <h2>
+            請先登入 Google
+        </h2>
+
+        <p>
+            登入後即可填寫 SatayCelup之戰報名資料。<br>
+            如果你要幫朋友報名，也可以登入後連續提交。
+        </p>
+
+        <button
+            type="button"
+            id="googleLoginBtn"
+            class="google-login-btn">
+
+            使用 Google 登入
+
+        </button>
+
+        <p
+            id="loginStatus"
+            class="login-status">
+
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
          Form
     ====================================== -->
 
@@ -1245,6 +1387,10 @@ import {
 
     onAuthStateChanged,
 
+    GoogleAuthProvider,
+
+    signInWithPopup,
+
     signOut
 
 } from
@@ -1287,6 +1433,24 @@ import {
 const loadingMessage =
     document.getElementById(
         "loadingMessage"
+    );
+
+
+const loginContainer =
+    document.getElementById(
+        "loginContainer"
+    );
+
+
+const googleLoginBtn =
+    document.getElementById(
+        "googleLoginBtn"
+    );
+
+
+const loginStatus =
+    document.getElementById(
+        "loginStatus"
     );
 
 
@@ -1351,6 +1515,64 @@ const successEmail =
 
 
 /* =========================================
+   Google Login
+========================================= */
+
+googleLoginBtn.addEventListener(
+    "click",
+    async () => {
+
+        googleLoginBtn.disabled =
+            true;
+
+        googleLoginBtn.textContent =
+            "Google 登入中...";
+
+        loginStatus.textContent =
+            "";
+
+        try {
+
+            const provider =
+                new GoogleAuthProvider();
+
+
+            await signInWithPopup(
+                auth,
+                provider
+            );
+
+
+            loginStatus.textContent =
+                "登入成功，正在開啟報名表格...";
+
+
+        } catch (error) {
+
+            console.error(
+                "Google Login Error:",
+                error
+            );
+
+
+            loginStatus.textContent =
+                "Google 登入失敗，請再試一次。";
+
+
+            googleLoginBtn.disabled =
+                false;
+
+
+            googleLoginBtn.textContent =
+                "使用 Google 登入";
+
+        }
+
+    }
+);
+
+
+/* =========================================
    Google Login State
 ========================================= */
 
@@ -1370,30 +1592,21 @@ onAuthStateChanged(
 
         if (!user) {
 
-            loadingMessage.innerHTML = `
-
-                尚未登入 Google。
-
-                <br><br>
-
-                <button
-                    class="primary-btn"
-                    onclick="location.href='index.html'">
-
-                    🏠 回到活動介紹 / Google 登入
-
-                </button>
-
-            `;
-
             loadingMessage.style.display =
+                "none";
+
+
+            loginContainer.style.display =
                 "block";
+
 
             formContainer.style.display =
                 "none";
 
+
             successContainer.style.display =
                 "none";
+
 
             return;
         }
@@ -1419,6 +1632,10 @@ onAuthStateChanged(
 
 
         loadingMessage.style.display =
+            "none";
+
+
+        loginContainer.style.display =
             "none";
 
 
@@ -1459,6 +1676,12 @@ form.addEventListener(
 
             message.style.color =
                 "red";
+
+            loginContainer.style.display =
+                "block";
+
+            formContainer.style.display =
+                "none";
 
             return;
         }
@@ -1807,8 +2030,23 @@ logoutBtn.addEventListener(
                 auth
             );
 
-            location.href =
-                "index.html";
+            loginContainer.style.display =
+                "block";
+
+            formContainer.style.display =
+                "none";
+
+            successContainer.style.display =
+                "none";
+
+            loginStatus.textContent =
+                "你已登出，請重新登入。";
+
+            googleLoginBtn.disabled =
+                false;
+
+            googleLoginBtn.textContent =
+                "使用 Google 登入";
 
         } catch (error) {
 
