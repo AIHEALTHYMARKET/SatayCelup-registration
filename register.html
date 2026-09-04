@@ -544,10 +544,22 @@
 
 <script type="module">
 
-/* =========================================================
-   SatayCelup之戰
-   register.html - Firebase Google Login 穩定版
-   ========================================================= */
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+    collection,
+    addDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import {
+    auth,
+    db
+} from "./js/firebase-config.js";
+
 
 const loadingMessage =
     document.getElementById("loadingMessage");
@@ -583,340 +595,112 @@ const logoutBtn =
     document.getElementById("logoutBtn");
 
 
-let auth = null;
-let db = null;
 let currentUser = null;
 let isSubmitting = false;
 
 
 /* =========================================================
-   顯示載入狀態
+   訊息
    ========================================================= */
 
-function setLoading(text) {
+function showMessage(text, type = "") {
 
-    loadingMessage.classList.remove("hidden");
+    message.className = "message";
 
-    loadingMessage.innerHTML = `
-        ${text}
-    `;
+    if (type) {
+        message.classList.add(type);
+    }
+
+    message.textContent = text;
 }
 
 
 /* =========================================================
-   顯示錯誤
+   Firebase 登入狀態
    ========================================================= */
 
-function showLoadingError(title, detail = "") {
+onAuthStateChanged(
+    auth,
+    (user) => {
 
-    loadingMessage.classList.remove("hidden");
-
-    loadingMessage.innerHTML = `
-        <div style="
-            color:#ffaaaa;
-            font-weight:700;
-            font-size:16px;
-            margin-bottom:10px;
-        ">
-            ${title}
-        </div>
-
-        <div style="
-            color:rgba(255,255,255,0.7);
-            font-size:13px;
-            line-height:1.7;
-            word-break:break-word;
-        ">
-            ${detail}
-        </div>
-
-        <button
-            type="button"
-            onclick="location.reload()"
-            style="
-                margin-top:18px;
-                padding:12px 20px;
-                border:0;
-                border-radius:10px;
-                background:white;
-                color:#17120d;
-                font-weight:700;
-                cursor:pointer;
-            "
-        >
-            重新載入
-        </button>
-
-        <div style="
-            margin-top:18px;
-            font-size:11px;
-            color:rgba(255,255,255,0.45);
-        ">
-            如果重新載入後仍然出現此訊息，請把這個畫面截圖給管理員。
-        </div>
-    `;
-}
-
-
-/* =========================================================
-   顯示成功登入後的表格
-   ========================================================= */
-
-function showRegistrationForm(user) {
-
-    currentUser = user;
-
-    emailInput.value =
-        user.email || "";
-
-    loadingMessage.classList.add("hidden");
-
-    formContainer.classList.remove("hidden");
-
-    console.log(
-        "Google 登入成功",
-        user
-    );
-}
-
-
-/* =========================================================
-   初始化 Firebase
-   ========================================================= */
-
-async function initializeFirebase() {
-
-    try {
-
-        setLoading(
-            "正在連接 Firebase..."
+        console.log(
+            "Firebase Auth User:",
+            user
         );
 
 
-        /* Firebase Auth */
+        if (!user) {
 
-        const authModule =
-            await import(
-                "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js"
-            );
+            loadingMessage.innerHTML = `
+                <div style="color:#ffaaaa;">
+                    尚未登入 Google 帳號
+                </div>
 
+                <div style="
+                    margin-top:10px;
+                    font-size:13px;
+                    color:rgba(255,255,255,0.6);
+                ">
+                    請返回首頁重新登入。
+                </div>
+            `;
 
-        /* Firebase Firestore */
-
-        const firestoreModule =
-            await import(
-                "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js"
-            );
-
-
-        /* Firebase config */
-
-        const firebaseModule =
-            await import(
-                "./js/firebase-config.js"
-            );
+            return;
+        }
 
 
-        auth =
-            firebaseModule.auth;
+        currentUser = user;
 
-        db =
-            firebaseModule.db;
+        emailInput.value =
+            user.email || "";
+
+
+        loadingMessage.classList.add(
+            "hidden"
+        );
+
+        formContainer.classList.remove(
+            "hidden"
+        );
 
 
         console.log(
-            "Firebase 初始化成功"
+            "登入成功：",
+            user.email
         );
 
-
-        /* =================================================
-           先檢查 Redirect 登入結果
-           ================================================= */
-
-        setLoading(
-            "正在確認 Google 登入狀態..."
-        );
-
-
-        let redirectResult = null;
-
-
-        try {
-
-            redirectResult =
-                await authModule.getRedirectResult(auth);
-
-            console.log(
-                "Redirect 登入結果：",
-                redirectResult
-            );
-
-        } catch (redirectError) {
-
-            console.error(
-                "Google Redirect 錯誤：",
-                redirectError
-            );
-
-
-            showLoadingError(
-                "Google 登入出現問題",
-                "錯誤代碼：" +
-                (redirectError.code || "未知") +
-                "\n\n" +
-                "錯誤訊息：" +
-                (redirectError.message || "未知錯誤")
-            );
-
-            return;
-        }
-
-
-        /* =================================================
-           如果 Redirect 直接帶回 user
-           ================================================= */
-
-        if (
-            redirectResult &&
-            redirectResult.user
-        ) {
-
-            showRegistrationForm(
-                redirectResult.user
-            );
-
-            return;
-        }
-
-
-        /* =================================================
-           再檢查目前 Firebase Auth 狀態
-           ================================================= */
-
-        let authResolved = false;
-
-
-        const unsubscribe =
-            authModule.onAuthStateChanged(
-                auth,
-                (user) => {
-
-                    if (authResolved) {
-                        return;
-                    }
-
-                    authResolved = true;
-
-                    unsubscribe();
-
-                    console.log(
-                        "onAuthStateChanged：",
-                        user
-                    );
-
-
-                    if (user) {
-
-                        showRegistrationForm(
-                            user
-                        );
-
-                        return;
-                    }
-
-
-                    /* 沒有登入 */
-
-                    showLoadingError(
-                        "尚未登入 Google 帳號",
-                        "請返回首頁重新使用 Google 登入。"
-                    );
-
-                },
-                (error) => {
-
-                    if (authResolved) {
-                        return;
-                    }
-
-                    authResolved = true;
-
-                    unsubscribe();
-
-                    console.error(
-                        "Firebase Auth 狀態錯誤：",
-                        error
-                    );
-
-
-                    showLoadingError(
-                        "Firebase 登入狀態檢查失敗",
-                        "錯誤代碼：" +
-                        (error.code || "未知") +
-                        "\n\n" +
-                        "錯誤訊息：" +
-                        (error.message || "未知錯誤")
-                    );
-
-                }
-            );
-
-
-        /* =================================================
-           15 秒安全 timeout
-           防止永遠卡在「正在確認」
-           ================================================= */
-
-        setTimeout(
-            () => {
-
-                if (authResolved) {
-                    return;
-                }
-
-
-                authResolved = true;
-
-                try {
-                    unsubscribe();
-                } catch (e) {}
-
-
-                showLoadingError(
-                    "Firebase 登入確認逾時",
-                    "Google 登入狀態在 15 秒內沒有回應。\n\n" +
-                    "這通常表示 Firebase Auth、Google 登入設定或瀏覽器環境出現問題。"
-                );
-
-            },
-            15000
-        );
-
-
-    } catch (error) {
+    },
+    (error) => {
 
         console.error(
-            "Firebase 初始化失敗：",
+            "Auth Error:",
             error
         );
 
 
-        showLoadingError(
-            "Firebase 初始化失敗",
-            "錯誤代碼：" +
-            (error.code || "未知") +
-            "\n\n" +
-            "錯誤訊息：" +
-            (error.message || "未知錯誤")
-        );
+        loadingMessage.innerHTML = `
+            <div style="color:#ffaaaa;font-weight:700;">
+                Firebase 登入狀態錯誤
+            </div>
+
+            <div style="
+                margin-top:10px;
+                font-size:13px;
+                white-space:pre-wrap;
+                word-break:break-word;
+            ">
+                ${error.code || ""}
+                
+                ${error.message || ""}
+            </div>
+        `;
 
     }
-
-}
+);
 
 
 /* =========================================================
-   觀眾不需要搭檔
+   參與方式
    ========================================================= */
 
 participation.addEventListener(
@@ -946,7 +730,7 @@ participation.addEventListener(
 
 
 /* =========================================================
-   收據 JPG 檢查
+   收據檢查
    ========================================================= */
 
 receipt.addEventListener(
@@ -974,7 +758,7 @@ receipt.addEventListener(
         if (!isJpg) {
 
             alert(
-                "只允許上傳 JPG / JPEG 格式。"
+                "只允許 JPG / JPEG 格式。"
             );
 
             receipt.value = "";
@@ -983,12 +767,9 @@ receipt.addEventListener(
         }
 
 
-        const maxSize =
-            5 * 1024 * 1024;
-
-
         if (
-            file.size > maxSize
+            file.size >
+            5 * 1024 * 1024
         ) {
 
             alert(
@@ -1011,38 +792,20 @@ logoutBtn.addEventListener(
     "click",
     async () => {
 
-        logoutBtn.disabled = true;
-
         try {
 
-            const authModule =
-                await import(
-                    "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js"
-                );
+            await signOut(auth);
 
-
-            await authModule.signOut(
-                auth
-            );
-
-
-            window.location.href =
+            location.href =
                 "index.html";
-
 
         } catch (error) {
 
-            console.error(error);
-
-
             showMessage(
                 "登出失敗：" +
-                (error.message || "未知錯誤"),
+                error.message,
                 "error-message"
             );
-
-
-            logoutBtn.disabled = false;
 
         }
 
@@ -1051,7 +814,7 @@ logoutBtn.addEventListener(
 
 
 /* =========================================================
-   提交報名
+   提交
    ========================================================= */
 
 form.addEventListener(
@@ -1059,7 +822,6 @@ form.addEventListener(
     async (event) => {
 
         event.preventDefault();
-
         event.stopPropagation();
 
 
@@ -1068,15 +830,45 @@ form.addEventListener(
         }
 
 
+        /* -----------------------------------------------
+           Step 1
+        ------------------------------------------------ */
+
+        showMessage(
+            "Step 1：開始處理報名資料..."
+        );
+
+
+        console.log(
+            "SUBMIT START"
+        );
+
+
         if (!currentUser) {
 
             showMessage(
-                "Google 登入狀態已失效，請重新登入。",
+                "錯誤：目前沒有 Google 登入帳號。",
                 "error-message"
             );
 
             return;
         }
+
+
+        /* -----------------------------------------------
+           Step 2
+        ------------------------------------------------ */
+
+        showMessage(
+            "Step 2：Google 登入確認成功：" +
+            currentUser.email
+        );
+
+
+        console.log(
+            "CURRENT USER:",
+            currentUser
+        );
 
 
         if (!form.checkValidity()) {
@@ -1094,7 +886,7 @@ form.addEventListener(
         if (!file) {
 
             showMessage(
-                "請上傳繳費收據。",
+                "錯誤：沒有選擇收據。",
                 "error-message"
             );
 
@@ -1102,114 +894,117 @@ form.addEventListener(
         }
 
 
-        const isJpg =
-            file.type === "image/jpeg" ||
-            file.name
-                .toLowerCase()
-                .endsWith(".jpg") ||
-            file.name
-                .toLowerCase()
-                .endsWith(".jpeg");
+        /* -----------------------------------------------
+           Step 3
+        ------------------------------------------------ */
+
+        showMessage(
+            "Step 3：表單資料檢查完成..."
+        );
 
 
-        if (!isJpg) {
+        const registrationData = {
 
-            showMessage(
-                "收據只允許 JPG / JPEG 格式。",
-                "error-message"
-            );
+            email:
+                currentUser.email || "",
 
-            return;
-        }
+            uid:
+                currentUser.uid,
 
+            englishName:
+                document
+                    .getElementById("englishName")
+                    .value
+                    .trim(),
 
-        const maxSize =
-            5 * 1024 * 1024;
+            icNumber:
+                document
+                    .getElementById("icNumber")
+                    .value
+                    .trim(),
 
+            chineseName:
+                document
+                    .getElementById("chineseName")
+                    .value
+                    .trim(),
 
-        if (
-            file.size > maxSize
-        ) {
+            phone:
+                document
+                    .getElementById("phone")
+                    .value
+                    .trim(),
 
-            showMessage(
-                "收據圖片不能超過 5MB。",
-                "error-message"
-            );
+            meal:
+                document
+                    .getElementById("meal")
+                    .value,
 
-            return;
-        }
+            shirtSize:
+                document
+                    .getElementById("shirtSize")
+                    .value,
 
+            shirtText:
+                document
+                    .getElementById("shirtText")
+                    .value
+                    .trim(),
 
-        /* =================================================
-           取得表單資料
-           ================================================= */
+            participation:
+                participation.value,
 
-        const englishName =
-            document
-                .getElementById("englishName")
-                .value
-                .trim();
+            partner:
+                participation.value === "觀眾"
+                    ? ""
+                    : partnerInput.value.trim(),
 
+            platinum:
+                document
+                    .getElementById("platinum")
+                    .value,
 
-        const icNumber =
-            document
-                .getElementById("icNumber")
-                .value
-                .trim();
+            receiptFileName:
+                file.name,
 
+            receiptFileType:
+                file.type,
 
-        const chineseName =
-            document
-                .getElementById("chineseName")
-                .value
-                .trim();
+            receiptFileSize:
+                file.size,
 
+            paymentStatus:
+                "待審核",
 
-        const phone =
-            document
-                .getElementById("phone")
-                .value
-                .trim();
+            paymentAmount:
+                null,
 
+            paymentDate:
+                null,
 
-        const meal =
-            document
-                .getElementById("meal")
-                .value;
+            createdAt:
+                serverTimestamp(),
 
+            updatedAt:
+                serverTimestamp()
 
-        const shirtSize =
-            document
-                .getElementById("shirtSize")
-                .value;
-
-
-        const shirtText =
-            document
-                .getElementById("shirtText")
-                .value
-                .trim();
-
-
-        const participationValue =
-            participation.value;
-
-
-        const finalPartner =
-            participationValue === "觀眾"
-                ? ""
-                : partnerInput.value.trim();
-
-
-        const platinum =
-            document
-                .getElementById("platinum")
-                .value;
+        };
 
 
-        /* =================================================
-           防止重複提交
-           ================================================= */
+        console.log(
+            "DATA READY:",
+            registrationData
+        );
+
+
+        /* -----------------------------------------------
+           Step 4
+        ------------------------------------------------ */
+
+        showMessage(
+            "Step 4：準備連接 Firestore..."
+        );
+
 
         isSubmitting = true;
 
@@ -1219,133 +1014,74 @@ form.addEventListener(
             "正在提交...";
 
 
+        /* -----------------------------------------------
+           Step 5
+        ------------------------------------------------ */
+
         showMessage(
-            "正在儲存報名資料，請稍候...（最多等待15秒）"
+            "Step 5：正在寫入 Firestore..."
+        );
+
+
+        console.log(
+            "FIRESTORE ADD START"
         );
 
 
         try {
 
-            const firestoreModule =
-                await import(
-                    "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js"
-                );
+            const docRef =
+                await Promise.race([
+
+                    addDoc(
+                        collection(
+                            db,
+                            "registrations"
+                        ),
+                        registrationData
+                    ),
+
+                    new Promise(
+                        (_, reject) => {
+
+                            setTimeout(
+                                () => {
+
+                                    const error =
+                                        new Error(
+                                            "Firestore 15 秒沒有回應"
+                                        );
+
+                                    error.code =
+                                        "FIRESTORE_TIMEOUT";
+
+                                    reject(
+                                        error
+                                    );
+
+                                },
+                                15000
+                            );
+
+                        }
+                    )
+
+                ]);
 
 
-            const registrationData = {
-
-                email:
-                    currentUser.email || "",
-
-                uid:
-                    currentUser.uid,
-
-                englishName:
-                    englishName,
-
-                icNumber:
-                    icNumber,
-
-                chineseName:
-                    chineseName,
-
-                phone:
-                    phone,
-
-                meal:
-                    meal,
-
-                shirtSize:
-                    shirtSize,
-
-                shirtText:
-                    shirtText,
-
-                participation:
-                    participationValue,
-
-                partner:
-                    finalPartner,
-
-                platinum:
-                    platinum,
-
-                receiptFileName:
-                    file.name,
-
-                receiptFileType:
-                    file.type,
-
-                receiptFileSize:
-                    file.size,
-
-                paymentStatus:
-                    "待審核",
-
-                paymentAmount:
-                    null,
-
-                paymentDate:
-                    null,
-
-                createdAt:
-                    firestoreModule.serverTimestamp(),
-
-                updatedAt:
-                    firestoreModule.serverTimestamp()
-
-            };
-
+            /* -------------------------------------------
+               Step 6
+            -------------------------------------------- */
 
             console.log(
-                "準備寫入 Firestore：",
-                registrationData
-            );
-
-
-            const savePromise =
-    firestoreModule.addDoc(
-        firestoreModule.collection(
-            db,
-            "registrations"
-        ),
-        registrationData
-    );
-
-const timeoutPromise =
-    new Promise((_, reject) => {
-
-        setTimeout(() => {
-
-            const timeoutError =
-                new Error(
-                    "Firestore 在 15 秒內沒有回應。"
-                );
-
-            timeoutError.code =
-                "firestore/timeout";
-
-            reject(timeoutError);
-
-        }, 15000);
-
-    });
-
-const docRef =
-    await Promise.race([
-        savePromise,
-        timeoutPromise
-    ]);
-
-
-            console.log(
-                "Firestore 寫入成功：",
+                "FIRESTORE SUCCESS:",
                 docRef.id
             );
 
 
             showMessage(
-                "報名成功！報名編號：" +
+                "Step 6：報名成功！\n\n" +
+                "報名編號：" +
                 docRef.id,
                 "success-message"
             );
@@ -1355,66 +1091,81 @@ const docRef =
                 "報名已提交";
 
 
-            const inputs =
-                form.querySelectorAll(
+            form
+                .querySelectorAll(
                     "input, select, textarea, button"
+                )
+                .forEach(
+                    (element) => {
+
+                        element.disabled =
+                            true;
+
+                    }
                 );
-
-
-            inputs.forEach(
-                (input) => {
-
-                    input.disabled =
-                        true;
-
-                }
-            );
 
 
         } catch (error) {
 
             console.error(
-                "Firestore 提交錯誤：",
+                "FIRESTORE ERROR:",
                 error
             );
 
 
-            showMessage(
-                "報名提交失敗：" +
-                (error.message || "未知錯誤"),
-                "error-message"
-            );
+            /* -------------------------------------------
+               顯示完整錯誤
+            -------------------------------------------- */
+
+            message.className =
+                "message error-message";
 
 
-            const debugBox =
-                document.createElement(
-                    "div"
-                );
+            message.innerHTML = `
+                <div style="
+                    font-size:18px;
+                    font-weight:700;
+                    margin-bottom:12px;
+                ">
+                    ❌ 報名提交失敗
+                </div>
 
+                <div style="
+                    text-align:left;
+                    padding:15px;
+                    border-radius:12px;
+                    background:rgba(255,0,0,0.08);
+                    font-size:13px;
+                    line-height:1.8;
+                    word-break:break-word;
+                    white-space:pre-wrap;
+                ">
+                    錯誤代碼：
+                    ${error.code || "未知"}
 
-            debugBox.className =
-                "debug-box";
+                    錯誤訊息：
+                    ${error.message || "未知"}
 
+                    <br>
 
-            debugBox.textContent =
-                "錯誤代碼：" +
-                (error.code || "無") +
-                "\n錯誤訊息：" +
-                (error.message || "無");
+                    Firebase：
+                    ${db ? "已初始化" : "未初始化"}
 
+                    <br>
 
-            message.appendChild(
-                debugBox
-            );
+                    Google：
+                    ${currentUser
+                        ? currentUser.email
+                        : "未登入"}
+                </div>
+            `;
 
 
             submitBtn.disabled =
                 false;
 
-
             submitBtn.textContent =
                 "重新提交";
-
 
             isSubmitting =
                 false;
@@ -1423,14 +1174,6 @@ const docRef =
 
     }
 );
-
-
-/* =========================================================
-   啟動
-   ========================================================= */
-
-initializeFirebase();
-
 
 </script>
 
