@@ -2,110 +2,767 @@
 <html lang="zh-Hant">
 
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta charset="UTF-8">
+<title>SatayCelup之戰｜活動報名</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<style>
 
-    <title>SatayCelup之戰｜活動報名</title>
+/* =========================================
+   SATAY CELUP｜清新歡樂時光
+========================================= */
 
-    <link
-        rel="stylesheet"
-        href="css/style.css">
+* {
+    box-sizing: border-box;
+}
 
-    <style>
+html {
+    scroll-behavior: smooth;
+}
 
-        /* ================================
-           報名成功畫面
-        ================================= */
+body {
+    margin: 0;
+    min-height: 100vh;
 
-        #successContainer {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
 
-            display: none;
+    color: #33413a;
 
-            text-align: center;
-
-            padding: 30px 20px;
-
-        }
-
-
-        #successContainer h2 {
-
-            font-size: 28px;
-
-            margin-bottom: 15px;
-
-        }
-
-
-        #successContainer p {
-
-            font-size: 17px;
-
-            line-height: 1.7;
-
-            margin-bottom: 25px;
-
-        }
+    background:
+        radial-gradient(circle at 10% 10%, #fff7c9 0, transparent 24%),
+        radial-gradient(circle at 90% 15%, #dff7e8 0, transparent 28%),
+        linear-gradient(180deg, #f8fff9 0%, #fffaf0 100%);
+}
 
 
-        .success-btn {
+/* =========================================
+   裝飾
+========================================= */
 
-            display: block;
+body::before {
+    content: "🍢";
+    position: fixed;
+    top: 24px;
+    left: 18px;
+    font-size: 32px;
+    opacity: 0.16;
+    transform: rotate(-12deg);
+    pointer-events: none;
+}
 
-            width: 100%;
-
-            max-width: 360px;
-
-            margin: 12px auto;
-
-            padding: 14px 20px;
-
-            border: none;
-
-            border-radius: 10px;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-        }
-
-
-        .continue-btn {
-
-            background: #111;
-
-            color: white;
-
-        }
+body::after {
+    content: "☀️";
+    position: fixed;
+    right: 18px;
+    bottom: 25px;
+    font-size: 34px;
+    opacity: 0.18;
+    pointer-events: none;
+}
 
 
-        .home-btn {
+/* =========================================
+   主容器
+========================================= */
 
-            background: #eeeeee;
+.container {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 22px 16px 50px;
+}
 
-            color: #333;
 
-        }
+/* =========================================
+   Hero
+========================================= */
+
+.hero {
+    position: relative;
+
+    background: rgba(255,255,255,0.9);
+
+    border: 1px solid rgba(119,157,128,0.15);
+
+    border-radius: 30px;
+
+    padding: 30px 22px 35px;
+
+    box-shadow:
+        0 15px 45px rgba(65,100,75,0.10);
+
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -90px;
+    right: -70px;
+
+    background: #e8f7d9;
+
+    border-radius: 50%;
+
+    opacity: 0.7;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    bottom: -75px;
+    left: -55px;
+
+    background: #fff1ad;
+
+    border-radius: 50%;
+
+    opacity: 0.65;
+}
 
 
-        .success-email {
+/* =========================================
+   標籤
+========================================= */
 
-            font-size: 14px;
+.badge {
+    position: relative;
+    z-index: 2;
 
-            color: #777;
+    display: inline-block;
 
-            margin-top: 20px;
+    padding: 7px 14px;
 
-        }
+    background: #e8f7dc;
 
-    </style>
+    color: #4f805b;
+
+    border-radius: 30px;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 13px;
+}
+
+
+/* =========================================
+   標題
+========================================= */
+
+h1 {
+    position: relative;
+    z-index: 2;
+
+    margin: 0;
+
+    font-size: clamp(32px, 8vw, 48px);
+
+    line-height: 1.15;
+
+    font-weight: 900;
+
+    letter-spacing: -1px;
+
+    color: #315b42;
+}
+
+.subtitle {
+    position: relative;
+    z-index: 2;
+
+    margin: 10px 0 25px;
+
+    font-size: 16px;
+
+    color: #748078;
+
+    line-height: 1.7;
+}
+
+.subtitle::after {
+    content: "  一起吃・一起玩・一起嗨！";
+
+    color: #e29a38;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   Loading
+========================================= */
+
+.loading-message {
+    position: relative;
+    z-index: 3;
+
+    padding: 20px;
+
+    background: #f5faf5;
+
+    border-radius: 18px;
+
+    text-align: center;
+
+    color: #64736a;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   Google Email
+========================================= */
+
+.form-group:first-child {
+    background: #f3faf4;
+
+    border: 1px solid #e2eee3;
+
+    border-radius: 18px;
+
+    padding: 15px 16px;
+
+    margin-bottom: 20px;
+}
+
+.form-group:first-child label {
+    color: #5f7766;
+}
+
+.form-group:first-child input {
+    background: transparent;
+    border: none;
+    padding: 4px 0 0;
+
+    color: #54705c;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   表單區塊
+========================================= */
+
+#formContainer {
+    position: relative;
+    z-index: 3;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    color: #46564c;
+}
+
+.form-group label::first-letter {
+    color: #5b9b68;
+}
+
+
+/* =========================================
+   Input / Select
+========================================= */
+
+input,
+select {
+    width: 100%;
+
+    min-height: 50px;
+
+    padding: 12px 15px;
+
+    border: 1.5px solid #dce7de;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    color: #34443a;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s,
+        transform 0.2s;
+}
+
+input:focus,
+select:focus {
+    border-color: #78ae82;
+
+    box-shadow:
+        0 0 0 4px rgba(120,174,130,0.12);
+
+    transform: translateY(-1px);
+}
+
+input::placeholder {
+    color: #a9b2ab;
+}
+
+
+/* =========================================
+   Select
+========================================= */
+
+select {
+    appearance: auto;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   File
+========================================= */
+
+input[type="file"] {
+    padding: 10px;
+
+    background: #fbfdfb;
+
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    border: none;
+
+    padding: 9px 13px;
+
+    margin-right: 10px;
+
+    border-radius: 10px;
+
+    background: #e8f5df;
+
+    color: #4d7657;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+/* =========================================
+   Section 視覺分組
+========================================= */
+
+#registrationForm {
+    position: relative;
+}
+
+
+/* 第一組：基本資料 */
+#registrationForm .form-group:nth-child(2),
+#registrationForm .form-group:nth-child(3),
+#registrationForm .form-group:nth-child(4),
+#registrationForm .form-group:nth-child(5) {
+    background: #fffdf7;
+
+    padding: 14px;
+
+    border-radius: 18px;
+
+    border: 1px solid #f1ead7;
+}
+
+
+/* =========================================
+   特別提示
+========================================= */
+
+#registrationForm::before {
+    content: "👋 先填寫參加者資料";
+
+    display: block;
+
+    margin: 5px 0 15px;
+
+    color: #64816b;
+
+    font-size: 16px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================
+   Submit Button
+========================================= */
+
+.primary-btn {
+    width: 100%;
+
+    min-height: 52px;
+
+    margin-top: 12px;
+
+    border: none;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #67a873,
+            #4d9360
+        );
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 900;
+
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 18px rgba(78,143,91,0.20);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        opacity 0.2s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 11px 24px rgba(78,143,91,0.25);
+}
+
+.primary-btn:active {
+    transform: translateY(0);
+}
+
+.primary-btn:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================
+   提交按鈕特別設計
+========================================= */
+
+#submitBtn {
+    margin-top: 12px;
+
+    min-height: 58px;
+
+    font-size: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f0ad45,
+            #e69132
+        );
+
+    box-shadow:
+        0 10px 22px rgba(230,145,50,0.22);
+}
+
+#submitBtn::first-letter {
+    font-size: 20px;
+}
+
+
+/* =========================================
+   Message
+========================================= */
+
+.status {
+    min-height: 24px;
+
+    margin: 14px 4px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   登出
+========================================= */
+
+#logoutBtn {
+    margin-top: 20px;
+
+    background: #edf2ee;
+
+    color: #607066;
+
+    box-shadow: none;
+
+    font-size: 14px;
+}
+
+#logoutBtn:hover {
+    background: #e4ebe5;
+
+    box-shadow: none;
+}
+
+
+/* =========================================
+   SUCCESS
+========================================= */
+
+#successContainer {
+    display: none;
+
+    position: relative;
+    z-index: 5;
+
+    text-align: center;
+
+    padding: 25px 5px 10px;
+}
+
+.success-icon {
+    width: 92px;
+    height: 92px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #fff4bd;
+
+    font-size: 48px;
+
+    box-shadow:
+        0 10px 30px rgba(229,177,62,0.15);
+
+    animation: bounceIn 0.55s ease;
+}
+
+#successContainer h2 {
+    margin: 0 0 10px;
+
+    font-size: 30px;
+
+    color: #3e704b;
+
+    font-weight: 900;
+}
+
+#successContainer .success-text {
+    margin: 0 auto 24px;
+
+    color: #78837c;
+
+    line-height: 1.8;
+
+    font-size: 15px;
+}
+
+.success-btn {
+    width: 100%;
+
+    min-height: 55px;
+
+    margin: 10px 0;
+
+    border: none;
+
+    border-radius: 16px;
+
+    font-size: 16px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.success-btn:hover {
+    transform: translateY(-2px);
+}
+
+.continue-btn {
+    background:
+        linear-gradient(
+            135deg,
+            #f0ad45,
+            #e28d2c
+        );
+
+    color: white;
+
+    box-shadow:
+        0 9px 20px rgba(225,142,43,0.20);
+}
+
+.home-btn {
+    background: #edf4ed;
+
+    color: #55705c;
+}
+
+.success-email {
+    margin-top: 20px;
+
+    padding: 11px 14px;
+
+    border-radius: 12px;
+
+    background: #f7faf7;
+
+    color: #8a958e;
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   小裝飾
+========================================= */
+
+.fun-note {
+    margin: 22px 0 8px;
+
+    padding: 13px 15px;
+
+    border-radius: 15px;
+
+    background: #fff8d9;
+
+    color: #8b7441;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   動畫
+========================================= */
+
+@keyframes bounceIn {
+
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* =========================================
+   手機
+========================================= */
+
+@media (max-width: 480px) {
+
+    .container {
+        padding: 12px 10px 35px;
+    }
+
+    .hero {
+        padding: 25px 17px 28px;
+
+        border-radius: 25px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+    }
+
+    input,
+    select {
+        min-height: 48px;
+
+        font-size: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+}
+
+
+/* =========================================
+   Desktop
+========================================= */
+
+@media (min-width: 700px) {
+
+    .container {
+        padding-top: 45px;
+    }
+
+    .hero {
+        padding: 42px 42px 45px;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -116,459 +773,462 @@
 <main class="container">
 
 
-    <section class="hero">
+<section class="hero">
 
 
-        <div class="badge">
-            2026 EVENT
-        </div>
+    <!-- =====================================
+         Header
+    ====================================== -->
 
+    <div class="badge">
+        ☀️ 2026 EVENT
+    </div>
 
-        <h1>
-            SatayCelup之戰
-        </h1>
 
+    <h1>
+        🍢 SatayCelup之戰
+    </h1>
 
-        <p class="subtitle">
-            活動報名表
-        </p>
 
+    <p class="subtitle">
+        活動報名表
+    </p>
 
-        <!-- =================================
-             登入狀態
-        ================================= -->
 
-        <div
-            id="loadingMessage"
-            class="loading-message">
+    <!-- =====================================
+         Login Loading
+    ====================================== -->
 
-            正在確認 Google 登入狀態...
+    <div
+        id="loadingMessage"
+        class="loading-message">
 
-        </div>
+        正在確認 Google 登入狀態...
 
+    </div>
 
-        <!-- =================================
-             報名表
-        ================================= -->
 
-        <div
-            id="formContainer"
-            style="display:none;">
+    <!-- =====================================
+         Form
+    ====================================== -->
 
+    <div
+        id="formContainer"
+        style="display:none;">
 
-            <form
-                id="registrationForm">
 
+        <form
+            id="registrationForm">
 
-                <!-- Google Email -->
 
-                <div class="form-group">
+            <!-- Google Email -->
 
-                    <label>
-                        Google Email
-                    </label>
+            <div class="form-group">
 
-                    <input
-                        type="email"
-                        id="email"
-                        readonly>
+                <label>
+                    📧 Google Email
+                </label>
 
-                </div>
+                <input
+                    type="email"
+                    id="email"
+                    readonly>
 
+            </div>
 
-                <!-- IC English Name -->
 
-                <div class="form-group">
+            <!-- IC English Name -->
 
-                    <label>
-                        IC English Name *
-                    </label>
+            <div class="form-group">
 
-                    <input
-                        type="text"
-                        id="englishName"
-                        required>
+                <label>
+                    👤 IC English Name *
+                </label>
 
-                </div>
+                <input
+                    type="text"
+                    id="englishName"
+                    placeholder="請輸入 IC English Name"
+                    required>
 
+            </div>
 
-                <!-- IC Number -->
 
-                <div class="form-group">
+            <!-- IC Number -->
 
-                    <label>
-                        IC Number *
-                    </label>
+            <div class="form-group">
 
-                    <input
-                        type="text"
-                        id="icNumber"
-                        required>
+                <label>
+                    🪪 IC Number *
+                </label>
 
-                </div>
+                <input
+                    type="text"
+                    id="icNumber"
+                    placeholder="請輸入 IC Number"
+                    required>
 
+            </div>
 
-                <!-- 中文姓名 -->
 
-                <div class="form-group">
+            <!-- 中文姓名 -->
 
-                    <label>
-                        中文姓名 / 匿名
-                    </label>
+            <div class="form-group">
 
-                    <input
-                        type="text"
-                        id="chineseName">
+                <label>
+                    ✨ 中文姓名 / 匿名
+                </label>
 
-                </div>
+                <input
+                    type="text"
+                    id="chineseName"
+                    placeholder="可填姓名，也可以填匿名">
 
+            </div>
 
-                <!-- 電話 -->
 
-                <div class="form-group">
+            <!-- 電話 -->
 
-                    <label>
-                        電話 *
-                    </label>
+            <div class="form-group">
 
-                    <input
-                        type="tel"
-                        id="phone"
-                        required>
+                <label>
+                    📱 電話 *
+                </label>
 
-                </div>
+                <input
+                    type="tel"
+                    id="phone"
+                    placeholder="請輸入聯絡電話"
+                    required>
 
+            </div>
 
-                <!-- 飲食 -->
 
-                <div class="form-group">
+            <!-- 飲食 -->
 
-                    <label>
-                        飲食 *
-                    </label>
+            <div class="form-group">
 
-                    <select
-                        id="meal"
-                        required>
+                <label>
+                    🍽️ 飲食 *
+                </label>
 
-                        <option value="">
-                            請選擇
-                        </option>
+                <select
+                    id="meal"
+                    required>
 
-                        <option value="葷">
-                            葷
-                        </option>
+                    <option value="">
+                        請選擇飲食
+                    </option>
 
-                        <option value="素">
-                            素
-                        </option>
+                    <option value="葷">
+                        🍖 葷
+                    </option>
 
-                    </select>
+                    <option value="素">
+                        🥬 素
+                    </option>
 
-                </div>
+                </select>
 
+            </div>
 
-                <!-- 衣服尺寸 -->
 
-                <div class="form-group">
+            <!-- 衣服尺寸 -->
 
-                    <label>
-                        衣服尺寸 *
-                    </label>
+            <div class="form-group">
 
-                    <select
-                        id="shirtSize"
-                        required>
+                <label>
+                    👕 衣服尺寸 *
+                </label>
 
-                        <option value="">
-                            請選擇
-                        </option>
+                <select
+                    id="shirtSize"
+                    required>
 
-                        <option value="XS">
-                            XS
-                        </option>
+                    <option value="">
+                        請選擇衣服尺寸
+                    </option>
 
-                        <option value="S">
-                            S
-                        </option>
+                    <option value="XS">XS</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                    <option value="XXXL">XXXL</option>
 
-                        <option value="M">
-                            M
-                        </option>
+                </select>
 
-                        <option value="L">
-                            L
-                        </option>
+            </div>
 
-                        <option value="XL">
-                            XL
-                        </option>
 
-                        <option value="XXL">
-                            XXL
-                        </option>
+            <!-- 衣服背面 -->
 
-                        <option value="XXXL">
-                            XXXL
-                        </option>
+            <div class="form-group">
 
-                    </select>
+                <label>
+                    👕 衣服背面文字
+                </label>
 
-                </div>
+                <input
+                    type="text"
+                    id="shirtText"
+                    placeholder="想印在衣服背面的文字">
 
+            </div>
 
-                <!-- 衣服背面文字 -->
 
-                <div class="form-group">
+            <!-- 參與項目 -->
 
-                    <label>
-                        衣服背面文字
-                    </label>
+            <div class="form-group">
 
-                    <input
-                        type="text"
-                        id="shirtText">
+                <label>
+                    🏸 參與項目 *
+                </label>
 
-                </div>
+                <select
+                    id="participation"
+                    required>
 
+                    <option value="">
+                        請選擇參與項目
+                    </option>
 
-                <!-- 參與項目 -->
+                    <option value="羽球">
+                        🏸 羽球
+                    </option>
 
-                <div class="form-group">
+                    <option value="pickleball">
+                        🥒 Pickleball
+                    </option>
 
-                    <label>
-                        參與項目 *
-                    </label>
+                    <option value="觀眾">
+                        👀 觀眾
+                    </option>
 
-                    <select
-                        id="participation"
-                        required>
+                </select>
 
-                        <option value="">
-                            請選擇
-                        </option>
+            </div>
 
-                        <option value="羽球">
-                            羽球
-                        </option>
 
-                        <option value="pickleball">
-                            Pickleball
-                        </option>
+            <!-- 球伴組別 -->
 
-                        <option value="觀眾">
-                            觀眾
-                        </option>
+            <div class="form-group">
 
-                    </select>
+                <label>
+                    👥 球伴組別
+                </label>
 
-                </div>
+                <input
+                    type="text"
+                    id="partnerGroup"
+                    placeholder="如果有球伴組別，請填寫">
 
+            </div>
 
-                <!-- 球伴組別 -->
 
-                <div class="form-group">
+            <!-- 球伴 -->
 
-                    <label>
-                        球伴組別
-                    </label>
+            <div class="form-group">
 
-                    <input
-                        type="text"
-                        id="partnerGroup">
+                <label>
+                    👫 球伴
+                </label>
 
-                </div>
+                <input
+                    type="text"
+                    id="partner"
+                    placeholder="球伴姓名">
 
+            </div>
 
-                <!-- 球伴 -->
 
-                <div class="form-group">
+            <!-- Platinum -->
 
-                    <label>
-                        球伴
-                    </label>
+            <div class="form-group">
 
-                    <input
-                        type="text"
-                        id="partner">
+                <label>
+                    💎 Platinum
+                </label>
 
-                </div>
+                <select
+                    id="platinum">
 
+                    <option value="">
+                        請選擇 Platinum
+                    </option>
 
-                <!-- Platinum -->
+                    <option>
+                        Sense&Lavenier
+                    </option>
 
-                <div class="form-group">
+                    <option>
+                        Amos
+                    </option>
 
-                    <label>
-                        Platinum
-                    </label>
+                    <option>
+                        Sunny
+                    </option>
 
-                    <select
-                        id="platinum">
+                    <option>
+                        Robin&Zoey
+                    </option>
 
-                        <option value="">
-                            請選擇
-                        </option>
+                    <option>
+                        RyanLio
+                    </option>
 
-                        <option>
-                            Sense&Lavenier
-                        </option>
+                    <option>
+                        Wyane&Momo
+                    </option>
 
-                        <option>
-                            Amos
-                        </option>
+                    <option>
+                        Jess
+                    </option>
 
-                        <option>
-                            Sunny
-                        </option>
+                    <option>
+                        Keong&Ngah
+                    </option>
 
-                        <option>
-                            Robin&Zoey
-                        </option>
+                    <option>
+                        JayChew
+                    </option>
 
-                        <option>
-                            RyanLio
-                        </option>
+                    <option>
+                        Lynn
+                    </option>
 
-                        <option>
-                            Wyane&Momo
-                        </option>
+                    <option>
+                        SzeChew
+                    </option>
 
-                        <option>
-                            Jess
-                        </option>
+                </select>
 
-                        <option>
-                            Keong&Ngah
-                        </option>
+            </div>
 
-                        <option>
-                            JayChew
-                        </option>
 
-                        <option>
-                            Lynn
-                        </option>
+            <!-- 收據 -->
 
-                        <option>
-                            SzeChew
-                        </option>
+            <div class="form-group">
 
-                    </select>
+                <label>
+                    🧾 繳費收據 JPG
+                </label>
 
-                </div>
+                <input
+                    type="file"
+                    id="receipt"
+                    accept=".jpg,.jpeg,image/jpeg">
 
+            </div>
 
-                <!-- 收據 -->
 
-                <div class="form-group">
+            <!-- 提醒 -->
 
-                    <label>
-                        繳費收據 JPG
-                    </label>
+            <div class="fun-note">
 
-                    <input
-                        type="file"
-                        id="receipt"
-                        accept=".jpg,.jpeg,image/jpeg">
+                🍢 填好資料後就可以出發！<br>
+                如果你要幫朋友報名，也可以提交後繼續幫下一位報名喔！
 
-                </div>
+            </div>
 
 
-                <!-- 提交 -->
-
-                <button
-                    type="submit"
-                    id="submitBtn"
-                    class="primary-btn">
-
-                    提交報名
-
-                </button>
-
-
-                <!-- 訊息 -->
-
-                <p
-                    id="message"
-                    class="status">
-                </p>
-
-
-            </form>
-
-
-            <!-- 登出 -->
+            <!-- Submit -->
 
             <button
-                type="button"
-                id="logoutBtn"
+                type="submit"
+                id="submitBtn"
                 class="primary-btn">
 
-                Google 登出
+                🎉 提交我的報名
 
             </button>
 
 
-        </div>
+            <!-- Message -->
 
-
-        <!-- =================================
-             報名成功畫面
-        ================================= -->
-
-        <div
-            id="successContainer">
-
-
-            <div style="font-size:60px;">
-                🎉
-            </div>
-
-
-            <h2>
-                報名成功！
-            </h2>
-
-
-            <p>
-                已成功提交這位參加者的報名資料。
-                <br>
-                謝謝你參加 SatayCelup之戰！
+            <p
+                id="message"
+                class="status">
             </p>
 
 
-            <button
-                type="button"
-                id="continueBtn"
-                class="success-btn continue-btn">
-
-                ➕ 繼續幫其他人報名
-
-            </button>
+        </form>
 
 
-            <button
-                type="button"
-                id="homeBtn"
-                class="success-btn home-btn">
+        <!-- Logout -->
 
-                🏠 返回活動介紹
+        <button
+            type="button"
+            id="logoutBtn"
+            class="primary-btn">
 
-            </button>
+            Google 登出
+
+        </button>
 
 
-            <div
-                id="successEmail"
-                class="success-email">
+    </div>
 
-            </div>
 
+    <!-- =====================================
+         Success
+    ====================================== -->
+
+    <div
+        id="successContainer">
+
+
+        <div class="success-icon">
+            🎉
+        </div>
+
+
+        <h2>
+            報名成功！
+        </h2>
+
+
+        <p class="success-text">
+
+            太棒了！這位參加者的資料已經收到啦。<br>
+
+            <strong>SatayCelup之戰見！🍢</strong>
+
+        </p>
+
+
+        <button
+            type="button"
+            id="continueBtn"
+            class="success-btn continue-btn">
+
+            ➕ 繼續幫其他人報名
+
+        </button>
+
+
+        <button
+            type="button"
+            id="homeBtn"
+            class="success-btn home-btn">
+
+            🏠 返回活動介紹
+
+        </button>
+
+
+        <div
+            id="successEmail"
+            class="success-email">
 
         </div>
 
 
-    </section>
+    </div>
+
+
+</section>
 
 
 </main>
@@ -577,9 +1237,9 @@
 <script type="module">
 
 
-/* =====================================
+/* =========================================
    Firebase Auth
-===================================== */
+========================================= */
 
 import {
 
@@ -591,9 +1251,9 @@ import {
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-/* =====================================
+/* =========================================
    Firestore
-===================================== */
+========================================= */
 
 import {
 
@@ -607,9 +1267,9 @@ import {
 "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-/* =====================================
+/* =========================================
    Firebase Config
-===================================== */
+========================================= */
 
 import {
 
@@ -620,9 +1280,9 @@ import {
 } from "./js/firebase-config.js";
 
 
-/* =====================================
-   HTML 元素
-===================================== */
+/* =========================================
+   HTML Elements
+========================================= */
 
 const loadingMessage =
     document.getElementById(
@@ -690,14 +1350,13 @@ const successEmail =
     );
 
 
-/* =====================================
-   Firebase Google 登入狀態
-===================================== */
+/* =========================================
+   Google Login State
+========================================= */
 
 onAuthStateChanged(
     auth,
     (user) => {
-
 
         console.log(
             "Auth State:",
@@ -705,12 +1364,11 @@ onAuthStateChanged(
         );
 
 
-        /* ==========================
-           沒有登入
-        ========================== */
+        /* ==============================
+           未登入
+        ============================== */
 
         if (!user) {
-
 
             loadingMessage.innerHTML = `
 
@@ -722,33 +1380,28 @@ onAuthStateChanged(
                     class="primary-btn"
                     onclick="location.href='index.html'">
 
-                    回到活動介紹 / Google 登入
+                    🏠 回到活動介紹 / Google 登入
 
                 </button>
 
             `;
 
-
             loadingMessage.style.display =
                 "block";
-
 
             formContainer.style.display =
                 "none";
 
-
             successContainer.style.display =
                 "none";
 
-
             return;
-
         }
 
 
-        /* ==========================
+        /* ==============================
            已登入
-        ========================== */
+        ============================== */
 
         console.log(
             "登入成功：",
@@ -773,49 +1426,43 @@ onAuthStateChanged(
             "block";
 
 
+        successContainer.style.display =
+            "none";
+
     }
 );
 
 
-/* =====================================
-   提交報名
-===================================== */
+/* =========================================
+   Submit Registration
+========================================= */
 
 form.addEventListener(
     "submit",
     async (event) => {
 
-
         event.preventDefault();
 
-
-        /* ==========================
-           檢查 Google 登入
-        ========================== */
 
         const user =
             auth.currentUser;
 
 
-        if (!user) {
+        /* ==============================
+           Login check
+        ============================== */
 
+        if (!user) {
 
             message.textContent =
                 "Google 登入狀態已失效，請重新登入。";
 
-
             message.style.color =
                 "red";
 
-
             return;
-
         }
 
-
-        /* ==========================
-           防止重複按提交
-        ========================== */
 
         submitBtn.disabled =
             true;
@@ -826,15 +1473,15 @@ form.addEventListener(
 
 
         message.style.color =
-            "";
+            "#68766d";
 
 
         try {
 
 
-            /* ======================
-               取得收據
-            ====================== */
+            /* ==========================
+               Receipt
+            ========================== */
 
             const receipt =
                 document
@@ -844,28 +1491,20 @@ form.addEventListener(
                     .files[0];
 
 
-            /* ======================
-               建立報名資料
-            ====================== */
+            /* ==========================
+               Registration Data
+            ========================== */
 
             const registrationData = {
-
-
-                /* Google 帳號 */
 
                 email:
                     user.email || "",
 
-
                 uid:
                     user.uid || "",
 
-
                 googleName:
                     user.displayName || "",
-
-
-                /* IC 資料 */
 
                 englishName:
                     document
@@ -875,7 +1514,6 @@ form.addEventListener(
                         .value
                         .trim(),
 
-
                 icNumber:
                     document
                         .getElementById(
@@ -883,7 +1521,6 @@ form.addEventListener(
                         )
                         .value
                         .trim(),
-
 
                 chineseName:
                     document
@@ -893,7 +1530,6 @@ form.addEventListener(
                         .value
                         .trim(),
 
-
                 phone:
                     document
                         .getElementById(
@@ -902,9 +1538,6 @@ form.addEventListener(
                         .value
                         .trim(),
 
-
-                /* 飲食 */
-
                 meal:
                     document
                         .getElementById(
@@ -912,16 +1545,12 @@ form.addEventListener(
                         )
                         .value,
 
-
-                /* 衣服 */
-
                 shirtSize:
                     document
                         .getElementById(
                             "shirtSize"
                         )
                         .value,
-
 
                 shirtText:
                     document
@@ -931,16 +1560,12 @@ form.addEventListener(
                         .value
                         .trim(),
 
-
-                /* 活動 */
-
                 participation:
                     document
                         .getElementById(
                             "participation"
                         )
                         .value,
-
 
                 partnerGroup:
                     document
@@ -950,7 +1575,6 @@ form.addEventListener(
                         .value
                         .trim(),
 
-
                 partner:
                     document
                         .getElementById(
@@ -959,9 +1583,6 @@ form.addEventListener(
                         .value
                         .trim(),
 
-
-                /* Platinum */
-
                 platinum:
                     document
                         .getElementById(
@@ -969,30 +1590,20 @@ form.addEventListener(
                         )
                         .value,
 
-
-                /* ==================
-                   收據
-                ================== */
-
                 receiptName:
                     receipt
                         ? receipt.name
                         : "",
-
 
                 receiptType:
                     receipt
                         ? receipt.type
                         : "",
 
-
                 receiptSize:
                     receipt
                         ? receipt.size
                         : 0,
-
-
-                /* 時間 */
 
                 createdAt:
                     serverTimestamp()
@@ -1006,15 +1617,9 @@ form.addEventListener(
             );
 
 
-            /* ======================
-               寫入 Firestore
-
-               addDoc = 每次建立
-               新的文件 ID
-
-               因此同一個 Google
-               Email 可以報名多人
-            ====================== */
+            /* ==========================
+               Firestore
+            ========================== */
 
             const docRef =
                 await addDoc(
@@ -1032,9 +1637,9 @@ form.addEventListener(
             );
 
 
-            /* ======================
-               報名成功
-            ====================== */
+            /* ==========================
+               Success
+            ========================== */
 
             form.reset();
 
@@ -1059,10 +1664,6 @@ form.addEventListener(
                 "目前登入帳號：" +
                 (user.email || "");
 
-
-            /* ======================
-               回到頁面頂部
-            ====================== */
 
             window.scrollTo({
                 top: 0,
@@ -1102,34 +1703,29 @@ form.addEventListener(
 );
 
 
-/* =====================================
-   繼續幫其他人報名
-===================================== */
+/* =========================================
+   Continue Register
+========================================= */
 
 continueBtn.addEventListener(
     "click",
     () => {
 
 
-        console.log(
-            "繼續幫其他人報名"
-        );
+        const user =
+            auth.currentUser;
 
 
-        /* ==========================
-           清空表單
-        ========================== */
+        /* ==============================
+           Reset form
+        ============================== */
 
         form.reset();
 
 
-        /* ==========================
-           保留 Google Email
-        ========================== */
-
-        const user =
-            auth.currentUser;
-
+        /* ==============================
+           Keep Google Email
+        ============================== */
 
         if (user) {
 
@@ -1139,10 +1735,6 @@ continueBtn.addEventListener(
         }
 
 
-        /* ==========================
-           清除訊息
-        ========================== */
-
         message.textContent =
             "";
 
@@ -1151,9 +1743,9 @@ continueBtn.addEventListener(
             "";
 
 
-        /* ==========================
-           回到報名表
-        ========================== */
+        /* ==============================
+           Show form
+        ============================== */
 
         successContainer.style.display =
             "none";
@@ -1163,19 +1755,11 @@ continueBtn.addEventListener(
             "block";
 
 
-        /* ==========================
-           回到頁面頂部
-        ========================== */
-
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
 
-
-        /* ==========================
-           游標放到第一個欄位
-        ========================== */
 
         setTimeout(
             () => {
@@ -1190,57 +1774,48 @@ continueBtn.addEventListener(
             300
         );
 
-
     }
 );
 
 
-/* =====================================
-   返回活動介紹
-===================================== */
+/* =========================================
+   Home
+========================================= */
 
 homeBtn.addEventListener(
     "click",
     () => {
 
-
         location.href =
             "index.html";
-
 
     }
 );
 
 
-/* =====================================
-   Google 登出
-===================================== */
+/* =========================================
+   Logout
+========================================= */
 
 logoutBtn.addEventListener(
     "click",
     async () => {
 
-
         try {
-
 
             await signOut(
                 auth
             );
 
-
             location.href =
                 "index.html";
 
-
         } catch (error) {
-
 
             console.error(
                 "Logout Error:",
                 error
             );
-
 
         }
 
