@@ -3,9 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>SatayCelup之戰｜活動報名</title>
 
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .primary-btn {
+            position: relative;
+        }
+
+        .primary-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status {
+            min-height: 24px;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        .status.error {
+            color: #d93025;
+        }
+
+        .status.success {
+            color: #188038;
+        }
+
+        .status.loading {
+            color: #555;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,15 +43,17 @@
     <main class="container">
 
         <section class="hero">
+
             <div class="badge">2026 EVENT</div>
 
             <h1>SatayCelup之戰</h1>
 
             <p class="subtitle">
                 2026 活動報名系統
-            </p >
+            </p>
 
             <div class="event-info">
+
                 <div>
                     <span>活動費用</span>
                     <strong>RM168</strong>
@@ -31,22 +63,386 @@
                     <span>繳費日期</span>
                     <strong>05/09/2026 - 25/09/2026</strong>
                 </div>
+
             </div>
 
-            <button id="loginBtn" class="primary-btn">
+            <button
+                id="loginBtn"
+                class="primary-btn"
+                type="button">
                 使用 Google 登入並開始報名
             </button>
 
-            <p id="status" class="status"></p >
+            <p id="status" class="status"></p>
 
             <p class="notice">
                 報名需要使用 Google 帳號登入，以確保每位參加者的資料正確。
-            </p >
+            </p>
+
         </section>
 
     </main>
 
-    <script type="module" src="js/auth.js"></script>
+
+    <!-- ============================= -->
+    <!-- Firebase Google Login -->
+    <!-- ============================= -->
+
+    <script type="module">
+
+        import {
+            GoogleAuthProvider,
+            signInWithPopup,
+            signInWithRedirect,
+            getRedirectResult,
+            onAuthStateChanged,
+            setPersistence,
+            browserLocalPersistence
+        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+        import { auth } from "./js/firebase-config.js";
+
+
+        // =============================
+        // 基本設定
+        // =============================
+
+        const loginBtn = document.getElementById("loginBtn");
+        const status = document.getElementById("status");
+
+        const provider = new GoogleAuthProvider();
+
+        // 強制 Google 選擇帳號
+        provider.setCustomParameters({
+            prompt: "select_account"
+        });
+
+
+        // =============================
+        // 顯示狀態
+        // =============================
+
+        function setStatus(message, type = "loading") {
+
+            status.textContent = message;
+
+            status.className = "status " + type;
+        }
+
+
+        // =============================
+        // 導向報名頁
+        // =============================
+
+        function goToRegister() {
+
+            setStatus("登入成功，正在進入報名頁面...", "success");
+
+            loginBtn.disabled = true;
+
+            // 稍微等待 Firebase 完成 Auth 狀態寫入
+            setTimeout(() => {
+
+                window.location.href = "register.html?v=8";
+
+            }, 300);
+
+        }
+
+
+        // =============================
+        // 設定 Firebase Auth 持久登入
+        // =============================
+
+        async function prepareAuth() {
+
+            try {
+
+                await setPersistence(
+                    auth,
+                    browserLocalPersistence
+                );
+
+                return true;
+
+            } catch (error) {
+
+                console.error(
+                    "Firebase Auth Persistence Error:",
+                    error
+                );
+
+                return false;
+
+            }
+
+        }
+
+
+        // =============================
+        // 網頁開啟時
+        // 檢查 Redirect Login 結果
+        // =============================
+
+        async function checkRedirectLogin() {
+
+            try {
+
+                setStatus(
+                    "正在初始化 Google 登入...",
+                    "loading"
+                );
+
+                /*
+                 * 非常重要：
+                 *
+                 * 如果之前使用 signInWithRedirect()
+                 * Google 登入完成後會重新回到 index.html。
+                 *
+                 * 這裡負責接收 Google 登入結果。
+                 */
+
+                const result = await getRedirectResult(auth);
+
+                if (result && result.user) {
+
+                    console.log(
+                        "Redirect Google Login Success:",
+                        result.user.email
+                    );
+
+                    goToRegister();
+
+                    return;
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Google Redirect Login Error:",
+                    error
+                );
+
+                setStatus(
+                    "Google 登入發生問題：" +
+                    error.code,
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // =============================
+            // 檢查 Firebase 現有登入狀態
+            // =============================
+
+            onAuthStateChanged(auth, (user) => {
+
+                console.log(
+                    "Firebase Auth State:",
+                    user
+                );
+
+                if (user) {
+
+                    console.log(
+                        "目前登入帳號：",
+                        user.email
+                    );
+
+                    /*
+                     * 如果使用者已經登入，
+                     * 不需要再次登入。
+                     */
+
+                    setStatus(
+                        "已登入：" + user.email,
+                        "success"
+                    );
+
+                    loginBtn.textContent =
+                        "已登入，進入報名";
+
+                } else {
+
+                    setStatus(
+                        "",
+                        "loading"
+                    );
+
+                    loginBtn.textContent =
+                        "使用 Google 登入並開始報名";
+
+                }
+
+            });
+
+        }
+
+
+        // =============================
+        // Google 登入
+        // =============================
+
+        async function loginWithGoogle() {
+
+            if (loginBtn.disabled) {
+                return;
+            }
+
+            loginBtn.disabled = true;
+
+            setStatus(
+                "正在開啟 Google 登入...",
+                "loading"
+            );
+
+
+            try {
+
+                // 先確保登入狀態可以保存
+                await prepareAuth();
+
+
+                /*
+                 * 第一選擇：
+                 * Popup 登入
+                 *
+                 * 手機如果允許 Popup，
+                 * 會直接完成登入。
+                 */
+
+                const result =
+                    await signInWithPopup(
+                        auth,
+                        provider
+                    );
+
+
+                if (result && result.user) {
+
+                    console.log(
+                        "Google Popup Login Success:",
+                        result.user.email
+                    );
+
+                    goToRegister();
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Google Popup Login Error:",
+                    error
+                );
+
+
+                /*
+                 * 如果 Popup 被手機瀏覽器阻擋，
+                 * 自動改用 Redirect。
+                 */
+
+                const fallbackErrors = [
+
+                    "auth/popup-blocked",
+
+                    "auth/popup-closed-by-user",
+
+                    "auth/cancelled-popup-request",
+
+                    "auth/operation-not-supported-in-this-environment"
+
+                ];
+
+
+                if (
+                    fallbackErrors.includes(
+                        error.code
+                    )
+                ) {
+
+                    console.log(
+                        "Popup 無法使用，改用 Redirect Login"
+                    );
+
+                    setStatus(
+                        "正在切換 Google 登入方式...",
+                        "loading"
+                    );
+
+
+                    try {
+
+                        await signInWithRedirect(
+                            auth,
+                            provider
+                        );
+
+                        /*
+                         * 這裡不需要再跳頁。
+                         *
+                         * Google 登入完成後，
+                         * Firebase 會自動回到 index.html，
+                         * 然後由 getRedirectResult()
+                         * 處理登入結果。
+                         */
+
+                    } catch (redirectError) {
+
+                        console.error(
+                            "Google Redirect Error:",
+                            redirectError
+                        );
+
+                        loginBtn.disabled = false;
+
+                        setStatus(
+                            "Google 登入失敗：" +
+                            redirectError.code,
+                            "error"
+                        );
+
+                    }
+
+                } else {
+
+                    loginBtn.disabled = false;
+
+                    setStatus(
+                        "Google 登入失敗：" +
+                        error.code,
+                        "error"
+                    );
+
+                }
+
+            }
+
+        }
+
+
+        // =============================
+        // 按鈕
+        // =============================
+
+        loginBtn.addEventListener(
+            "click",
+            loginWithGoogle
+        );
+
+
+        // =============================
+        // 啟動
+        // =============================
+
+        checkRedirectLogin();
+
+    </script>
 
 </body>
 </html>
