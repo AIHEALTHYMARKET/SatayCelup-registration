@@ -1,3 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SatayCelup之戰｜活動報名</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+        .form-page {
+            width: 100%;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 30px 18px 60px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            font-size: 36px;
+            margin: 15px 0 8px;
+        }
+
+        .form-header p {
+            color: rgba(255,255,255,0.65);
+        }
+
+        .form-card {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 22px;
+            padding: 28px;
+            backdrop-filter: blur(18px);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .required {
+            color: #ff8b8b;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px;
+
+            background: rgba(0,0,0,0.25);
+            color: white;
+
+            font-size: 15px;
+            outline: none;
+        }
+
+        select option {
+            color: #111;
+            background: white;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: rgba(255,255,255,0.55);
+        }
+
+        .readonly {
+            opacity: 0.7;
+        }
+
+        .event-notice {
+            padding: 18px;
+
+            margin-bottom: 25px;
+
+            border-radius: 15px;
+
+            background: rgba(0,0,0,0.2);
+
+            line-height: 1.7;
+        }
+
+        .event-notice strong {
+            font-size: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+
+            padding: 16px;
+
+            border: none;
+            border-radius: 14px;
+
+            background: white;
+            color: #17120d;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 18px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .logout-btn {
+            margin-top: 18px;
+
+            background: transparent;
+            color: rgba(255,255,255,0.65);
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media(max-width:600px) {
+
+            .form-card {
+                padding: 20px 16px;
+            }
+
+            .form-header h1 {
+                font-size: 30px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<main class="form-page">
+
+    <header class="form-header">
+
+        <div class="badge">
+            2026 EVENT
+        </div>
+
+        <h1>SatayCelup之戰</h1>
+
+        <p>
+            活動報名表
+        </p >
+
+    </header>
+
+
+    <section class="form-card">
+
+        <!-- 活動資訊 -->
+
+        <div class="event-notice">
+
+            <div>
+                活動費用：
+                <strong>RM168</strong>
+            </div>
+
+            <div>
+                繳費日期：
+                <strong>05/09/2026 - 25/09/2026</strong>
+            </div>
+
+            <div style="margin-top:8px;">
+                請確認付款後再提交報名資料。
+            </div>
+
+        </div>
+
+
+        <form id="registrationForm">
+
+            <!-- 個人資料 -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+                    ① 個人資料
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Google Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        class="readonly"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        IC上英文姓名
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="englishName"
+                        placeholder="請按照 IC 上的英文姓名填寫"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        IC號碼
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="icNumber"
+                        placeholder="請輸入 IC 號碼"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        中文名或匿名
+                    </label>
+
+                    <input
+                        type="text"
+                        id="chineseName"
+                        placeholder="可填中文姓名，也可以填匿名"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        聯絡電話
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="例如：0123456789"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- 活動資料 -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+                    ② 活動資料
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        膳食
+                        <span class="required">*</span>
+                    </label>
+
+                    <select id="meal" required>
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option value="葷">
+                            葷
+                        </option>
+
+                        <option value="素">
+                            素
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        衣服尺寸
+                        <span class="required">*</span>
+                    </label>
+
+                    <select id="shirtSize" required>
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="XXXL">XXXL</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        衣服背後文字
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="shirtText"
+                        maxlength="30"
+                        placeholder="例如：WYANE"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        參與方式
+                        <span class="required">*</span>
+                    </label>
+
+                    <select id="participation" required>
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option value="羽球">
+                            羽球
+                        </option>
+
+                        <option value="pickleball">
+                            pickleball
+                        </option>
+
+                        <option value="觀眾">
+                            觀眾
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div
+                    class="form-group"
+                    id="partnerGroup"
+                >
+
+                    <label>
+                        參賽搭檔
+                    </label>
+
+                    <input
+                        type="text"
+                        id="partner"
+                        placeholder="請輸入參賽搭檔姓名"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        白金
+                        <span class="required">*</span>
+                    </label>
+
+                    <select id="platinum" required>
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option>Sense&Lavenier</option>
+                        <option>Amos</option>
+                        <option>Sunny</option>
+                        <option>Robin&Zoey</option>
+                        <option>RyanLio</option>
+                        <option>Wyane&Momo</option>
+                        <option>Jess</option>
+                        <option>Keong&Ngah</option>
+                        <option>JayChew</option>
+                        <option>Lynn</option>
+                        <option>SzeChew</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- 收據 -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+                    ③ 繳費資料
+                </div>
+
+
+                <div class="event-notice">
+
+                    <div>
+                        <strong>RM168</strong>
+                    </div>
+
+                    <div>
+                        有效繳費日期：
+                        05/09/2026 至 25/09/2026
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        繳費收據 JPG
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="file"
+                        id="receipt"
+                        accept=".jpg,.jpeg,image/jpeg"
+                        required
+                    >
+
+                    <small style="display:block;margin-top:8px;color:rgba(255,255,255,0.55);">
+                        收據功能將在下一階段接入 Firebase Storage。
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-btn"
+                id="submitBtn"
+            >
+                提交報名
+            </button>
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+        </form>
+
+
+        <div style="text-align:center;">
+
+            <button
+                id="logoutBtn"
+                class="logout-btn"
+            >
+                登出 Google 帳號
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
 <script type="module">
 
 import {
@@ -542,3 +1090,6 @@ form.addEventListener(
 );
 
 </script>
+
+</body>
+</html>
