@@ -1,148 +1,580 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SatayCelup Auth Test</title>
+
+    <title>SatayCelup之戰｜活動報名</title>
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<div id="app" style="
-    padding:30px;
-    font-family:Arial,sans-serif;
-    font-size:20px;
-">
+<main class="container">
 
-    🔵 TEST VERSION 2026-09-04-001
-    <br><br>
-    正在啟動 Firebase...
+    <section class="hero">
 
-</div>
+        <div class="badge">2026 EVENT</div>
+
+        <h1>SatayCelup之戰</h1>
+
+        <p class="subtitle">
+            活動報名表
+        </p>
+
+
+        <!-- 登入狀態 -->
+
+        <div id="loadingMessage" class="loading-message">
+            正在確認 Google 登入狀態...
+        </div>
+
+
+        <!-- 報名表 -->
+
+        <div id="formContainer" style="display:none;">
+
+            <form id="registrationForm">
+
+
+                <div class="form-group">
+
+                    <label>Google Email</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        readonly>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>IC English Name *</label>
+
+                    <input
+                        type="text"
+                        id="englishName"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>IC Number *</label>
+
+                    <input
+                        type="text"
+                        id="icNumber"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>中文姓名 / 匿名</label>
+
+                    <input
+                        type="text"
+                        id="chineseName">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>電話 *</label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>飲食 *</label>
+
+                    <select id="meal" required>
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option value="葷">
+                            葷
+                        </option>
+
+                        <option value="素">
+                            素
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>衣服尺寸 *</label>
+
+                    <select id="shirtSize" required>
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="XXXL">XXXL</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>衣服背面文字</label>
+
+                    <input
+                        type="text"
+                        id="shirtText">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>參與項目 *</label>
+
+                    <select
+                        id="participation"
+                        required>
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option value="羽球">
+                            羽球
+                        </option>
+
+                        <option value="pickleball">
+                            Pickleball
+                        </option>
+
+                        <option value="觀眾">
+                            觀眾
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>球伴組別</label>
+
+                    <input
+                        type="text"
+                        id="partnerGroup">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>球伴</label>
+
+                    <input
+                        type="text"
+                        id="partner">
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Platinum</label>
+
+                    <select id="platinum">
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option>Sense&Lavenier</option>
+                        <option>Amos</option>
+                        <option>Sunny</option>
+                        <option>Robin&Zoey</option>
+                        <option>RyanLio</option>
+                        <option>Wyane&Momo</option>
+                        <option>Jess</option>
+                        <option>Keong&Ngah</option>
+                        <option>JayChew</option>
+                        <option>Lynn</option>
+                        <option>SzeChew</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>繳費收據 JPG</label>
+
+                    <input
+                        type="file"
+                        id="receipt"
+                        accept=".jpg,.jpeg,image/jpeg">
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="primary-btn">
+
+                    提交報名
+
+                </button>
+
+
+                <p
+                    id="message"
+                    class="status">
+                </p>
+
+
+            </form>
+
+
+            <button
+                type="button"
+                id="logoutBtn"
+                class="primary-btn">
+
+                Google 登出
+
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
 
 
 <script type="module">
 
-    console.log("========== TEST START ==========");
+import {
+    onAuthStateChanged,
+    signOut
+} from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-    const appElement =
-        document.getElementById("app");
+
+import {
+    collection,
+    addDoc,
+    serverTimestamp
+} from
+"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+import {
+    auth,
+    db
+} from "./js/firebase-config.js";
+
+
+const loadingMessage =
+    document.getElementById("loadingMessage");
+
+const formContainer =
+    document.getElementById("formContainer");
+
+const emailInput =
+    document.getElementById("email");
+
+const form =
+    document.getElementById("registrationForm");
+
+const submitBtn =
+    document.getElementById("submitBtn");
+
+const message =
+    document.getElementById("message");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+
+/* =====================================
+   Firebase 登入狀態
+===================================== */
+
+onAuthStateChanged(auth, (user) => {
+
+    console.log("Auth State:", user);
+
+
+    if (!user) {
+
+        loadingMessage.innerHTML = `
+            尚未登入 Google。
+            <br><br>
+            <button
+                class="primary-btn"
+                onclick="location.href='index.html'">
+                回到 Google 登入
+            </button>
+        `;
+
+        return;
+    }
+
+
+    console.log(
+        "登入成功：",
+        user.email
+    );
+
+
+    emailInput.value =
+        user.email || "";
+
+
+    loadingMessage.style.display =
+        "none";
+
+
+    formContainer.style.display =
+        "block";
+
+});
+
+
+/* =====================================
+   提交報名
+===================================== */
+
+form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+
+    const user = auth.currentUser;
+
+
+    if (!user) {
+
+        message.textContent =
+            "Google 登入狀態已失效，請重新登入。";
+
+        return;
+    }
+
+
+    submitBtn.disabled = true;
+
+    message.textContent =
+        "正在提交報名...";
 
 
     try {
 
-        console.log("Step 1: 開始載入 Firebase Auth");
+        const receipt =
+            document.getElementById("receipt")
+                .files[0];
 
 
-        const {
-            onAuthStateChanged
-        } =
-        await import(
-            "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js"
+        const registrationData = {
+
+            email: user.email,
+
+            uid: user.uid,
+
+            englishName:
+                document.getElementById(
+                    "englishName"
+                ).value.trim(),
+
+            icNumber:
+                document.getElementById(
+                    "icNumber"
+                ).value.trim(),
+
+            chineseName:
+                document.getElementById(
+                    "chineseName"
+                ).value.trim(),
+
+            phone:
+                document.getElementById(
+                    "phone"
+                ).value.trim(),
+
+            meal:
+                document.getElementById(
+                    "meal"
+                ).value,
+
+            shirtSize:
+                document.getElementById(
+                    "shirtSize"
+                ).value,
+
+            shirtText:
+                document.getElementById(
+                    "shirtText"
+                ).value.trim(),
+
+            participation:
+                document.getElementById(
+                    "participation"
+                ).value,
+
+            partnerGroup:
+                document.getElementById(
+                    "partnerGroup"
+                ).value.trim(),
+
+            partner:
+                document.getElementById(
+                    "partner"
+                ).value.trim(),
+
+            platinum:
+                document.getElementById(
+                    "platinum"
+                ).value,
+
+            receiptName:
+                receipt
+                    ? receipt.name
+                    : "",
+
+            receiptType:
+                receipt
+                    ? receipt.type
+                    : "",
+
+            receiptSize:
+                receipt
+                    ? receipt.size
+                    : 0,
+
+            createdAt:
+                serverTimestamp()
+
+        };
+
+
+        console.log(
+            "開始寫入 Firestore：",
+            registrationData
         );
 
 
-        console.log("Step 2: Firebase Auth SDK 載入成功");
+        const docRef =
+            await addDoc(
+                collection(
+                    db,
+                    "registrations"
+                ),
+                registrationData
+            );
 
 
-        const {
-            auth
-        } =
-        await import(
-            "./js/firebase-config.js?v=20260904001"
+        console.log(
+            "Firestore 成功：",
+            docRef.id
         );
 
 
-        console.log("Step 3: firebase-config 載入成功");
+        message.textContent =
+            "🎉 報名成功！";
+
+        message.style.color =
+            "green";
 
 
-        appElement.innerHTML = `
-            🟡 Firebase 已啟動
-            <br><br>
-            正在等待 Firebase Auth...
-        `;
+        form.reset();
 
 
-        onAuthStateChanged(
-            auth,
-            (user) => {
-
-                console.log(
-                    "Step 4: onAuthStateChanged",
-                    user
-                );
-
-
-                if (user) {
-
-                    appElement.innerHTML = `
-
-                        🟢 <strong>Google 登入成功</strong>
-
-                        <br><br>
-
-                        Email：
-                        ${user.email}
-
-                        <br><br>
-
-                        UID：
-                        ${user.uid}
-
-                        <br><br>
-
-                        Provider：
-                        ${user.providerData
-                            .map(x => x.providerId)
-                            .join(", ")}
-
-                    `;
-
-                } else {
-
-                    appElement.innerHTML = `
-
-                        🔴 <strong>Firebase 沒有登入</strong>
-
-                        <br><br>
-
-                        onAuthStateChanged 已執行，
-                        但 user = null
-
-                    `;
-
-                }
-
-            }
-
-        );
+        emailInput.value =
+            user.email;
 
 
     } catch (error) {
 
         console.error(
-            "========== TEST ERROR ==========",
+            "Firestore Error:",
             error
         );
 
 
-        appElement.innerHTML = `
+        message.textContent =
+            "報名失敗：" +
+            error.code +
+            "｜" +
+            error.message;
 
-            🔴 <strong>JavaScript 發生錯誤</strong>
+        message.style.color =
+            "red";
 
-            <br><br>
 
-            Code：
-            ${error.code || "無"}
+    } finally {
 
-            <br><br>
-
-            Message：
-            ${error.message || error}
-
-        `;
+        submitBtn.disabled =
+            false;
 
     }
+
+});
+
+
+/* =====================================
+   登出
+===================================== */
+
+logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            await signOut(auth);
+
+            location.href =
+                "index.html";
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+        }
+
+    }
+);
 
 </script>
 
