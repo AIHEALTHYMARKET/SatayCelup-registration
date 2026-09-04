@@ -479,11 +479,18 @@
 
 
             <button
-                class="green"
-                id="export"
-            >
-                📥 匯出 CSV
-            </button>
+    class="green"
+    id="export"
+>
+    📥 匯出 CSV
+</button>
+
+<button
+    class="blue"
+    id="exportShirts"
+>
+    👕 匯出衣服名單
+</button>
 
         </div>
 
@@ -1394,7 +1401,208 @@ const row =
             }
         );
 
+    // =========================
+// 衣服名單匯出
+// =========================
 
+document
+    .getElementById("exportShirts")
+    .addEventListener(
+        "click",
+        exportShirtList
+    );
+
+
+function exportShirtList() {
+
+    if (!registrations.length) {
+
+        alert(
+            "目前沒有報名資料"
+        );
+
+        return;
+
+    }
+
+
+    // =========================
+    // 衣服尺寸排序
+    // =========================
+
+    const sizeOrder = {
+
+        "XS": 1,
+        "S": 2,
+        "M": 3,
+        "L": 4,
+        "XL": 5,
+        "XXL": 6,
+        "XXXL": 7
+
+    };
+
+
+    // =========================
+    // 建立衣服名單
+    // =========================
+
+    const shirtList =
+        registrations
+            .map(item => ({
+
+                icName:
+                    item.icName || "",
+
+                shirtSize:
+                    item.shirtSize || "",
+
+                shirtBack:
+                    item.shirtBack || "",
+
+                platinum:
+                    item.platinum || ""
+
+            }))
+
+
+            // =====================
+            // 依照尺寸排序
+            // =====================
+
+            .sort((a, b) => {
+
+                const sizeA =
+                    sizeOrder[
+                        a.shirtSize
+                    ] || 999;
+
+                const sizeB =
+                    sizeOrder[
+                        b.shirtSize
+                    ] || 999;
+
+
+                if (
+                    sizeA !== sizeB
+                ) {
+
+                    return sizeA - sizeB;
+
+                }
+
+
+                // 同尺寸再依英文名排序
+                return a.icName
+                    .localeCompare(
+                        b.icName,
+                        "en"
+                    );
+
+            });
+
+
+    // =========================
+    // CSV 標題
+    // =========================
+
+    const headers = [
+
+        "英文名",
+        "衣服尺寸",
+        "背後文字",
+        "白金"
+
+    ];
+
+
+    let csv =
+        "\uFEFF" +
+        headers.join(",") +
+        "\n";
+
+
+    // =========================
+    // CSV 資料
+    // =========================
+
+    shirtList.forEach(item => {
+
+        const row = [
+
+            item.icName,
+
+            item.shirtSize,
+
+            item.shirtBack,
+
+            item.platinum
+
+        ];
+
+
+        csv +=
+            row
+                .map(value =>
+                    `"${String(
+                        value
+                    ).replace(
+                        /"/g,
+                        '""'
+                    )}"`
+                )
+                .join(",") +
+            "\n";
+
+    });
+
+
+    // =========================
+    // 下載
+    // =========================
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+
+    a.href = url;
+
+
+    a.download =
+        "SatayCelup-衣服名單.csv";
+
+
+    document.body.appendChild(a);
+
+
+    a.click();
+
+
+    document.body.removeChild(a);
+
+
+    URL.revokeObjectURL(url);
+
+}
+    
     // =========================
     // 搜尋
     // =========================
