@@ -1220,7 +1220,7 @@ form.addEventListener(
 
 
         showMessage(
-            "正在儲存報名資料，請稍候..."
+            "正在儲存報名資料，請稍候...（最多等待15秒）"
         );
 
 
@@ -1303,14 +1303,39 @@ form.addEventListener(
             );
 
 
-            const docRef =
-                await firestoreModule.addDoc(
-                    firestoreModule.collection(
-                        db,
-                        "registrations"
-                    ),
-                    registrationData
+            const savePromise =
+    firestoreModule.addDoc(
+        firestoreModule.collection(
+            db,
+            "registrations"
+        ),
+        registrationData
+    );
+
+const timeoutPromise =
+    new Promise((_, reject) => {
+
+        setTimeout(() => {
+
+            const timeoutError =
+                new Error(
+                    "Firestore 在 15 秒內沒有回應。"
                 );
+
+            timeoutError.code =
+                "firestore/timeout";
+
+            reject(timeoutError);
+
+        }, 15000);
+
+    });
+
+const docRef =
+    await Promise.race([
+        savePromise,
+        timeoutPromise
+    ]);
 
 
             console.log(
