@@ -1,448 +1,1170 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SatayCelup之戰｜活動報名</title>
+<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="css/style.css">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-    <style>
-        .primary-btn {
-            position: relative;
-        }
+<title>SatayCelup之戰｜2026</title>
 
-        .primary-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
 
-        .status {
-            min-height: 24px;
-            margin-top: 15px;
-            line-height: 1.6;
-        }
+<style>
 
-        .status.error {
-            color: #d93025;
-        }
+/* ==================================================
+   SATAY CELUP 2026
+   清新・歡樂・朋友聚會
+================================================== */
 
-        .status.success {
-            color: #188038;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        .status.loading {
-            color: #555;
-        }
-    </style>
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
+
+    color: #34443a;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 8%,
+            #fff4bd 0,
+            transparent 22%
+        ),
+
+        radial-gradient(
+            circle at 95% 10%,
+            #dff5e5 0,
+            transparent 25%
+        ),
+
+        linear-gradient(
+            180deg,
+            #f8fff9 0%,
+            #fffaf0 100%
+        );
+}
+
+
+/* ==================================================
+   Container
+================================================== */
+
+.container {
+
+    width: 100%;
+
+    max-width: 760px;
+
+    margin: auto;
+
+    padding:
+        18px
+        15px
+        60px;
+}
+
+
+/* ==================================================
+   Hero
+================================================== */
+
+.hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding:
+        45px
+        25px
+        40px;
+
+    text-align: center;
+
+    border-radius: 32px;
+
+    background:
+        rgba(255,255,255,0.92);
+
+    border:
+        1px solid
+        rgba(100,150,110,0.14);
+
+    box-shadow:
+        0 18px 50px
+        rgba(63,100,73,0.11);
+}
+
+
+/* 裝飾圓 */
+
+.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 190px;
+
+    height: 190px;
+
+    top: -100px;
+
+    right: -75px;
+
+    border-radius: 50%;
+
+    background: #e5f6d9;
+
+    opacity: .8;
+}
+
+
+.hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+
+    height: 150px;
+
+    bottom: -85px;
+
+    left: -70px;
+
+    border-radius: 50%;
+
+    background: #fff0af;
+
+    opacity: .8;
+}
+
+
+/* ==================================================
+   Badge
+================================================== */
+
+.badge {
+
+    position: relative;
+
+    z-index: 2;
+
+    display: inline-block;
+
+    padding:
+        8px
+        16px;
+
+    border-radius: 30px;
+
+    background: #e7f5dc;
+
+    color: #4d8059;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+
+/* ==================================================
+   Title
+================================================== */
+
+h1 {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin:
+        18px
+        0
+        8px;
+
+    font-size:
+        clamp(
+            38px,
+            10vw,
+            60px
+        );
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+    color: #315d42;
+
+    font-weight: 950;
+}
+
+
+.hero-title-sub {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin: 0;
+
+    font-size: 18px;
+
+    color: #78847d;
+
+    line-height: 1.7;
+}
+
+
+/* ==================================================
+   Intro
+================================================== */
+
+.intro {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 570px;
+
+    margin:
+        25px auto
+        0;
+
+    font-size: 15px;
+
+    line-height: 1.9;
+
+    color: #66736b;
+}
+
+
+/* ==================================================
+   Section
+================================================== */
+
+.section {
+
+    margin-top: 18px;
+
+    padding:
+        26px
+        20px;
+
+    background:
+        rgba(255,255,255,.92);
+
+    border-radius: 25px;
+
+    border:
+        1px solid
+        rgba(100,150,110,.12);
+
+    box-shadow:
+        0 10px 30px
+        rgba(63,100,73,.07);
+}
+
+
+.section-title {
+
+    margin:
+        0
+        0
+        17px;
+
+    color: #426b4d;
+
+    font-size: 21px;
+
+    font-weight: 900;
+}
+
+
+.section-title span {
+
+    margin-right: 5px;
+}
+
+
+/* ==================================================
+   Photo Placeholder
+================================================== */
+
+.photo-placeholder {
+
+    min-height: 270px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    border:
+        2px dashed
+        #cbdccc;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #f4fbf4,
+            #fff9e8
+        );
+
+    color: #839087;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+}
+
+
+.photo-placeholder strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #60806a;
+
+    font-size: 18px;
+}
+
+
+/* ==================================================
+   Gallery
+================================================== */
+
+.gallery {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+}
+
+
+.gallery .photo-placeholder {
+
+    min-height: 170px;
+}
+
+
+/* ==================================================
+   Video
+================================================== */
+
+.video-placeholder {
+
+    aspect-ratio: 16 / 9;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #eaf7eb,
+            #fff6cf
+        );
+
+    border:
+        2px dashed
+        #cbdccc;
+
+    color: #6e7c73;
+
+    line-height: 1.7;
+}
+
+
+.play-icon {
+
+    width: 66px;
+
+    height: 66px;
+
+    margin:
+        0 auto
+        12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #fff;
+
+    font-size: 28px;
+
+    box-shadow:
+        0 7px 20px
+        rgba(70,100,70,.12);
+}
+
+
+/* ==================================================
+   Event Information
+================================================== */
+
+.info-card {
+
+    padding: 16px;
+
+    margin-bottom: 11px;
+
+    border-radius: 17px;
+
+    background: #f7fbf7;
+
+    border:
+        1px solid
+        #e5eee5;
+}
+
+
+.info-card:last-child {
+
+    margin-bottom: 0;
+}
+
+
+.info-label {
+
+    font-size: 12px;
+
+    color: #8b968e;
+
+    margin-bottom: 4px;
+}
+
+
+.info-value {
+
+    color: #45634d;
+
+    font-size: 17px;
+
+    font-weight: 800;
+}
+
+
+/* ==================================================
+   Highlight
+================================================== */
+
+.highlight {
+
+    margin-top: 15px;
+
+    padding: 18px;
+
+    border-radius: 19px;
+
+    background: #fff7d5;
+
+    color: #7d693c;
+
+    text-align: center;
+
+    line-height: 1.8;
+
+    font-size: 14px;
+}
+
+
+/* ==================================================
+   Registration Cards
+================================================== */
+
+.registration-title {
+
+    text-align: center;
+
+    margin-bottom: 8px;
+}
+
+
+.registration-subtitle {
+
+    text-align: center;
+
+    color: #7e8982;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    margin-bottom: 20px;
+}
+
+
+.action-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    margin-top: 13px;
+
+    padding: 22px 20px;
+
+    border-radius: 21px;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+}
+
+
+.action-card:hover {
+
+    transform:
+        translateY(-3px);
+}
+
+
+.action-card.shirt {
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff4cf,
+            #fffaf0
+        );
+
+    border:
+        1px solid
+        #f0dfaa;
+}
+
+
+.action-card.event {
+
+    background:
+        linear-gradient(
+            135deg,
+            #e6f5e7,
+            #f5fbf4
+        );
+
+    border:
+        1px solid
+        #cfe4d1;
+}
+
+
+.action-icon {
+
+    font-size: 35px;
+
+    margin-bottom: 7px;
+}
+
+
+.action-title {
+
+    font-size: 19px;
+
+    font-weight: 900;
+
+    margin-bottom: 5px;
+
+    color: #42634b;
+}
+
+
+.action-description {
+
+    color: #758078;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    margin-bottom: 14px;
+}
+
+
+.action-button {
+
+    display: block;
+
+    width: 100%;
+
+    padding: 13px;
+
+    border-radius: 13px;
+
+    text-align: center;
+
+    font-size: 15px;
+
+    font-weight: 900;
+
+    text-decoration: none;
+
+    color: white;
+}
+
+
+.shirt .action-button {
+
+    background:
+        linear-gradient(
+            135deg,
+            #e7a23b,
+            #d98928
+        );
+}
+
+
+.event .action-button {
+
+    background:
+        linear-gradient(
+            135deg,
+            #67a875,
+            #4b915e
+        );
+}
+
+
+/* ==================================================
+   Footer
+================================================== */
+
+.footer {
+
+    text-align: center;
+
+    margin-top: 30px;
+
+    color: #96a19a;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+
+/* ==================================================
+   Mobile
+================================================== */
+
+@media (max-width: 480px) {
+
+    .container {
+
+        padding:
+            10px
+            9px
+            40px;
+    }
+
+    .hero {
+
+        padding:
+            35px
+            18px
+            30px;
+
+        border-radius: 26px;
+    }
+
+    h1 {
+
+        font-size: 40px;
+    }
+
+    .hero-title-sub {
+
+        font-size: 15px;
+    }
+
+    .section {
+
+        padding:
+            22px
+            15px;
+
+        border-radius: 22px;
+    }
+
+    .gallery {
+
+        gap: 9px;
+    }
+
+    .gallery .photo-placeholder {
+
+        min-height: 130px;
+    }
+
+}
+
+
+/* ==================================================
+   Desktop
+================================================== */
+
+@media (min-width: 700px) {
+
+    .container {
+
+        padding-top: 35px;
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-    <main class="container">
 
-        <section class="hero">
+<main class="container">
 
-            <div class="badge">2026 EVENT</div>
 
-            <h1>SatayCelup之戰</h1>
+<!-- ==================================================
+     HERO
+================================================== -->
 
-            <p class="subtitle">
-                2026 活動報名系統
-            </p>
+<section class="hero">
 
-            <div class="event-info">
 
-                <div>
-                    <span>活動費用</span>
-                    <strong>RM168</strong>
-                </div>
+    <div class="badge">
+        ☀️ 2026 EVENT
+    </div>
 
-                <div>
-                    <span>繳費日期</span>
-                    <strong>05/09/2026 - 25/09/2026</strong>
-                </div>
+
+    <h1>
+        🍢<br>
+        SatayCelup之戰
+    </h1>
+
+
+    <p class="hero-title-sub">
+
+        一起吃・一起玩・一起嗨！
+
+    </p>
+
+
+    <p class="intro">
+
+        一場屬於大家的歡樂聚會。<br>
+
+        有美食、有運動、有朋友，
+        還有滿滿的歡笑時光。
+
+        <br><br>
+
+        不管你是來參加比賽、
+        幫朋友加油，
+        還是單純想一起吃 SatayCelup，
+
+        <br>
+
+        <strong>
+            這一天，都歡迎你！
+        </strong>
+
+    </p>
+
+
+</section>
+
+
+<!-- ==================================================
+     EVENT PHOTO
+================================================== -->
+
+<section class="section">
+
+
+    <h2 class="section-title">
+
+        <span>📸</span>
+        活動精彩預告
+
+    </h2>
+
+
+    <div class="photo-placeholder">
+
+        <div>
+
+            <strong>
+                📷 活動主視覺照片
+            </strong>
+
+            之後可以放活動宣傳照片、<br>
+            團體照、SatayCelup美食照片等。
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="gallery"
+        style="margin-top:12px;">
+
+        <div class="photo-placeholder">
+
+            <div>
+
+                <strong>
+                    🌿 PHOTO 01
+                </strong>
+
+                宣傳照片
 
             </div>
 
-            <button
-                id="loginBtn"
-                class="primary-btn"
-                type="button">
-                使用 Google 登入並開始報名
-            </button>
+        </div>
 
-            <p id="status" class="status"></p>
 
-            <p class="notice">
-                報名需要使用 Google 帳號登入，以確保每位參加者的資料正確。
-            </p>
+        <div class="photo-placeholder">
 
-        </section>
+            <div>
 
-    </main>
+                <strong>
+                    ☀️ PHOTO 02
+                </strong>
 
+                活動照片
 
-    <!-- ============================= -->
-    <!-- Firebase Google Login -->
-    <!-- ============================= -->
+            </div>
 
-    <script type="module">
+        </div>
 
-        import {
-            GoogleAuthProvider,
-            signInWithPopup,
-            signInWithRedirect,
-            getRedirectResult,
-            onAuthStateChanged,
-            setPersistence,
-            browserLocalPersistence
-        } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-        import { auth } from "./js/firebase-config.js";
+        <div class="photo-placeholder">
 
+            <div>
 
-        // =============================
-        // 基本設定
-        // =============================
+                <strong>
+                    🏸 PHOTO 03
+                </strong>
 
-        const loginBtn = document.getElementById("loginBtn");
-        const status = document.getElementById("status");
+                運動照片
 
-        const provider = new GoogleAuthProvider();
+            </div>
 
-        // 強制 Google 選擇帳號
-        provider.setCustomParameters({
-            prompt: "select_account"
-        });
+        </div>
 
 
-        // =============================
-        // 顯示狀態
-        // =============================
+        <div class="photo-placeholder">
 
-        function setStatus(message, type = "loading") {
+            <div>
 
-            status.textContent = message;
+                <strong>
+                    🍢 PHOTO 04
+                </strong>
 
-            status.className = "status " + type;
-        }
+                美食照片
 
+            </div>
 
-        // =============================
-        // 導向報名頁
-        // =============================
+        </div>
 
-        function goToRegister() {
+    </div>
 
-            setStatus("登入成功，正在進入報名頁面...", "success");
 
-            loginBtn.disabled = true;
+</section>
 
-            // 稍微等待 Firebase 完成 Auth 狀態寫入
-            setTimeout(() => {
 
-                window.location.href = "register.html?v=8";
+<!-- ==================================================
+     VIDEO
+================================================== -->
 
-            }, 300);
+<section class="section">
 
-        }
 
+    <h2 class="section-title">
 
-        // =============================
-        // 設定 Firebase Auth 持久登入
-        // =============================
+        <span>🎬</span>
+        活動影片
 
-        async function prepareAuth() {
+    </h2>
 
-            try {
 
-                await setPersistence(
-                    auth,
-                    browserLocalPersistence
-                );
+    <div class="video-placeholder">
 
-                return true;
+        <div>
 
-            } catch (error) {
+            <div class="play-icon">
+                ▶️
+            </div>
 
-                console.error(
-                    "Firebase Auth Persistence Error:",
-                    error
-                );
+            <strong>
+                活動宣傳影片
+            </strong>
 
-                return false;
+            <br>
 
-            }
+            之後可以放 YouTube / 活動宣傳影片
 
-        }
+        </div>
 
+    </div>
 
-        // =============================
-        // 網頁開啟時
-        // 檢查 Redirect Login 結果
-        // =============================
 
-        async function checkRedirectLogin() {
+</section>
 
-            try {
 
-                setStatus(
-                    "正在初始化 Google 登入...",
-                    "loading"
-                );
+<!-- ==================================================
+     EVENT INFO
+================================================== -->
 
-                /*
-                 * 非常重要：
-                 *
-                 * 如果之前使用 signInWithRedirect()
-                 * Google 登入完成後會重新回到 index.html。
-                 *
-                 * 這裡負責接收 Google 登入結果。
-                 */
+<section class="section">
 
-                const result = await getRedirectResult(auth);
 
-                if (result && result.user) {
+    <h2 class="section-title">
 
-                    console.log(
-                        "Redirect Google Login Success:",
-                        result.user.email
-                    );
+        <span>🌿</span>
+        活動資訊
 
-                    goToRegister();
+    </h2>
 
-                    return;
 
-                }
+    <div class="info-card">
 
-            } catch (error) {
+        <div class="info-label">
+            活動名稱
+        </div>
 
-                console.error(
-                    "Google Redirect Login Error:",
-                    error
-                );
+        <div class="info-value">
+            🍢 SatayCelup之戰
+        </div>
 
-                setStatus(
-                    "Google 登入發生問題：" +
-                    error.code,
-                    "error"
-                );
+    </div>
 
-                return;
 
-            }
+    <div class="info-card">
 
+        <div class="info-label">
+            活動費用
+        </div>
 
-            // =============================
-            // 檢查 Firebase 現有登入狀態
-            // =============================
+        <div class="info-value">
+            RM168
+        </div>
 
-            onAuthStateChanged(auth, (user) => {
+    </div>
 
-                console.log(
-                    "Firebase Auth State:",
-                    user
-                );
 
-                if (user) {
+    <div class="info-card">
 
-                    console.log(
-                        "目前登入帳號：",
-                        user.email
-                    );
+        <div class="info-label">
+            繳費日期
+        </div>
 
-                    /*
-                     * 如果使用者已經登入，
-                     * 不需要再次登入。
-                     */
+        <div class="info-value">
+            2026.09.05 — 2026.09.25
+        </div>
 
-                    setStatus(
-                        "已登入：" + user.email,
-                        "success"
-                    );
+    </div>
 
-                    loginBtn.textContent =
-                        "已登入，進入報名";
 
-                } else {
+    <div class="info-card">
 
-                    setStatus(
-                        "",
-                        "loading"
-                    );
+        <div class="info-label">
+            活動內容
+        </div>
 
-                    loginBtn.textContent =
-                        "使用 Google 登入並開始報名";
+        <div class="info-value">
 
-                }
+            🏸 羽球　
+            🥒 Pickleball　
+            🍢 SatayCelup
 
-            });
+        </div>
 
-        }
+    </div>
 
 
-        // =============================
-        // Google 登入
-        // =============================
+    <div class="highlight">
 
-        async function loginWithGoogle() {
+        🌈 不只是一次活動，<br>
 
-            if (loginBtn.disabled) {
-                return;
-            }
+        而是一段大家一起留下來的
+        <strong>歡樂回憶。</strong>
 
-            loginBtn.disabled = true;
+    </div>
 
-            setStatus(
-                "正在開啟 Google 登入...",
-                "loading"
-            );
 
+</section>
 
-            try {
 
-                // 先確保登入狀態可以保存
-                await prepareAuth();
+<!-- ==================================================
+     REGISTRATION
+================================================== -->
 
+<section class="section">
 
-                /*
-                 * 第一選擇：
-                 * Popup 登入
-                 *
-                 * 手機如果允許 Popup，
-                 * 會直接完成登入。
-                 */
 
-                const result =
-                    await signInWithPopup(
-                        auth,
-                        provider
-                    );
+    <h2
+        class="section-title registration-title">
 
+        🎉 我要參加！
 
-                if (result && result.user) {
+    </h2>
 
-                    console.log(
-                        "Google Popup Login Success:",
-                        result.user.email
-                    );
 
-                    goToRegister();
+    <p class="registration-subtitle">
 
-                }
+        選擇你想要的方式<br>
 
+        登入 Google 後就可以開始啦！
 
-            } catch (error) {
+    </p>
 
-                console.error(
-                    "Google Popup Login Error:",
-                    error
-                );
 
+    <!-- 衣服 -->
 
-                /*
-                 * 如果 Popup 被手機瀏覽器阻擋，
-                 * 自動改用 Redirect。
-                 */
+    <div class="action-card shirt">
 
-                const fallbackErrors = [
 
-                    "auth/popup-blocked",
+        <div class="action-icon">
+            👕
+        </div>
 
-                    "auth/popup-closed-by-user",
 
-                    "auth/cancelled-popup-request",
+        <div class="action-title">
+            只購買活動衣服
+        </div>
 
-                    "auth/operation-not-supported-in-this-environment"
 
-                ];
+        <div class="action-description">
 
+            不能出席活動也沒關係！<br>
 
-                if (
-                    fallbackErrors.includes(
-                        error.code
-                    )
-                ) {
+            想擁有 SatayCelup之戰活動衣服，
+            可以選這裡。
 
-                    console.log(
-                        "Popup 無法使用，改用 Redirect Login"
-                    );
+        </div>
 
-                    setStatus(
-                        "正在切換 Google 登入方式...",
-                        "loading"
-                    );
 
+        <a
+            href="shirt.html"
+            class="action-button">
 
-                    try {
+            👕 只購買衣服點我
 
-                        await signInWithRedirect(
-                            auth,
-                            provider
-                        );
+        </a>
 
-                        /*
-                         * 這裡不需要再跳頁。
-                         *
-                         * Google 登入完成後，
-                         * Firebase 會自動回到 index.html，
-                         * 然後由 getRedirectResult()
-                         * 處理登入結果。
-                         */
 
-                    } catch (redirectError) {
+    </div>
 
-                        console.error(
-                            "Google Redirect Error:",
-                            redirectError
-                        );
 
-                        loginBtn.disabled = false;
+    <!-- 活動 -->
 
-                        setStatus(
-                            "Google 登入失敗：" +
-                            redirectError.code,
-                            "error"
-                        );
+    <div class="action-card event">
 
-                    }
 
-                } else {
+        <div class="action-icon">
+            🍢
+        </div>
 
-                    loginBtn.disabled = false;
 
-                    setStatus(
-                        "Google 登入失敗：" +
-                        error.code,
-                        "error"
-                    );
+        <div class="action-title">
+            出席 SatayCelup之戰
+        </div>
 
-                }
 
-            }
+        <div class="action-description">
 
-        }
+            我要一起吃、一起玩、一起嗨！<br>
 
+            填寫活動報名資料，
+            加入這場歡樂聚會。
 
-        // =============================
-        // 按鈕
-        // =============================
+        </div>
 
-        loginBtn.addEventListener(
-            "click",
-            loginWithGoogle
-        );
 
+        <a
+            href="register.html"
+            class="action-button">
 
-        // =============================
-        // 啟動
-        // =============================
+            🎉 出席 SatayCelup之戰報名點我
 
-        checkRedirectLogin();
+        </a>
 
-    </script>
+
+    </div>
+
+
+</section>
+
+
+<!-- ==================================================
+     FOOTER
+================================================== -->
+
+<footer class="footer">
+
+    🍢 SatayCelup之戰 2026
+
+    <br>
+
+    一起留下值得回憶的一天 ☀️
+
+</footer>
+
+
+</main>
+
 
 </body>
+
 </html>
