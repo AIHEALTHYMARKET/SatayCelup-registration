@@ -1,847 +1,150 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>SatayCelup之戰｜活動報名</title>
-
-    <link
-        rel="stylesheet"
-        href="css/style.css">
-
-    <style>
-
-        .hidden {
-            display: none !important;
-        }
-
-        .loading-message {
-            text-align: center;
-            padding: 60px 20px;
-            font-size: 18px;
-        }
-
-        .error-message {
-            text-align: center;
-            padding: 40px 20px;
-            color: #b00020;
-            line-height: 1.8;
-        }
-
-    </style>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SatayCelup Auth Test</title>
 </head>
-
 
 <body>
 
+<div id="app" style="
+    padding:30px;
+    font-family:Arial,sans-serif;
+    font-size:20px;
+">
 
-<div
-    id="loadingMessage"
-    class="loading-message">
-
-    正在確認 Google 登入狀態...
-
-</div>
-
-
-<div
-    id="errorMessage"
-    class="error-message hidden">
+    🔵 TEST VERSION 2026-09-04-001
+    <br><br>
+    正在啟動 Firebase...
 
 </div>
-
-
-<div
-    id="formContainer"
-    class="hidden">
-
-
-    <main class="container">
-
-        <section class="hero">
-
-            <div class="badge">
-                2026 EVENT
-            </div>
-
-            <h1>
-                SatayCelup之戰
-            </h1>
-
-            <p class="subtitle">
-                活動報名表
-            </p>
-
-
-            <form id="registrationForm">
-
-
-                <!-- Google Email -->
-
-                <div class="form-group">
-
-                    <label>
-                        Google Email
-                    </label>
-
-                    <input
-                        type="email"
-                        id="email"
-                        readonly>
-
-                </div>
-
-
-                <!-- English Name -->
-
-                <div class="form-group">
-
-                    <label>
-                        IC English Name *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="englishName"
-                        required>
-
-                </div>
-
-
-                <!-- IC Number -->
-
-                <div class="form-group">
-
-                    <label>
-                        IC Number *
-                    </label>
-
-                    <input
-                        type="text"
-                        id="icNumber"
-                        required>
-
-                </div>
-
-
-                <!-- Chinese Name -->
-
-                <div class="form-group">
-
-                    <label>
-                        中文姓名 / 匿名
-                    </label>
-
-                    <input
-                        type="text"
-                        id="chineseName">
-
-                </div>
-
-
-                <!-- Phone -->
-
-                <div class="form-group">
-
-                    <label>
-                        電話 *
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="phone"
-                        required>
-
-                </div>
-
-
-                <!-- Meal -->
-
-                <div class="form-group">
-
-                    <label>
-                        飲食 *
-                    </label>
-
-                    <select
-                        id="meal"
-                        required>
-
-                        <option value="">
-                            請選擇
-                        </option>
-
-                        <option value="葷">
-                            葷
-                        </option>
-
-                        <option value="素">
-                            素
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- Shirt -->
-
-                <div class="form-group">
-
-                    <label>
-                        衣服尺寸 *
-                    </label>
-
-                    <select
-                        id="shirtSize"
-                        required>
-
-                        <option value="">
-                            請選擇
-                        </option>
-
-                        <option>XS</option>
-                        <option>S</option>
-                        <option>M</option>
-                        <option>L</option>
-                        <option>XL</option>
-                        <option>XXL</option>
-                        <option>XXXL</option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- Shirt Text -->
-
-                <div class="form-group">
-
-                    <label>
-                        衣服背面文字
-                    </label>
-
-                    <input
-                        type="text"
-                        id="shirtText">
-
-                </div>
-
-
-                <!-- Participation -->
-
-                <div class="form-group">
-
-                    <label>
-                        參與項目 *
-                    </label>
-
-                    <select
-                        id="participation"
-                        required>
-
-                        <option value="">
-                            請選擇
-                        </option>
-
-                        <option value="羽球">
-                            羽球
-                        </option>
-
-                        <option value="pickleball">
-                            Pickleball
-                        </option>
-
-                        <option value="觀眾">
-                            觀眾
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- Partner Group -->
-
-                <div class="form-group">
-
-                    <label>
-                        球伴組別
-                    </label>
-
-                    <input
-                        type="text"
-                        id="partnerGroup">
-
-                </div>
-
-
-                <!-- Partner -->
-
-                <div class="form-group">
-
-                    <label>
-                        球伴
-                    </label>
-
-                    <input
-                        type="text"
-                        id="partner">
-
-                </div>
-
-
-                <!-- Platinum -->
-
-                <div class="form-group">
-
-                    <label>
-                        Platinum
-                    </label>
-
-                    <select
-                        id="platinum">
-
-                        <option value="">
-                            請選擇
-                        </option>
-
-                        <option>Sense&Lavenier</option>
-                        <option>Amos</option>
-                        <option>Sunny</option>
-                        <option>Robin&Zoey</option>
-                        <option>RyanLio</option>
-                        <option>Wyane&Momo</option>
-                        <option>Jess</option>
-                        <option>Keong&Ngah</option>
-                        <option>JayChew</option>
-                        <option>Lynn</option>
-                        <option>SzeChew</option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- Receipt -->
-
-                <div class="form-group">
-
-                    <label>
-                        繳費收據 JPG
-                    </label>
-
-                    <input
-                        type="file"
-                        id="receipt"
-                        accept="image/jpeg,image/jpg">
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    id="submitBtn"
-                    class="primary-btn">
-
-                    提交報名
-
-                </button>
-
-
-                <p
-                    id="message"
-                    class="status">
-                </p>
-
-
-            </form>
-
-
-            <button
-                type="button"
-                id="logoutBtn"
-                class="primary-btn">
-
-                Google 登出
-
-            </button>
-
-
-        </section>
-
-    </main>
-
-
-</div>
-
 
 
 <script type="module">
 
+    console.log("========== TEST START ==========");
 
-import {
-
-    onAuthStateChanged,
-    signOut
-
-} from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    const appElement =
+        document.getElementById("app");
 
 
-import {
+    try {
 
-    collection,
-    addDoc,
-    serverTimestamp
-
-} from
-"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+        console.log("Step 1: 開始載入 Firebase Auth");
 
 
-import {
-
-    auth,
-    db
-
-} from "./js/firebase-config.js";
-
-
-
-const loadingMessage =
-    document.getElementById(
-        "loadingMessage"
-    );
-
-
-const errorMessage =
-    document.getElementById(
-        "errorMessage"
-    );
-
-
-const formContainer =
-    document.getElementById(
-        "formContainer"
-    );
-
-
-const form =
-    document.getElementById(
-        "registrationForm"
-    );
-
-
-const emailInput =
-    document.getElementById(
-        "email"
-    );
-
-
-const submitBtn =
-    document.getElementById(
-        "submitBtn"
-    );
-
-
-const message =
-    document.getElementById(
-        "message"
-    );
-
-
-const logoutBtn =
-    document.getElementById(
-        "logoutBtn"
-    );
-
-
-
-/* ===================================
-   Firebase Auth 狀態
-=================================== */
-
-
-let authChecked = false;
-
-
-const authTimeout = setTimeout(() => {
-
-    if (!authChecked) {
-
-        loadingMessage.classList.add(
-            "hidden"
+        const {
+            onAuthStateChanged
+        } =
+        await import(
+            "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js"
         );
 
-        errorMessage.classList.remove(
-            "hidden"
+
+        console.log("Step 2: Firebase Auth SDK 載入成功");
+
+
+        const {
+            auth
+        } =
+        await import(
+            "./js/firebase-config.js?v=20260904001"
         );
 
-        errorMessage.innerHTML = `
-            <strong>
-                無法確認 Google 登入狀態
-            </strong>
+
+        console.log("Step 3: firebase-config 載入成功");
+
+
+        appElement.innerHTML = `
+            🟡 Firebase 已啟動
             <br><br>
-            Firebase Auth 超過 15 秒沒有回應。
+            正在等待 Firebase Auth...
+        `;
+
+
+        onAuthStateChanged(
+            auth,
+            (user) => {
+
+                console.log(
+                    "Step 4: onAuthStateChanged",
+                    user
+                );
+
+
+                if (user) {
+
+                    appElement.innerHTML = `
+
+                        🟢 <strong>Google 登入成功</strong>
+
+                        <br><br>
+
+                        Email：
+                        ${user.email}
+
+                        <br><br>
+
+                        UID：
+                        ${user.uid}
+
+                        <br><br>
+
+                        Provider：
+                        ${user.providerData
+                            .map(x => x.providerId)
+                            .join(", ")}
+
+                    `;
+
+                } else {
+
+                    appElement.innerHTML = `
+
+                        🔴 <strong>Firebase 沒有登入</strong>
+
+                        <br><br>
+
+                        onAuthStateChanged 已執行，
+                        但 user = null
+
+                    `;
+
+                }
+
+            }
+
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "========== TEST ERROR ==========",
+            error
+        );
+
+
+        appElement.innerHTML = `
+
+            🔴 <strong>JavaScript 發生錯誤</strong>
+
             <br><br>
-            請重新整理頁面。
+
+            Code：
+            ${error.code || "無"}
+
+            <br><br>
+
+            Message：
+            ${error.message || error}
+
         `;
 
     }
 
-}, 15000);
-
-
-
-onAuthStateChanged(
-    auth,
-    (user) => {
-
-        authChecked = true;
-
-        clearTimeout(authTimeout);
-
-
-        console.log(
-            "Firebase Auth User:",
-            user
-        );
-
-
-        /* ==========================
-           沒有登入
-        ========================== */
-
-        if (!user) {
-
-            console.log(
-                "目前沒有 Google 登入"
-            );
-
-
-            loadingMessage.classList.add(
-                "hidden"
-            );
-
-
-            errorMessage.classList.remove(
-                "hidden"
-            );
-
-
-            errorMessage.innerHTML = `
-
-                <strong>
-                    尚未登入 Google
-                </strong>
-
-                <br><br>
-
-                請回到首頁重新登入。
-
-                <br><br>
-
-                <button
-                    onclick="location.href='index.html'"
-                    class="primary-btn">
-
-                    回到登入頁
-
-                </button>
-
-            `;
-
-            return;
-
-        }
-
-
-        /* ==========================
-           已經登入
-        ========================== */
-
-
-        console.log(
-            "Google 登入成功：",
-            user.email
-        );
-
-
-        emailInput.value =
-            user.email || "";
-
-
-        loadingMessage.classList.add(
-            "hidden"
-        );
-
-
-        errorMessage.classList.add(
-            "hidden"
-        );
-
-
-        formContainer.classList.remove(
-            "hidden"
-        );
-
-
-    }
-);
-
-
-
-/* ===================================
-   提交報名
-=================================== */
-
-
-form.addEventListener(
-    "submit",
-    async (event) => {
-
-        event.preventDefault();
-
-
-        const user =
-            auth.currentUser;
-
-
-        if (!user) {
-
-            message.textContent =
-                "Google 登入狀態已失效，請重新登入。";
-
-            message.style.color =
-                "#b00020";
-
-            return;
-
-        }
-
-
-        submitBtn.disabled = true;
-
-
-        message.textContent =
-            "正在提交報名...";
-
-        message.style.color =
-            "#555";
-
-
-        try {
-
-
-            const registrationData = {
-
-                email:
-                    user.email || "",
-
-                uid:
-                    user.uid || "",
-
-                englishName:
-                    document.getElementById(
-                        "englishName"
-                    ).value.trim(),
-
-                icNumber:
-                    document.getElementById(
-                        "icNumber"
-                    ).value.trim(),
-
-                chineseName:
-                    document.getElementById(
-                        "chineseName"
-                    ).value.trim(),
-
-                phone:
-                    document.getElementById(
-                        "phone"
-                    ).value.trim(),
-
-                meal:
-                    document.getElementById(
-                        "meal"
-                    ).value,
-
-                shirtSize:
-                    document.getElementById(
-                        "shirtSize"
-                    ).value,
-
-                shirtText:
-                    document.getElementById(
-                        "shirtText"
-                    ).value.trim(),
-
-                participation:
-                    document.getElementById(
-                        "participation"
-                    ).value,
-
-                partnerGroup:
-                    document.getElementById(
-                        "partnerGroup"
-                    ).value.trim(),
-
-                partner:
-                    document.getElementById(
-                        "partner"
-                    ).value.trim(),
-
-                platinum:
-                    document.getElementById(
-                        "platinum"
-                    ).value,
-
-                receiptName:
-                    document.getElementById(
-                        "receipt"
-                    ).files.length > 0
-                        ?
-                        document.getElementById(
-                            "receipt"
-                        ).files[0].name
-                        :
-                        "",
-
-                receiptType:
-                    document.getElementById(
-                        "receipt"
-                    ).files.length > 0
-                        ?
-                        document.getElementById(
-                            "receipt"
-                        ).files[0].type
-                        :
-                        "",
-
-                receiptSize:
-                    document.getElementById(
-                        "receipt"
-                    ).files.length > 0
-                        ?
-                        document.getElementById(
-                            "receipt"
-                        ).files[0].size
-                        :
-                        0,
-
-                createdAt:
-                    serverTimestamp()
-
-            };
-
-
-            console.log(
-                "準備寫入 Firestore：",
-                registrationData
-            );
-
-
-            const docRef =
-                await addDoc(
-                    collection(
-                        db,
-                        "registrations"
-                    ),
-                    registrationData
-                );
-
-
-            console.log(
-                "Firestore 成功：",
-                docRef.id
-            );
-
-
-            message.textContent =
-                "🎉 報名成功！";
-
-            message.style.color =
-                "#188038";
-
-
-            form.reset();
-
-
-            emailInput.value =
-                user.email || "";
-
-
-        } catch (error) {
-
-
-            console.error(
-                "Firestore Error:",
-                error
-            );
-
-
-            message.textContent =
-                "報名失敗：" +
-                error.code +
-                "｜" +
-                error.message;
-
-
-            message.style.color =
-                "#b00020";
-
-
-        } finally {
-
-            submitBtn.disabled =
-                false;
-
-        }
-
-    }
-);
-
-
-
-/* ===================================
-   登出
-=================================== */
-
-
-logoutBtn.addEventListener(
-    "click",
-    async () => {
-
-        try {
-
-            await signOut(auth);
-
-            location.href =
-                "index.html";
-
-        } catch (error) {
-
-            console.error(
-                "Logout Error:",
-                error
-            );
-
-        }
-
-    }
-);
-
-
 </script>
 
-
 </body>
-
 </html>
