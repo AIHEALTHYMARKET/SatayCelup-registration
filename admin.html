@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SatayCelup之戰｜管理員後台</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "Noto Sans TC",
+                Arial,
+                sans-serif;
+            background: #f5f6f8;
+            color: #222;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 20px;
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        #loading {
+            text-align: center;
+            padding: 60px 20px;
+            font-size: 18px;
+        }
+
+        #denied {
+            display: none;
+            max-width: 500px;
+            margin: 80px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 25px rgba(0,0,0,.08);
+        }
+
+        #dashboard {
+            display: none;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,.05);
+        }
+
+        .stat-title {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .toolbar {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,.05);
+        }
+
+        .toolbar-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input,
+        select {
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 11px 12px;
+            font-size: 14px;
+            background: white;
+        }
+
+        #search {
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .refresh-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .export-btn {
+            background: #059669;
+            color: white;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: auto;
+            box-shadow: 0 3px 15px rgba(0,0,0,.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1400px;
+        }
+
+        th {
+            background: #f9fafb;
+            text-align: left;
+            padding: 13px;
+            font-size: 13px;
+            border-bottom: 1px solid #e5e7eb;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #eef2ff;
+        }
+
+        .delete-btn {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 7px 10px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px;
+            color: #777;
+        }
+
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div>
+            <h1>🔥 SatayCelup之戰｜管理員後台</h1>
+            <p>報名資料管理中心</p>
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">
+            登出
+        </button>
+    </div>
+</header>
+
+<div id="loading">
+    🔄 正在確認管理員登入狀態...
+</div>
+
+<div id="denied">
+    <h2>🚫 無權限</h2>
+    <p>這個 Google 帳號不是活動管理員。</p>
+    <p>請使用管理員 Google 帳號登入。</p>
+
+    <button class="logout-btn" id="deniedLogoutBtn">
+        登出
+    </button>
+</div>
+
+<main class="container" id="dashboard">
+
+    <!-- 統計 -->
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-title">總報名人數</div>
+            <div class="stat-number" id="totalCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">葷食</div>
+            <div class="stat-number" id="meatCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">素食</div>
+            <div class="stat-number" id="vegetarianCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">羽球</div>
+            <div class="stat-number" id="badmintonCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title">Pickleball</div>
+            <div class="stat-number" id="pickleballCount">0</div>
+        </div>
+
+    </section>
+
+    <!-- 工具列 -->
+    <section class="toolbar">
+
+        <div class="toolbar-row">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="🔎 搜尋姓名、IC、電話、Email..."
+            >
+
+            <select id="mealFilter">
+                <option value="">全部飲食</option>
+                <option value="葷">葷食</option>
+                <option value="素">素食</option>
+            </select>
+
+            <select id="participationFilter">
+                <option value="">全部活動</option>
+                <option value="羽球">羽球</option>
+                <option value="pickleball">Pickleball</option>
+                <option value="觀眾">觀眾</option>
+            </select>
+
+            <select id="sizeFilter">
+                <option value="">全部尺寸</option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+                <option value="XXXL">XXXL</option>
+            </select>
+
+            <button class="refresh-btn" id="refreshBtn">
+                🔄 重新整理
+            </button>
+
+            <button class="export-btn" id="exportBtn">
+                📥 匯出 CSV
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- 報名列表 -->
+    <section class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>姓名</th>
+                    <th>Email</th>
+                    <th>IC Number</th>
+                    <th>電話</th>
+                    <th>飲食</th>
+                    <th>衣服</th>
+                    <th>衣服背後文字</th>
+                    <th>活動</th>
+                    <th>Partner Group</th>
+                    <th>Partner</th>
+                    <th>Platinum</th>
+                    <th>收據</th>
+                    <th>報名時間</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <tbody id="registrationTable">
+            </tbody>
+
+        </table>
+
+        <div class="empty" id="emptyMessage">
+            目前沒有報名資料
+        </div>
+
+    </section>
+
+</main>
+
+
+<script type="module">
+
+    import {
+        onAuthStateChanged,
+        signInWithPopup,
+        GoogleAuthProvider,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+    import {
+        collection,
+        getDocs,
+        deleteDoc,
+        doc
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+    import { auth, db } from "./js/firebase-config.js";
+
+
+    // =========================
+    // 管理員 Email
+    // =========================
+
+    const ADMIN_EMAIL = "diabolo.weien@gmail.com";
+
+
+    // =========================
+    // DOM
+    // =========================
+
+    const loading = document.getElementById("loading");
+    const dashboard = document.getElementById("dashboard");
+    const denied = document.getElementById("denied");
+
+    const table = document.getElementById("registrationTable");
+    const emptyMessage = document.getElementById("emptyMessage");
+
+    const search = document.getElementById("search");
+    const mealFilter = document.getElementById("mealFilter");
+    const participationFilter =
+        document.getElementById("participationFilter");
+    const sizeFilter =
+        document.getElementById("sizeFilter");
+
+    let registrations = [];
+
+
+    // =========================
+    // 登入狀態
+    // =========================
+
+    onAuthStateChanged(auth, async (user) => {
+
+        if (!user) {
+
+            loading.innerHTML = `
+                <div style="margin-bottom:20px;">
+                    ⚠️ 尚未登入
+                </div>
+
+                <button
+                    id="loginBtn"
+                    style="
+                        background:#4285F4;
+                        color:white;
+                        padding:12px 20px;
+                        border-radius:8px;
+                    "
+                >
+                    使用 Google 登入
+                </button>
+            `;
+
+            document.getElementById("loginBtn")
+                .addEventListener("click", login);
+
+            return;
+        }
+
+
+        // 檢查管理員
+        if (user.email !== ADMIN_EMAIL) {
+
+            loading.style.display = "none";
+            denied.style.display = "block";
+
+            return;
+        }
+
+
+        // 管理員通過
+        loading.style.display = "none";
+        dashboard.style.display = "block";
+
+        await loadRegistrations();
+
+    });
+
+
+    // =========================
+    // Google 登入
+    // =========================
+
+    async function login() {
+
+        try {
+
+            const provider = new GoogleAuthProvider();
+
+            await signInWithPopup(auth, provider);
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Google 登入失敗：\n" +
+                error.message
+            );
+
+        }
+
+    }
+
+
+    // =========================
+    // 載入報名資料
+    // =========================
+
+    async function loadRegistrations() {
+
+        try {
+
+            table.innerHTML = "";
+
+            const snapshot =
+                await getDocs(
+                    collection(db, "registrations")
+                );
+
+            registrations = [];
+
+            snapshot.forEach((docSnapshot) => {
+
+                registrations.push({
+                    id: docSnapshot.id,
+                    ...docSnapshot.data()
+                });
+
+            });
+
+
+            // 最新報名在前面
+            registrations.sort((a, b) => {
+
+                const timeA =
+                    a.createdAt?.seconds || 0;
+
+                const timeB =
+                    b.createdAt?.seconds || 0;
+
+                return timeB - timeA;
+
+            });
+
+
+            updateStats();
+
+            renderTable();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "讀取報名資料失敗：\n" +
+                error.message
+            );
+
+        }
+
+    }
+
+
+    // =========================
+    // 統計
+    // =========================
+
+    function updateStats() {
+
+        document.getElementById("totalCount")
+            .textContent = registrations.length;
+
+        document.getElementById("meatCount")
+            .textContent =
+            registrations.filter(
+                x => x.meal === "葷"
+            ).length;
+
+        document.getElementById("vegetarianCount")
+            .textContent =
+            registrations.filter(
+                x => x.meal === "素"
+            ).length;
+
+        document.getElementById("badmintonCount")
+            .textContent =
+            registrations.filter(
+                x =>
+                    x.participation === "羽球"
+            ).length;
+
+        document.getElementById("pickleballCount")
+            .textContent =
+            registrations.filter(
+                x =>
+                    x.participation === "pickleball"
+                    ||
+                    x.participation === "Pickleball"
+            ).length;
+
+    }
+
+
+    // =========================
+    // 篩選
+    // =========================
+
+    function getFilteredRegistrations() {
+
+        const keyword =
+            search.value
+                .trim()
+                .toLowerCase();
+
+        const meal =
+            mealFilter.value;
+
+        const participation =
+            participationFilter.value;
+
+        const size =
+            sizeFilter.value;
+
+
+        return registrations.filter(item => {
+
+            const text = [
+
+                item.email,
+                item.icName,
+                item.icNumber,
+                item.chineseName,
+                item.phone,
+                item.shirtBack,
+                item.partnerGroup,
+                item.partner,
+                item.platinum
+
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+
+            const matchSearch =
+                !keyword ||
+                text.includes(keyword);
+
+
+            const matchMeal =
+                !meal ||
+                item.meal === meal;
+
+
+            const matchParticipation =
+                !participation ||
+                item.participation === participation;
+
+
+            const matchSize =
+                !size ||
+                item.shirtSize === size;
+
+
+            return (
+                matchSearch &&
+                matchMeal &&
+                matchParticipation &&
+                matchSize
+            );
+
+        });
+
+    }
+
+
+    // =========================
+    // 顯示表格
+    // =========================
+
+    function renderTable() {
+
+        table.innerHTML = "";
+
+        const data =
+            getFilteredRegistrations();
+
+
+        if (data.length === 0) {
+
+            emptyMessage.style.display = "block";
+
+            return;
+
+        }
+
+        emptyMessage.style.display = "none";
+
+
+        data.forEach((item, index) => {
+
+            const tr =
+                document.createElement("tr");
+
+
+            const time =
+                formatTimestamp(item.createdAt);
+
+
+            tr.innerHTML = `
+
+                <td>${index + 1}</td>
+
+                <td>
+                    <strong>
+                        ${safe(item.chineseName || "-")}
+                    </strong>
+                    <br>
+                    <small>
+                        ${safe(item.icName || "")}
+                    </small>
+                </td>
+
+                <td>
+                    ${safe(item.email || "-")}
+                </td>
+
+                <td>
+                    ${safe(item.icNumber || "-")}
+                </td>
+
+                <td>
+                    ${safe(item.phone || "-")}
+                </td>
+
+                <td>
+                    <span class="badge">
+                        ${safe(item.meal || "-")}
+                    </span>
+                </td>
+
+                <td>
+                    ${safe(item.shirtSize || "-")}
+                </td>
+
+                <td>
+                    ${safe(item.shirtBack || "-")}
+                </td>
+
+                <td>
+                    ${safe(item.participation || "-")}
+                </td>
+
+                <td>
+                    ${safe(item.partnerGroup || "-")}
+                </td>
+
+                <td>
+                    ${safe(item.partner || "-")}
+                </td>
+
+                <td>
+                    ${safe(item.platinum || "-")}
+                </td>
+
+                <td>
+                    ${
+                        item.receiptName
+                        ? safe(item.receiptName)
+                        : "-"
+                    }
+                </td>
+
+                <td>
+                    ${time}
+                </td>
+
+                <td>
+
+                    <button
+                        class="delete-btn"
+                        data-id="${item.id}"
+                    >
+                        🗑️ 刪除
+                    </button>
+
+                </td>
+            `;
+
+
+            table.appendChild(tr);
+
+        });
+
+
+        // 綁定刪除
+        document
+            .querySelectorAll(".delete-btn")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => deleteRegistration(
+                        button.dataset.id
+                    )
+                );
+
+            });
+
+    }
+
+
+    // =========================
+    // 刪除
+    // =========================
+
+    async function deleteRegistration(id) {
+
+        const target =
+            registrations.find(
+                x => x.id === id
+            );
+
+
+        if (!target) return;
+
+
+        const name =
+            target.chineseName ||
+            target.icName ||
+            target.email ||
+            "這筆資料";
+
+
+        const confirmed =
+            confirm(
+                `確定要刪除「${name}」的報名資料嗎？\n\n` +
+                "刪除後無法復原。"
+            );
+
+
+        if (!confirmed) return;
+
+
+        try {
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "registrations",
+                    id
+                )
+            );
+
+
+            alert("刪除成功");
+
+            await loadRegistrations();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "刪除失敗：\n" +
+                error.message
+            );
+
+        }
+
+    }
+
+
+    // =========================
+    // CSV 匯出
+    // =========================
+
+    document
+        .getElementById("exportBtn")
+        .addEventListener(
+            "click",
+            exportCSV
+        );
+
+
+    function exportCSV() {
+
+        const data =
+            getFilteredRegistrations();
+
+
+        if (data.length === 0) {
+
+            alert("目前沒有可匯出的資料");
+
+            return;
+
+        }
+
+
+        const headers = [
+
+            "姓名",
+            "IC English Name",
+            "Email",
+            "IC Number",
+            "電話",
+            "飲食",
+            "衣服尺寸",
+            "衣服背後文字",
+            "活動",
+            "Partner Group",
+            "Partner",
+            "Platinum",
+            "收據檔名",
+            "報名時間"
+
+        ];
+
+
+        const rows =
+            data.map(item => [
+
+                item.chineseName || "",
+                item.icName || "",
+                item.email || "",
+                item.icNumber || "",
+                item.phone || "",
+                item.meal || "",
+                item.shirtSize || "",
+                item.shirtBack || "",
+                item.participation || "",
+                item.partnerGroup || "",
+                item.partner || "",
+                item.platinum || "",
+                item.receiptName || "",
