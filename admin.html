@@ -2,25 +2,22 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-
-  <title>SatayCelup之戰｜管理後台</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SatayCelup之戰｜管理員後台</title>
 
   <style>
     :root {
-      --primary: #d94f2b;
-      --primary-dark: #b83d20;
-      --bg: #f7f7f5;
-      --card: #ffffff;
-      --text: #222;
-      --muted: #777;
-      --border: #e5e5e5;
-      --success: #198754;
-      --danger: #d93025;
-      --warning: #b7791f;
+      --mint: #dff5e8;
+      --mint-dark: #247a55;
+      --orange: #f28b45;
+      --yellow: #fff3bd;
+      --cream: #fffaf0;
+      --text: #26352d;
+      --muted: #718078;
+      --border: #dce8df;
+      --white: #ffffff;
+      --danger: #c84b4b;
+      --blue: #477fc5;
     }
 
     * {
@@ -29,15 +26,17 @@
 
     body {
       margin: 0;
+      background:
+        radial-gradient(circle at top left, #e6f8ed 0, transparent 28%),
+        var(--cream);
+      color: var(--text);
       font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         "Noto Sans TC",
-        Arial,
+        "Microsoft JhengHei",
         sans-serif;
-      background: var(--bg);
-      color: var(--text);
     }
 
     button,
@@ -51,101 +50,51 @@
     }
 
     .page {
-      max-width: 1500px;
-      margin: auto;
-      padding: 20px;
+      width: min(1500px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 50px;
     }
-
-    /* =========================
-       LOGIN
-    ========================= */
-
-    .panel {
-      display: none;
-    }
-
-    .panel.active {
-      display: block;
-    }
-
-    #loginPanel {
-      min-height: 100vh;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #loginPanel.active {
-      display: flex;
-    }
-
-    .login-card {
-      width: 100%;
-      max-width: 420px;
-      background: white;
-      border-radius: 20px;
-      padding: 35px 28px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
-      text-align: center;
-    }
-
-    .logo {
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
-
-    .login-card h1 {
-      margin: 0 0 8px;
-      font-size: 26px;
-    }
-
-    .login-card p {
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
 
     .topbar {
-      background: white;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .topbar-inner {
-      max-width: 1500px;
-      margin: auto;
-      min-height: 70px;
-      padding: 12px 20px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 15px;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .brand-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--orange);
       font-size: 28px;
     }
 
-    .brand-title {
-      font-weight: 900;
-      font-size: 18px;
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
     }
 
-    .brand-sub {
+    h1 {
+      margin-bottom: 4px;
+      font-size: clamp(22px, 4vw, 34px);
+    }
+
+    .subtitle {
       color: var(--muted);
-      font-size: 12px;
-      margin-top: 2px;
+      font-size: 14px;
     }
 
     .top-actions {
@@ -154,925 +103,884 @@
       flex-wrap: wrap;
     }
 
-    /* =========================
-       BUTTONS
-    ========================= */
-
     .btn {
       border: 0;
-      border-radius: 9px;
-      padding: 10px 15px;
-      font-weight: 800;
+      border-radius: 12px;
+      padding: 11px 16px;
+      font-weight: 700;
       transition: 0.2s;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: white;
+    .btn:hover {
+      transform: translateY(-1px);
     }
 
-    .btn-primary:hover {
-      background: var(--primary-dark);
+    .btn-primary {
+      background: var(--mint-dark);
+      color: white;
     }
 
     .btn-secondary {
-      background: #f1f1f1;
-      color: #333;
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
     }
 
-    .btn-secondary:hover {
-      background: #e6e6e6;
+    .btn-orange {
+      background: var(--orange);
+      color: white;
     }
 
     .btn-danger {
-      background: var(--danger);
-      color: white;
+      background: #fff0f0;
+      color: var(--danger);
+      border: 1px solid #f3caca;
     }
 
-    .btn-danger:hover {
-      background: #b91c1c;
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    .btn-google {
-      width: 100%;
-      background: white;
-      border: 1px solid #ddd;
-      padding: 13px;
-      border-radius: 10px;
-      font-weight: 800;
-    }
-
-    .btn-google:hover {
-      background: #fafafa;
-    }
-
-    /* =========================
-       MESSAGE
-    ========================= */
-
-    #message {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      z-index: 100;
-      max-width: 360px;
+    .login-panel,
+    .dashboard {
       display: none;
-      padding: 14px 18px;
-      border-radius: 10px;
-      color: white;
-      font-weight: 700;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
-    #message.success {
+    .login-panel.active,
+    .dashboard.active {
       display: block;
-      background: var(--success);
     }
 
-    #message.error {
-      display: block;
-      background: var(--danger);
+    .login-card {
+      max-width: 520px;
+      margin: 60px auto;
+      padding: 34px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 14px 40px rgba(36, 122, 85, 0.08);
     }
 
-    /* =========================
-       DASHBOARD
-    ========================= */
-
-    .dashboard-title {
-      margin: 25px 0 18px;
+    .login-card .emoji {
+      font-size: 52px;
+      margin-bottom: 12px;
     }
 
-    .dashboard-title h1 {
-      margin: 0;
-      font-size: 28px;
+    .login-card h2 {
+      margin-bottom: 10px;
     }
 
-    .dashboard-title p {
-      margin: 6px 0 0;
+    .login-card p {
       color: var(--muted);
+      line-height: 1.8;
     }
 
-    /* =========================
-       STATS
-    ========================= */
+    .notice {
+      padding: 13px 16px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .notice-info {
+      background: #edf6ff;
+      color: #285e91;
+      border: 1px solid #cfe5fb;
+    }
+
+    .notice-success {
+      background: #eaf8ef;
+      color: #247a55;
+      border: 1px solid #c9ead5;
+    }
+
+    .notice-error {
+      background: #fff0f0;
+      color: #a33d3d;
+      border: 1px solid #f2cccc;
+    }
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(8, minmax(130px, 1fr));
       gap: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .stat-card {
       background: white;
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 18px;
+      padding: 17px;
+      min-height: 112px;
     }
 
     .stat-label {
       color: var(--muted);
       font-size: 13px;
-      margin-bottom: 7px;
+      line-height: 1.5;
     }
 
     .stat-number {
-      font-size: 26px;
-      font-weight: 900;
+      margin-top: 8px;
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--mint-dark);
     }
 
-    /* =========================
-       TABS
-    ========================= */
+    .stat-card.highlight {
+      background: var(--mint);
+      border-color: #bde7ce;
+    }
+
+    .stat-card.highlight .stat-number {
+      color: #176341;
+    }
+
+    .section-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .section-title h2 {
+      margin-bottom: 0;
+      font-size: 20px;
+    }
+
+    .section-title small {
+      color: var(--muted);
+    }
 
     .tabs {
       display: flex;
       gap: 8px;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
 
     .tab {
       border: 1px solid var(--border);
       background: white;
-      padding: 11px 18px;
-      border-radius: 10px;
-      font-weight: 800;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 17px;
+      font-weight: 700;
     }
 
     .tab.active {
-      background: var(--primary);
-      border-color: var(--primary);
+      background: var(--mint-dark);
       color: white;
+      border-color: var(--mint-dark);
     }
-
-    /* =========================
-       CARD
-    ========================= */
-
-    .card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 18px;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 900;
-      margin-bottom: 15px;
-    }
-
-    /* =========================
-       FILTERS
-    ========================= */
 
     .filters {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+      grid-template-columns: minmax(220px, 1fr) repeat(4, minmax(150px, 190px));
       gap: 10px;
-      align-items: end;
+      margin-bottom: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
 
     .field label {
-      display: block;
+      color: var(--muted);
       font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 6px;
-      color: #555;
+      font-weight: 700;
     }
 
     .field input,
     .field select {
       width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 9px;
-      padding: 10px 11px;
+      min-height: 43px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 9px 12px;
       background: white;
+      color: var(--text);
       outline: none;
     }
 
     .field input:focus,
     .field select:focus {
-      border-color: var(--primary);
+      border-color: var(--mint-dark);
+      box-shadow: 0 0 0 3px rgba(36, 122, 85, 0.1);
     }
 
-    .platinum-search {
-      min-width: 170px;
+    .platinum-field input {
+      border-color: #d9c98c;
+      background: #fffdf3;
     }
 
-    /* =========================
-       SUMMARY
-    ========================= */
-
-    .size-summary {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .platinum-field label {
+      color: #9a7925;
     }
-
-    .size-item {
-      background: #f5f5f5;
-      border-radius: 9px;
-      padding: 10px 14px;
-      font-weight: 800;
-    }
-
-    /* =========================
-       TABLE
-    ========================= */
 
     .table-wrap {
       overflow-x: auto;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 15px;
     }
 
     table {
       width: 100%;
-      border-collapse: collapse;
       min-width: 1250px;
-      background: white;
-    }
-
-    th,
-    td {
-      padding: 10px 11px;
-      border-bottom: 1px solid var(--border);
-      text-align: left;
-      vertical-align: middle;
+      border-collapse: collapse;
       font-size: 13px;
     }
 
     th {
-      background: #fafafa;
-      font-weight: 900;
+      background: #f1f8f3;
+      color: #426252;
+      font-weight: 800;
       white-space: nowrap;
-      position: sticky;
-      top: 0;
-      z-index: 2;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: middle;
     }
 
     tr:last-child td {
       border-bottom: 0;
     }
 
-    .table-input {
-      width: 100%;
-      min-width: 100px;
-      border: 1px solid #ddd;
-      border-radius: 7px;
-      padding: 7px 8px;
-      background: white;
+    tbody tr:hover {
+      background: #fbfefc;
     }
 
-    .table-select {
-      width: 100%;
-      min-width: 100px;
-      border: 1px solid #ddd;
-      border-radius: 7px;
-      padding: 7px 8px;
-      background: white;
+    .empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--muted);
     }
 
-    .action-buttons {
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-green {
+      background: #e3f6e9;
+      color: #23734b;
+    }
+
+    .badge-orange {
+      background: #fff0df;
+      color: #b76522;
+    }
+
+    .badge-blue {
+      background: #eaf2ff;
+      color: #356da9;
+    }
+
+    .badge-gray {
+      background: #f0f2f1;
+      color: #68736d;
+    }
+
+    .editable {
+      width: 100%;
+      min-width: 100px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 7px 8px;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .editable:hover,
+    .editable:focus {
+      border-color: #b9dcca;
+      background: #f8fcf9;
+      outline: none;
+    }
+
+    .editable-small {
+      min-width: 85px;
+    }
+
+    .save-row {
       display: flex;
+      justify-content: center;
       gap: 6px;
       flex-wrap: wrap;
+      min-width: 180px;
+    }
+
+    .save-btn,
+    .reset-btn,
+    .delete-btn {
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     .save-btn {
-      border: 1px solid #cde8d7;
-      border-radius: 8px;
-      padding: 7px 10px;
-      background: #effaf3;
-      color: var(--success);
-      font-size: 12px;
-      font-weight: 800;
+      border: 0;
+      background: var(--mint-dark);
+      color: white;
     }
 
-    .save-btn:hover {
-      background: #ddf5e6;
+    .reset-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
     }
 
     .delete-btn {
       border: 1px solid #f3caca;
-      border-radius: 8px;
-      padding: 7px 10px;
       background: #fff0f0;
       color: var(--danger);
-      font-size: 12px;
-      font-weight: 800;
     }
 
     .delete-btn:hover {
-      background: #ffe1e1;
+      background: #ffe2e2;
+      border-color: #e9a9a9;
     }
 
-    .empty {
+    .shirt-summary {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(100px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .shirt-size-card {
+      background: #fffaf0;
+      border: 1px solid #f5e4bd;
+      border-radius: 14px;
+      padding: 13px;
       text-align: center;
-      padding: 40px 20px;
-      color: var(--muted);
     }
 
-    .count {
-      font-size: 13px;
+    .shirt-size-card strong {
+      display: block;
+      font-size: 22px;
+      color: #b76522;
+      margin-bottom: 3px;
+    }
+
+    .shirt-size-card span {
       color: var(--muted);
-      margin-bottom: 10px;
+      font-size: 12px;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-top: 16px;
     }
 
     .loading {
       text-align: center;
-      padding: 30px;
       color: var(--muted);
+      padding: 30px;
     }
 
-    footer {
-      text-align: center;
-      color: #999;
-      font-size: 12px;
-      padding: 20px 0 40px;
+    @media (max-width: 1400px) {
+      .filters {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 1100px) {
+    @media (max-width: 1200px) {
       .stats {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
       }
 
       .filters {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .shirt-summary {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
 
     @media (max-width: 650px) {
       .page {
-        padding: 12px;
+        width: min(100% - 20px, 1500px);
+        padding-top: 14px;
       }
 
-      .topbar-inner {
-        padding: 10px 12px;
-      }
-
-      .brand-title {
-        font-size: 15px;
+      .login-card {
+        margin: 30px auto;
+        padding: 25px 18px;
       }
 
       .stats {
         grid-template-columns: repeat(2, 1fr);
+        gap: 9px;
+      }
+
+      .stat-card {
+        min-height: 95px;
+        padding: 13px;
+      }
+
+      .stat-number {
+        font-size: 25px;
       }
 
       .filters {
         grid-template-columns: 1fr;
       }
 
-      .tabs {
-        overflow-x: auto;
+      .section-card {
+        padding: 14px;
+        border-radius: 17px;
       }
 
-      .tab {
-        white-space: nowrap;
+      .shirt-summary {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .login-card {
-        margin: 15px;
+      .top-actions,
+      .top-actions .btn {
+        width: 100%;
       }
     }
   </style>
 </head>
 
 <body>
+  <main class="page">
 
-  <!-- =========================
-       TOP BAR
-  ========================= -->
-
-  <div class="topbar">
-    <div class="topbar-inner">
-
+    <div class="topbar">
       <div class="brand">
         <div class="brand-icon">🍢</div>
-
         <div>
-          <div class="brand-title">
-            SatayCelup之戰
-          </div>
-
-          <div class="brand-sub">
-            活動管理後台
-          </div>
+          <h1>SatayCelup之戰</h1>
+          <div class="subtitle">活動報名與衣服訂單管理後台</div>
         </div>
       </div>
 
       <div class="top-actions">
-
-        <button
-          id="refreshBtn"
-          class="btn btn-secondary"
-          style="display:none;"
-        >
-          🔄 更新資料
+        <button class="btn btn-secondary" id="refreshBtn" style="display:none;">
+          重新整理
         </button>
 
-        <button
-          id="logoutBtn"
-          class="btn btn-secondary"
-          style="display:none;"
-        >
+        <button class="btn btn-secondary" id="logoutBtn" style="display:none;">
           登出
         </button>
-
       </div>
-
-    </div>
-  </div>
-
-
-  <!-- =========================
-       LOGIN
-  ========================= -->
-
-  <section id="loginPanel" class="panel active">
-
-    <div class="login-card">
-
-      <div class="logo">
-        🍢
-      </div>
-
-      <h1>
-        SatayCelup之戰
-      </h1>
-
-      <p>
-        管理員後台<br>
-        請使用指定的 Google 帳號登入。
-      </p>
-
-      <button
-        id="googleLoginBtn"
-        class="btn-google"
-      >
-        🔐 使用 Google 登入
-      </button>
-
     </div>
 
-  </section>
+    <section class="login-panel active" id="loginPanel">
+      <div class="login-card">
+        <div class="emoji">🔐</div>
 
-
-  <!-- =========================
-       DASHBOARD
-  ========================= -->
-
-  <main
-    id="dashboard"
-    class="panel"
-  >
-
-    <div class="page">
-
-      <div class="dashboard-title">
-
-        <h1>
-          活動管理後台
-        </h1>
+        <h2>管理員登入</h2>
 
         <p>
-          管理出席報名、T-shirt 訂單及活動資料
+          請使用指定的管理員 Google 帳號登入。<br />
+          只有管理員可以查看及修改報名資料。
         </p>
 
-      </div>
-
-
-      <!-- =========================
-           STATS
-      ========================= -->
-
-      <div class="stats">
-
-        <div class="stat-card">
-          <div class="stat-label">
-            出席報名
-          </div>
-
-          <div
-            id="statAttendance"
-            class="stat-number"
-          >
-            0
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">
-            T-shirt 訂單
-          </div>
-
-          <div
-            id="statShirtOrders"
-            class="stat-number"
-          >
-            0
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">
-            T-shirt 總數
-          </div>
-
-          <div
-            id="statShirts"
-            class="stat-number"
-          >
-            0
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">
-            肉食
-          </div>
-
-          <div
-            id="statMeat"
-            class="stat-number"
-          >
-            0
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">
-            素食
-          </div>
-
-          <div
-            id="statVegetarian"
-            class="stat-number"
-          >
-            0
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">
-            羽球 / Pickleball
-          </div>
-
-          <div
-            id="statSports"
-            class="stat-number"
-          >
-            0
-          </div>
-        </div>
-
-      </div>
-
-
-      <!-- =========================
-           TABS
-      ========================= -->
-
-      <div class="tabs">
-
-        <button
-          id="attendanceTab"
-          class="tab active"
-        >
-          👥 出席報名
+        <button class="btn btn-primary" id="loginBtn">
+          使用 Google 登入
         </button>
 
-        <button
-          id="shirtTab"
-          class="tab"
-        >
-          👕 T-shirt 訂單
-        </button>
-
+        <div class="footer-note">
+          管理員帳號：diabolo.weien@gmail.com
+        </div>
       </div>
+    </section>
 
+    <section class="dashboard" id="dashboard">
 
-      <!-- =========================
-           ATTENDANCE
-      ========================= -->
+      <div id="messageBox"></div>
 
-      <section
-        id="attendanceSection"
-        class="card"
-      >
+      <section class="stats">
 
-        <div class="card-title">
-          出席報名管理
+        <div class="stat-card highlight">
+          <div class="stat-label">出席報名總數</div>
+          <div class="stat-number" id="totalRegistrations">0</div>
         </div>
 
-        <div class="filters">
+        <div class="stat-card highlight">
+          <div class="stat-label">只買衣服訂單</div>
+          <div class="stat-number" id="totalShirtOrders">0</div>
+        </div>
 
-          <div class="field">
-            <label for="attendanceSearch">
-              關鍵字搜尋
-            </label>
+        <div class="stat-card highlight">
+          <div class="stat-label">衣服總數</div>
+          <div class="stat-number" id="totalShirts">0</div>
+        </div>
 
-            <input
-              id="attendanceSearch"
-              type="search"
-              placeholder="姓名、Email、電話、IC..."
-            />
+        <div class="stat-card">
+          <div class="stat-label">葷食</div>
+          <div class="stat-number" id="totalMeat">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">素食</div>
+          <div class="stat-number" id="totalVegetarian">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">羽球</div>
+          <div class="stat-number" id="totalBadminton">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Pickleball</div>
+          <div class="stat-number" id="totalPickleball">0</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">觀眾</div>
+          <div class="stat-number" id="totalAudience">0</div>
+        </div>
+
+      </section>
+
+      <section class="section-card">
+
+        <div class="section-title">
+          <div>
+            <h2>資料管理</h2>
+            <small>
+              管理員可以直接修改資料，儲存後會更新 Firebase。
+            </small>
           </div>
+        </div>
 
+        <div class="tabs">
 
-          <div class="field">
-            <label for="mealFilter">
-              飲食
-            </label>
+          <button class="tab active" id="attendanceTab">
+            🍢 出席報名
+          </button>
 
-            <select id="mealFilter">
-              <option value="">全部</option>
-              <option value="meat">肉食</option>
-              <option value="vegetarian">素食</option>
-            </select>
-          </div>
-
-
-          <div class="field">
-            <label for="participationFilter">
-              參與項目
-            </label>
-
-            <select id="participationFilter">
-              <option value="">全部</option>
-              <option value="badminton">羽球</option>
-              <option value="pickleball">Pickleball</option>
-              <option value="audience">純觀眾</option>
-            </select>
-          </div>
-
-
-          <div class="field">
-            <label for="shirtSizeFilter">
-              T-shirt 尺寸
-            </label>
-
-            <select id="shirtSizeFilter">
-              <option value="">全部</option>
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="2XL">2XL</option>
-              <option value="3XL">3XL</option>
-            </select>
-          </div>
-
-
-          <div class="field">
-            <label for="platinumSearch">
-              Platinum 搜尋
-            </label>
-
-            <input
-              id="platinumSearch"
-              class="platinum-search"
-              type="search"
-              placeholder="Platinum 姓名或 Email..."
-            />
-          </div>
-
-
-          <button
-            id="clearAttendanceBtn"
-            class="btn btn-secondary"
-          >
-            清除
+          <button class="tab" id="shirtsTab">
+            👕 衣服訂單
           </button>
 
         </div>
 
+        <!-- ========================= -->
+        <!-- 出席報名 -->
+        <!-- ========================= -->
 
-        <br>
+        <div id="attendancePanel">
 
-        <div
-          id="attendanceCount"
-          class="count"
-        >
-          0 筆資料
+          <div class="filters">
+
+            <div class="field">
+              <label for="attendanceSearch">搜尋</label>
+
+              <input
+                id="attendanceSearch"
+                type="search"
+                placeholder="姓名、Email、電話、Partner..."
+              />
+            </div>
+
+            <div class="field platinum-field">
+              <label for="platinumSearch">
+                ⭐ Platinum 搜尋
+              </label>
+
+              <input
+                id="platinumSearch"
+                type="search"
+                placeholder="Platinum 姓名或 Email..."
+              />
+            </div>
+
+            <div class="field">
+              <label for="mealFilter">飲食</label>
+
+              <select id="mealFilter">
+                <option value="">全部飲食</option>
+                <option value="葷">葷</option>
+                <option value="素">素</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="participationFilter">活動</label>
+
+              <select id="participationFilter">
+                <option value="">全部活動</option>
+                <option value="羽球">羽球</option>
+                <option value="pickleball">Pickleball</option>
+                <option value="觀眾">觀眾</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="sizeFilter">衣服尺寸</label>
+
+              <select id="sizeFilter">
+                <option value="">全部尺寸</option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+                <option value="XXXL">XXXL</option>
+                <option value="未填寫">未填寫</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="top-actions" style="margin-bottom:15px;">
+
+            <button class="btn btn-orange" id="exportAttendanceBtn">
+              匯出目前報名 CSV
+            </button>
+
+            <button class="btn btn-secondary" id="exportAllShirtsBtn">
+              匯出全部衣服名單
+            </button>
+
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>#</th>
+                  <th>中文姓名／匿名</th>
+                  <th>Google Email</th>
+                  <th>IC English name</th>
+                  <th>IC Number</th>
+                  <th>電話</th>
+                  <th>飲食</th>
+                  <th>衣服尺寸</th>
+                  <th>背面文字</th>
+                  <th>活動</th>
+                  <th>Partner Group</th>
+                  <th>Partner</th>
+                  <th>Platinum</th>
+                  <th>報名時間</th>
+                  <th>操作</th>
+                </tr>
+
+              </thead>
+
+              <tbody id="attendanceTableBody">
+
+                <tr>
+                  <td colspan="15" class="loading">
+                    資料載入中...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
         </div>
 
-        <div class="table-wrap">
+        <!-- ========================= -->
+        <!-- 衣服訂單 -->
+        <!-- ========================= -->
 
-          <table>
+        <div id="shirtsPanel" style="display:none;">
 
-            <thead>
+          <div class="shirt-summary">
 
-              <tr>
+            <div class="shirt-size-card">
+              <strong id="sizeXS">0</strong>
+              <span>XS</span>
+            </div>
 
-                <th>中文姓名</th>
-                <th>英文姓名</th>
-                <th>Email</th>
-                <th>電話</th>
-                <th>IC</th>
-                <th>飲食</th>
-                <th>參與</th>
-                <th>Partner Group</th>
-                <th>Partner</th>
-                <th>Platinum</th>
-                <th>Platinum Email</th>
-                <th>T-shirt</th>
-                <th>背面文字</th>
-                <th>操作</th>
+            <div class="shirt-size-card">
+              <strong id="sizeS">0</strong>
+              <span>S</span>
+            </div>
 
-              </tr>
+            <div class="shirt-size-card">
+              <strong id="sizeM">0</strong>
+              <span>M</span>
+            </div>
 
-            </thead>
+            <div class="shirt-size-card">
+              <strong id="sizeL">0</strong>
+              <span>L</span>
+            </div>
 
-            <tbody
-              id="attendanceTable"
-            ></tbody>
+            <div class="shirt-size-card">
+              <strong id="sizeXL">0</strong>
+              <span>XL</span>
+            </div>
 
-          </table>
+            <div class="shirt-size-card">
+              <strong id="sizeXXL">0</strong>
+              <span>XXL</span>
+            </div>
+
+            <div class="shirt-size-card">
+              <strong id="sizeXXXL">0</strong>
+              <span>XXXL</span>
+            </div>
+
+          </div>
+
+          <div class="filters">
+
+            <div class="field">
+
+              <label for="shirtSearch">
+                搜尋
+              </label>
+
+              <input
+                id="shirtSearch"
+                type="search"
+                placeholder="姓名、Email、電話、背面文字..."
+              />
+
+            </div>
+
+            <div class="field platinum-field">
+
+              <label for="shirtPlatinumSearch">
+                ⭐ Platinum 搜尋
+              </label>
+
+              <input
+                id="shirtPlatinumSearch"
+                type="search"
+                placeholder="Platinum 姓名或 Email..."
+              />
+
+            </div>
+
+            <div class="field">
+
+              <label for="shirtSizeFilter">
+                衣服尺寸
+              </label>
+
+              <select id="shirtSizeFilter">
+
+                <option value="">
+                  全部尺寸
+                </option>
+
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+                <option value="XXXL">XXXL</option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+          <div class="top-actions" style="margin-bottom:15px;">
+
+            <button class="btn btn-orange" id="exportShirtOrdersBtn">
+              匯出只買衣服 CSV
+            </button>
+
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>#</th>
+                  <th>中文姓名／匿名</th>
+                  <th>Google 名稱</th>
+                  <th>Google Email</th>
+                  <th>電話</th>
+                  <th>衣服尺寸</th>
+                  <th>背面文字</th>
+                  <th>Platinum</th>
+                  <th>訂單時間</th>
+                  <th>操作</th>
+                </tr>
+
+              </thead>
+
+              <tbody id="shirtsTableBody">
+
+                <tr>
+                  <td colspan="10" class="loading">
+                    資料載入中...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+        <div class="footer-note">
+
+          ⚠️ 提醒：刪除資料前會進行兩次確認。
+          刪除後 Firebase 資料將無法從此後台復原，
+          請確認資料無誤後再操作。
 
         </div>
 
       </section>
 
-
-      <!-- =========================
-           SHIRT
-      ========================= -->
-
-      <section
-        id="shirtSection"
-        class="card"
-        style="display:none;"
-      >
-
-        <div class="card-title">
-          T-shirt 訂單管理
-        </div>
-
-
-        <div class="filters">
-
-          <div class="field">
-            <label for="shirtSearch">
-              關鍵字搜尋
-            </label>
-
-            <input
-              id="shirtSearch"
-              type="search"
-              placeholder="姓名、Email、電話..."
-            />
-          </div>
-
-
-          <div class="field">
-            <label for="shirtSizeFilter2">
-              尺寸
-            </label>
-
-            <select id="shirtSizeFilter2">
-              <option value="">全部</option>
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="2XL">2XL</option>
-              <option value="3XL">3XL</option>
-            </select>
-          </div>
-
-
-          <div class="field">
-            <label for="shirtPlatinumSearch">
-              Platinum 搜尋
-            </label>
-
-            <input
-              id="shirtPlatinumSearch"
-              class="platinum-search"
-              type="search"
-              placeholder="Platinum 姓名或 Email..."
-            />
-          </div>
-
-
-          <button
-            id="clearShirtBtn"
-            class="btn btn-secondary"
-          >
-            清除
-          </button>
-
-        </div>
-
-
-        <br>
-
-
-        <div class="card-title">
-          T-shirt 尺寸統計
-        </div>
-
-        <div
-          id="sizeSummary"
-          class="size-summary"
-        ></div>
-
-        <br>
-
-
-        <div
-          id="shirtCount"
-          class="count"
-        >
-          0 筆資料
-        </div>
-
-
-        <div class="table-wrap">
-
-          <table>
-
-            <thead>
-
-              <tr>
-
-                <th>中文姓名</th>
-                <th>Google 姓名</th>
-                <th>Email</th>
-                <th>電話</th>
-                <th>尺寸</th>
-                <th>背面文字</th>
-                <th>Platinum</th>
-                <th>Platinum Email</th>
-                <th>操作</th>
-
-              </tr>
-
-            </thead>
-
-            <tbody
-              id="shirtTable"
-            ></tbody>
-
-          </table>
-
-        </div>
-
-
-        <br>
-
-
-        <button
-          id="exportShirtsBtn"
-          class="btn btn-primary"
-        >
-          📥 匯出全部 T-shirt CSV
-        </button>
-
-      </section>
-
-
-      <footer>
-        SatayCelup之戰 管理系統<br>
-        刪除資料需要兩次確認，只有指定管理員可以執行。
-      </footer>
-
-    </div>
+    </section>
 
   </main>
-
-
-  <div id="message"></div>
-
-
-  <!-- =========================
-       FIREBASE
-  ========================= -->
 
   <script type="module">
 
     import {
-      auth,
-      db
-    } from "./js/firebase-config.js";
-
-
-    import {
+      onAuthStateChanged,
       GoogleAuthProvider,
       signInWithPopup,
-      signOut,
-      onAuthStateChanged
+      signOut
     } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
 
     import {
       collection,
@@ -1082,18 +990,29 @@
       doc
     } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-
-    /* =========================
-       CONFIG
-    ========================= */
-
-    const ADMIN_EMAIL =
-      "diabolo.weien@gmail.com";
+    import { auth, db } from "./js/firebase-config.js";
 
 
-    /* =========================
-       DOM
-    ========================= */
+    const ADMIN_EMAIL = "diabolo.weien@gmail.com";
+
+
+    let registrations = [];
+    let shirtOrders = [];
+
+    let currentTab = "attendance";
+    let authCheckFinished = false;
+
+
+    const sizeOrder = {
+      XS: 1,
+      S: 2,
+      M: 3,
+      L: 4,
+      XL: 5,
+      XXL: 6,
+      XXXL: 7
+    };
+
 
     const loginPanel =
       document.getElementById("loginPanel");
@@ -1101,8 +1020,8 @@
     const dashboard =
       document.getElementById("dashboard");
 
-    const googleLoginBtn =
-      document.getElementById("googleLoginBtn");
+    const loginBtn =
+      document.getElementById("loginBtn");
 
     const logoutBtn =
       document.getElementById("logoutBtn");
@@ -1110,26 +1029,28 @@
     const refreshBtn =
       document.getElementById("refreshBtn");
 
-    const message =
-      document.getElementById("message");
+    const messageBox =
+      document.getElementById("messageBox");
 
 
     const attendanceTab =
       document.getElementById("attendanceTab");
 
-    const shirtTab =
-      document.getElementById("shirtTab");
+    const shirtsTab =
+      document.getElementById("shirtsTab");
 
+    const attendancePanel =
+      document.getElementById("attendancePanel");
 
-    const attendanceSection =
-      document.getElementById("attendanceSection");
-
-    const shirtSection =
-      document.getElementById("shirtSection");
+    const shirtsPanel =
+      document.getElementById("shirtsPanel");
 
 
     const attendanceSearch =
       document.getElementById("attendanceSearch");
+
+    const platinumSearch =
+      document.getElementById("platinumSearch");
 
     const mealFilter =
       document.getElementById("mealFilter");
@@ -1137,41 +1058,33 @@
     const participationFilter =
       document.getElementById("participationFilter");
 
-    const shirtSizeFilter =
-      document.getElementById("shirtSizeFilter");
-
-    const platinumSearch =
-      document.getElementById("platinumSearch");
+    const sizeFilter =
+      document.getElementById("sizeFilter");
 
 
     const shirtSearch =
       document.getElementById("shirtSearch");
 
-    const shirtSizeFilter2 =
-      document.getElementById("shirtSizeFilter2");
-
     const shirtPlatinumSearch =
       document.getElementById("shirtPlatinumSearch");
 
-
-    const attendanceTable =
-      document.getElementById("attendanceTable");
-
-    const shirtTable =
-      document.getElementById("shirtTable");
+    const shirtSizeFilter =
+      document.getElementById("shirtSizeFilter");
 
 
-    /* =========================
-       DATA
-    ========================= */
+    function showMessage(text, type = "info") {
 
-    let registrations = [];
-    let shirtOrders = [];
+      messageBox.innerHTML = `
+        <div class="notice notice-${type}">
+          ${escapeHtml(text)}
+        </div>
+      `;
 
+      setTimeout(() => {
+        messageBox.innerHTML = "";
+      }, 5000);
+    }
 
-    /* =========================
-       HELPERS
-    ========================= */
 
     function escapeHtml(value) {
 
@@ -1190,9 +1103,10 @@
       for (const key of keys) {
 
         if (
+          item &&
           item[key] !== undefined &&
           item[key] !== null &&
-          item[key] !== ""
+          String(item[key]).trim() !== ""
         ) {
 
           return item[key];
@@ -1206,36 +1120,52 @@
     }
 
 
-    function getChineseName(item) {
+    function normalizeText(value) {
 
-      return getValue(
-        item,
-        "chineseName",
-        "name",
-        "displayName"
-      );
+      return String(value ?? "")
+        .trim()
+        .toLowerCase();
 
     }
 
 
-    function getEnglishName(item) {
+    function getTimestampText(timestamp) {
 
-      return getValue(
-        item,
-        "icName",
-        "englishName"
-      );
+      if (!timestamp) return "";
 
-    }
+      try {
 
+        if (
+          typeof timestamp.toDate === "function"
+        ) {
 
-    function getPhone(item) {
+          return timestamp
+            .toDate()
+            .toLocaleString("zh-TW");
 
-      return getValue(
-        item,
-        "phone",
-        "phoneNumber"
-      );
+        }
+
+        if (timestamp.seconds) {
+
+          return new Date(
+            timestamp.seconds * 1000
+          ).toLocaleString("zh-TW");
+
+        }
+
+        if (timestamp instanceof Date) {
+
+          return timestamp.toLocaleString("zh-TW");
+
+        }
+
+        return String(timestamp);
+
+      } catch {
+
+        return "";
+
+      }
 
     }
 
@@ -1245,7 +1175,7 @@
       return getValue(
         item,
         "meal",
-        "food"
+        "diet"
       );
 
     }
@@ -1255,42 +1185,9 @@
 
       return getValue(
         item,
-        "participation"
+        "participation",
+        "activity"
       );
-
-    }
-
-
-    function getPlatinum(item) {
-
-      return getValue(
-        item,
-        "platinum",
-        "platinumName",
-        "platinumEmail"
-      );
-
-    }
-
-
-    function getPlatinumEmail(item) {
-
-      return getValue(
-        item,
-        "platinumEmail"
-      );
-
-    }
-
-
-    function getPlatinumSearchText(item) {
-
-      return [
-        getPlatinum(item),
-        getPlatinumEmail(item)
-      ]
-        .join(" ")
-        .toLowerCase();
 
     }
 
@@ -1318,201 +1215,333 @@
     }
 
 
-    function normalize(value) {
+    function getChineseName(item) {
 
-      return String(value ?? "")
-        .trim()
-        .toLowerCase();
-
-    }
-
-
-    function showMessage(
-      text,
-      type = "success"
-    ) {
-
-      message.textContent = text;
-
-      message.className = type;
-
-      clearTimeout(
-        showMessage.timer
+      return getValue(
+        item,
+        "chineseName",
+        "name",
+        "displayName"
       );
 
-      showMessage.timer =
-        setTimeout(() => {
+    }
 
-          message.className = "";
 
-        }, 3500);
+    function getEnglishName(item) {
+
+      return getValue(
+        item,
+        "icName",
+        "englishName"
+      );
 
     }
 
 
-    /* =========================
-       GOOGLE LOGIN
-    ========================= */
+    function getPlatinum(item) {
 
-    googleLoginBtn.addEventListener(
-      "click",
-      async () => {
+      return getValue(
+        item,
+        "platinum",
+        "platinumName",
+        "platinumEmail"
+      );
 
-        try {
-
-          const provider =
-            new GoogleAuthProvider();
-
-          await signInWithPopup(
-            auth,
-            provider
-          );
-
-        } catch (error) {
-
-          console.error(error);
-
-          showMessage(
-            "Google 登入失敗：" +
-            error.message,
-            "error"
-          );
-
-        }
-
-      }
-    );
+    }
 
 
-    /* =========================
-       LOGOUT
-    ========================= */
+    function getPlatinumName(item) {
 
-    logoutBtn.addEventListener(
-      "click",
-      async () => {
+      return getValue(
+        item,
+        "platinum",
+        "platinumName"
+      );
 
-        try {
+    }
 
-          await signOut(auth);
 
-        } catch (error) {
+    function getPlatinumEmail(item) {
 
-          console.error(error);
+      return getValue(
+        item,
+        "platinumEmail"
+      );
 
-          showMessage(
-            "登出失敗。",
-            "error"
-          );
+    }
 
-        }
+
+    function hasShirt(item) {
+
+      return normalizeText(
+        getShirtSize(item)
+      ) !== "";
+
+    }
+
+
+    function getParticipationClass(value) {
+
+      const text =
+        normalizeText(value);
+
+      if (
+        text.includes("羽球") ||
+        text.includes("badminton")
+      ) {
+
+        return "badge-green";
 
       }
-    );
+
+      if (text.includes("pickle")) {
+
+        return "badge-orange";
+
+      }
+
+      if (
+        text.includes("觀眾") ||
+        text.includes("spectator")
+      ) {
+
+        return "badge-gray";
+
+      }
+
+      return "badge-blue";
+
+    }
 
 
-    /* =========================
-       AUTH STATE
-       修正登出後無法回登入頁問題
-    ========================= */
+    function getMealClass(value) {
 
-    onAuthStateChanged(
-      auth,
-      async user => {
+      const text =
+        normalizeText(value);
 
-        if (!user) {
+      if (text.includes("素")) {
 
-          loginPanel.classList.add(
-            "active"
-          );
+        return "badge-green";
 
-          dashboard.classList.remove(
-            "active"
-          );
+      }
 
-          logoutBtn.style.display =
-            "none";
+      if (text.includes("葷")) {
 
-          refreshBtn.style.display =
-            "none";
+        return "badge-orange";
 
-          return;
+      }
 
-        }
+      return "badge-gray";
 
+    }
+
+
+    function updateStatistics() {
+
+      const meat =
+        registrations.filter(item =>
+          normalizeText(
+            getMeal(item)
+          ).includes("葷")
+        ).length;
+
+
+      const vegetarian =
+        registrations.filter(item =>
+          normalizeText(
+            getMeal(item)
+          ).includes("素")
+        ).length;
+
+
+      const badminton =
+        registrations.filter(item =>
+          normalizeText(
+            getParticipation(item)
+          ).includes("羽球") ||
+          normalizeText(
+            getParticipation(item)
+          ).includes("badminton")
+        ).length;
+
+
+      const pickleball =
+        registrations.filter(item =>
+          normalizeText(
+            getParticipation(item)
+          ).includes("pickle")
+        ).length;
+
+
+      const audience =
+        registrations.filter(item =>
+          normalizeText(
+            getParticipation(item)
+          ).includes("觀眾") ||
+          normalizeText(
+            getParticipation(item)
+          ).includes("spectator")
+        ).length;
+
+
+      const attendanceShirts =
+        registrations.filter(hasShirt).length;
+
+
+      const totalShirts =
+        attendanceShirts +
+        shirtOrders.length;
+
+
+      document.getElementById(
+        "totalRegistrations"
+      ).textContent =
+        registrations.length;
+
+
+      document.getElementById(
+        "totalShirtOrders"
+      ).textContent =
+        shirtOrders.length;
+
+
+      document.getElementById(
+        "totalShirts"
+      ).textContent =
+        totalShirts;
+
+
+      document.getElementById(
+        "totalMeat"
+      ).textContent =
+        meat;
+
+
+      document.getElementById(
+        "totalVegetarian"
+      ).textContent =
+        vegetarian;
+
+
+      document.getElementById(
+        "totalBadminton"
+      ).textContent =
+        badminton;
+
+
+      document.getElementById(
+        "totalPickleball"
+      ).textContent =
+        pickleball;
+
+
+      document.getElementById(
+        "totalAudience"
+      ).textContent =
+        audience;
+
+
+      updateShirtSizeSummary();
+
+    }
+
+
+    function updateShirtSizeSummary() {
+
+      const sizes = {
+        XS: 0,
+        S: 0,
+        M: 0,
+        L: 0,
+        XL: 0,
+        XXL: 0,
+        XXXL: 0
+      };
+
+
+      registrations.forEach(item => {
+
+        const size =
+          String(
+            getShirtSize(item)
+          )
+          .toUpperCase()
+          .trim();
 
         if (
-          user.email !==
-          ADMIN_EMAIL
+          sizes[size] !== undefined
         ) {
 
-          await signOut(auth);
-
-          loginPanel.classList.add(
-            "active"
-          );
-
-          dashboard.classList.remove(
-            "active"
-          );
-
-          logoutBtn.style.display =
-            "none";
-
-          refreshBtn.style.display =
-            "none";
-
-          showMessage(
-            "這個 Google 帳號不是指定管理員帳號。",
-            "error"
-          );
-
-          return;
+          sizes[size]++;
 
         }
 
-
-        loginPanel.classList.remove(
-          "active"
-        );
-
-        dashboard.classList.add(
-          "active"
-        );
-
-        logoutBtn.style.display =
-          "inline-block";
-
-        refreshBtn.style.display =
-          "inline-block";
+      });
 
 
-        await loadData();
+      shirtOrders.forEach(item => {
 
-      }
-    );
+        const size =
+          String(
+            getShirtSize(item)
+          )
+          .toUpperCase()
+          .trim();
+
+        if (
+          sizes[size] !== undefined
+        ) {
+
+          sizes[size]++;
+
+        }
+
+      });
 
 
-    /* =========================
-       LOAD DATA
-    ========================= */
+      Object.entries(sizes)
+        .forEach(([size, count]) => {
+
+          document.getElementById(
+            `size${size}`
+          ).textContent =
+            count;
+
+        });
+
+    }
+
 
     async function loadData() {
 
+      showMessage(
+        "正在載入資料...",
+        "info"
+      );
+
+
       try {
 
-        showMessage(
-          "正在更新資料..."
-        );
+        const [
+          registrationSnapshot,
+          shirtSnapshot
+        ] = await Promise.all([
 
-
-        const registrationSnapshot =
-          await getDocs(
+          getDocs(
             collection(
               db,
               "registrations"
             )
-          );
+          ),
+
+          getDocs(
+            collection(
+              db,
+              "shirtOrders"
+            )
+          )
+
+        ]);
 
 
         registrations =
@@ -1521,15 +1550,6 @@
               id: item.id,
               ...item.data()
             })
-          );
-
-
-        const shirtSnapshot =
-          await getDocs(
-            collection(
-              db,
-              "shirtOrders"
-            )
           );
 
 
@@ -1542,26 +1562,55 @@
           );
 
 
-        updateStats();
+        registrations.sort((a, b) => {
+
+          const aTime =
+            a.createdAt?.seconds || 0;
+
+          const bTime =
+            b.createdAt?.seconds || 0;
+
+          return bTime - aTime;
+
+        });
+
+
+        shirtOrders.sort((a, b) => {
+
+          const aTime =
+            a.createdAt?.seconds || 0;
+
+          const bTime =
+            b.createdAt?.seconds || 0;
+
+          return bTime - aTime;
+
+        });
+
+
+        updateStatistics();
 
         renderAttendance();
 
-        renderShirts();
-
-        updateSizeSummary();
+        renderShirtOrders();
 
 
         showMessage(
-          "資料更新完成。"
+          "資料已更新完成。",
+          "success"
         );
+
 
       } catch (error) {
 
         console.error(error);
 
         showMessage(
-          "讀取資料失敗：" +
-          error.message,
+          "資料載入失敗：" +
+          (
+            error.message ||
+            "請檢查 Firebase Rules"
+          ),
           "error"
         );
 
@@ -1570,304 +1619,273 @@
     }
 
 
-    refreshBtn.addEventListener(
-      "click",
-      loadData
-    );
-
-
-    /* =========================
-       STATS
-    ========================= */
-
-    function updateStats() {
-
-      const attendance =
-        registrations.length;
-
-      const shirtCount =
-        registrations.filter(
-          item =>
-            getShirtSize(item)
-        ).length +
-        shirtOrders.length;
-
-
-      let meat = 0;
-      let vegetarian = 0;
-      let badminton = 0;
-      let pickleball = 0;
-      let audience = 0;
-
-
-      registrations.forEach(
-        item => {
-
-          const meal =
-            normalize(
-              getMeal(item)
-            );
-
-          const participation =
-            normalize(
-              getParticipation(item)
-            );
-
-
-          if (
-            meal.includes("肉") ||
-            meal.includes("meat")
-          ) {
-
-            meat++;
-
-          }
-
-
-          if (
-            meal.includes("素") ||
-            meal.includes("vegetarian")
-          ) {
-
-            vegetarian++;
-
-          }
-
-
-          if (
-            participation.includes("羽") ||
-            participation.includes("badminton")
-          ) {
-
-            badminton++;
-
-          }
-
-
-          if (
-            participation.includes("pickle") ||
-            participation.includes("匹克")
-          ) {
-
-            pickleball++;
-
-          }
-
-
-          if (
-            participation.includes("觀眾") ||
-            participation.includes("audience")
-          ) {
-
-            audience++;
-
-          }
-
-        }
-      );
-
-
-      document.getElementById(
-        "statAttendance"
-      ).textContent =
-        attendance;
-
-
-      document.getElementById(
-        "statShirtOrders"
-      ).textContent =
-        shirtOrders.length;
-
-
-      document.getElementById(
-        "statShirts"
-      ).textContent =
-        shirtCount;
-
-
-      document.getElementById(
-        "statMeat"
-      ).textContent =
-        meat;
-
-
-      document.getElementById(
-        "statVegetarian"
-      ).textContent =
-        vegetarian;
-
-
-      document.getElementById(
-        "statSports"
-      ).textContent =
-        badminton +
-        " / " +
-        pickleball;
-
-    }
-
-
-    /* =========================
-       ATTENDANCE FILTER
-    ========================= */
-
     function getFilteredRegistrations() {
 
-      const keyword =
-        normalize(
+      const search =
+        normalizeText(
           attendanceSearch.value
         );
 
+      const platinumKeyword =
+        normalizeText(
+          platinumSearch.value
+        );
+
       const meal =
-        normalize(
+        normalizeText(
           mealFilter.value
         );
 
       const participation =
-        normalize(
+        normalizeText(
           participationFilter.value
         );
 
-      const shirtSize =
-        normalize(
-          shirtSizeFilter.value
-        );
-
-      const platinumKeyword =
-        normalize(
-          platinumSearch.value
+      const size =
+        normalizeText(
+          sizeFilter.value
         );
 
 
-      return registrations.filter(
-        item => {
+      return registrations.filter(item => {
 
-          const searchText = [
+        const searchable = [
 
-            getChineseName(item),
+          getChineseName(item),
 
-            getEnglishName(item),
+          getEnglishName(item),
 
-            item.email,
+          getValue(
+            item,
+            "email"
+          ),
 
-            getPhone(item),
+          getValue(
+            item,
+            "phone"
+          ),
 
-            item.icNumber,
+          getValue(
+            item,
+            "icNumber"
+          ),
 
-            item.partnerGroup,
+          getValue(
+            item,
+            "partnerGroup"
+          ),
 
-            item.partner,
+          getValue(
+            item,
+            "partner"
+          ),
 
-            getPlatinum(item),
+          getPlatinumName(item),
 
-            getPlatinumEmail(item),
+          getPlatinumEmail(item),
 
-            getShirtBack(item)
+          getShirtBack(item)
 
-          ]
-            .join(" ")
-            .toLowerCase();
-
-
-          const mealText =
-            normalize(
-              getMeal(item)
-            );
-
-
-          const participationText =
-            normalize(
-              getParticipation(item)
-            );
-
-
-          const shirtText =
-            normalize(
-              getShirtSize(item)
-            );
+        ]
+          .join(" ")
+          .toLowerCase();
 
 
-          const platinumText =
-            getPlatinumSearchText(item);
+        const platinumSearchText = [
+
+          getPlatinumName(item),
+
+          getPlatinumEmail(item)
+
+        ]
+          .join(" ")
+          .toLowerCase();
 
 
-          const matchesKeyword =
-            !keyword ||
-            searchText.includes(
-              keyword
-            );
-
-
-          const matchesMeal =
-            !meal ||
-            mealText.includes(meal) ||
-            (
-              meal === "meat" &&
-              mealText.includes("肉")
-            ) ||
-            (
-              meal === "vegetarian" &&
-              mealText.includes("素")
-            );
-
-
-          const matchesParticipation =
-            !participation ||
-            participationText.includes(
-              participation
-            );
-
-
-          const matchesShirt =
-            !shirtSize ||
-            shirtText === shirtSize;
-
-
-          const matchesPlatinum =
-            !platinumKeyword ||
-            platinumText.includes(
-              platinumKeyword
-            );
-
-
-          return (
-            matchesKeyword &&
-            matchesMeal &&
-            matchesParticipation &&
-            matchesShirt &&
-            matchesPlatinum
+        const itemMeal =
+          normalizeText(
+            getMeal(item)
           );
 
-        }
-      );
+
+        const itemParticipation =
+          normalizeText(
+            getParticipation(item)
+          );
+
+
+        const itemSize =
+          normalizeText(
+            getShirtSize(item)
+          );
+
+
+        const matchesSearch =
+          !search ||
+          searchable.includes(search);
+
+
+        const matchesPlatinum =
+          !platinumKeyword ||
+          platinumSearchText.includes(
+            platinumKeyword
+          );
+
+
+        const matchesMeal =
+          !meal ||
+          itemMeal.includes(meal);
+
+
+        const matchesParticipation =
+          !participation ||
+          itemParticipation.includes(
+            participation
+          ) ||
+          (
+            participation === "pickleball" &&
+            itemParticipation.includes(
+              "pickle"
+            )
+          );
+
+
+        const matchesSize =
+          !size ||
+          (
+            size === "未填寫" &&
+            !itemSize
+          ) ||
+          itemSize === size;
+
+
+        return (
+          matchesSearch &&
+          matchesPlatinum &&
+          matchesMeal &&
+          matchesParticipation &&
+          matchesSize
+        );
+
+      });
 
     }
 
 
-    /* =========================
-       RENDER ATTENDANCE
-    ========================= */
+    function getFilteredShirtOrders() {
+
+      const search =
+        normalizeText(
+          shirtSearch.value
+        );
+
+      const platinumKeyword =
+        normalizeText(
+          shirtPlatinumSearch.value
+        );
+
+      const size =
+        normalizeText(
+          shirtSizeFilter.value
+        );
+
+
+      return shirtOrders.filter(item => {
+
+        const searchable = [
+
+          getChineseName(item),
+
+          getValue(
+            item,
+            "googleName"
+          ),
+
+          getValue(
+            item,
+            "email"
+          ),
+
+          getValue(
+            item,
+            "phone"
+          ),
+
+          getShirtSize(item),
+
+          getShirtBack(item),
+
+          getPlatinumName(item),
+
+          getPlatinumEmail(item)
+
+        ]
+          .join(" ")
+          .toLowerCase();
+
+
+        const platinumSearchText = [
+
+          getPlatinumName(item),
+
+          getPlatinumEmail(item)
+
+        ]
+          .join(" ")
+          .toLowerCase();
+
+
+        const itemSize =
+          normalizeText(
+            getShirtSize(item)
+          );
+
+
+        return (
+
+          (!search ||
+            searchable.includes(search))
+
+          &&
+
+          (!platinumKeyword ||
+            platinumSearchText.includes(
+              platinumKeyword
+            ))
+
+          &&
+
+          (!size ||
+            itemSize === size)
+
+        );
+
+      });
+
+    }
+
 
     function renderAttendance() {
+
+      const tbody =
+        document.getElementById(
+          "attendanceTableBody"
+        );
+
 
       const list =
         getFilteredRegistrations();
 
 
-      document.getElementById(
-        "attendanceCount"
-      ).textContent =
-        `${list.length} 筆資料`;
+      if (list.length === 0) {
 
-
-      if (!list.length) {
-
-        attendanceTable.innerHTML = `
+        tbody.innerHTML = `
           <tr>
-            <td colspan="14">
-              <div class="empty">
-                沒有符合條件的資料
-              </div>
+            <td
+              colspan="15"
+              class="empty"
+            >
+              目前沒有符合條件的報名資料。
             </td>
           </tr>
         `;
@@ -1877,217 +1895,620 @@
       }
 
 
-      attendanceTable.innerHTML =
+      tbody.innerHTML =
         list.map(
-          item => `
+          (item, index) => {
 
-          <tr data-id="${escapeHtml(item.id)}">
+            const meal =
+              getMeal(item);
 
-            <td>
-              <input
-                class="table-input"
-                data-field="chineseName"
-                value="${escapeHtml(
-                  getChineseName(item)
-                )}"
-              >
-            </td>
+            const participation =
+              getParticipation(item);
 
+            const size =
+              getShirtSize(item);
 
-            <td>
-              <input
-                class="table-input"
-                data-field="icName"
-                value="${escapeHtml(
-                  getEnglishName(item)
-                )}"
-              >
-            </td>
+            const chineseName =
+              getChineseName(item);
+
+            const email =
+              getValue(
+                item,
+                "email"
+              );
 
 
-            <td>
-              ${escapeHtml(
-                item.email
-              )}
-            </td>
+            return `
+
+              <tr data-id="${escapeHtml(item.id)}">
+
+                <td>
+                  ${index + 1}
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="phone"
-                value="${escapeHtml(
-                  getPhone(item)
-                )}"
-              >
-            </td>
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="chineseName"
+                    value="${escapeHtml(chineseName)}"
+                  />
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="icNumber"
-                value="${escapeHtml(
-                  item.icNumber
-                )}"
-              >
-            </td>
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="email"
+                    value="${escapeHtml(email)}"
+                  />
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="meal"
-                value="${escapeHtml(
-                  getMeal(item)
-                )}"
-              >
-            </td>
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="icName"
+                    value="${escapeHtml(
+                      getEnglishName(item)
+                    )}"
+                  />
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="participation"
-                value="${escapeHtml(
-                  getParticipation(item)
-                )}"
-              >
-            </td>
+                <td>
+
+                  <input
+                    class="editable editable-small"
+                    data-field="icNumber"
+                    value="${escapeHtml(
+                      getValue(
+                        item,
+                        "icNumber"
+                      )
+                    )}"
+                  />
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="partnerGroup"
-                value="${escapeHtml(
-                  item.partnerGroup
-                )}"
-              >
-            </td>
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="phone"
+                    value="${escapeHtml(
+                      getValue(
+                        item,
+                        "phone"
+                      )
+                    )}"
+                  />
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="partner"
-                value="${escapeHtml(
-                  item.partner
-                )}"
-              >
-            </td>
+                <td>
+
+                  <select
+                    class="editable"
+                    data-field="meal"
+                  >
+
+                    <option
+                      value=""
+                      ${meal === "" ? "selected" : ""}
+                    >
+                      未填寫
+                    </option>
+
+                    <option
+                      value="葷"
+                      ${meal === "葷" ? "selected" : ""}
+                    >
+                      葷
+                    </option>
+
+                    <option
+                      value="素"
+                      ${meal === "素" ? "selected" : ""}
+                    >
+                      素
+                    </option>
+
+                  </select>
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="platinum"
-                value="${escapeHtml(
-                  getPlatinum(item)
-                )}"
-              >
-            </td>
+                <td>
+
+                  <select
+                    class="editable"
+                    data-field="shirtSize"
+                  >
+
+                    <option
+                      value=""
+                      ${size === "" ? "selected" : ""}
+                    >
+                      未填寫
+                    </option>
+
+                    ${
+                      [
+                        "XS",
+                        "S",
+                        "M",
+                        "L",
+                        "XL",
+                        "XXL",
+                        "XXXL"
+                      ]
+                      .map(option => `
+
+                        <option
+                          value="${option}"
+                          ${
+                            String(size)
+                              .toUpperCase() === option
+                              ? "selected"
+                              : ""
+                          }
+                        >
+                          ${option}
+                        </option>
+
+                      `)
+                      .join("")
+                    }
+
+                  </select>
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="platinumEmail"
-                value="${escapeHtml(
-                  getPlatinumEmail(item)
-                )}"
-              >
-            </td>
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="shirtBack"
+                    value="${escapeHtml(
+                      getShirtBack(item)
+                    )}"
+                  />
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="shirtSize"
-                value="${escapeHtml(
-                  getShirtSize(item)
-                )}"
-              >
-            </td>
+                <td>
+
+                  <select
+                    class="editable"
+                    data-field="participation"
+                  >
+
+                    <option
+                      value=""
+                      ${
+                        participation === ""
+                          ? "selected"
+                          : ""
+                      }
+                    >
+                      未填寫
+                    </option>
+
+                    <option
+                      value="羽球"
+                      ${
+                        participation === "羽球"
+                          ? "selected"
+                          : ""
+                      }
+                    >
+                      羽球
+                    </option>
+
+                    <option
+                      value="Pickleball"
+                      ${
+                        normalizeText(
+                          participation
+                        ).includes("pickle")
+                          ? "selected"
+                          : ""
+                      }
+                    >
+                      Pickleball
+                    </option>
+
+                    <option
+                      value="觀眾"
+                      ${
+                        participation === "觀眾"
+                          ? "selected"
+                          : ""
+                      }
+                    >
+                      觀眾
+                    </option>
+
+                  </select>
+
+                </td>
 
 
-            <td>
-              <input
-                class="table-input"
-                data-field="shirtText"
-                value="${escapeHtml(
-                  getShirtBack(item)
-                )}"
-              >
-            </td>
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="partnerGroup"
+                    value="${escapeHtml(
+                      getValue(
+                        item,
+                        "partnerGroup"
+                      )
+                    )}"
+                  />
+
+                </td>
 
 
-            <td>
+                <td>
 
-              <div class="action-buttons">
+                  <input
+                    class="editable"
+                    data-field="partner"
+                    value="${escapeHtml(
+                      getValue(
+                        item,
+                        "partner"
+                      )
+                    )}"
+                  />
 
-                <button
-                  class="save-btn"
-                  data-action="save-registration"
-                  data-id="${escapeHtml(item.id)}"
-                >
-                  💾 儲存
-                </button>
+                </td>
 
 
-                <button
-                  class="delete-btn"
-                  data-action="delete-registration"
-                  data-id="${escapeHtml(item.id)}"
-                >
-                  🗑️ 刪除
-                </button>
+                <td>
 
-              </div>
+                  <input
+                    class="editable"
+                    data-field="platinum"
+                    value="${escapeHtml(
+                      getPlatinumName(item)
+                    )}"
+                  />
 
-            </td>
+                </td>
 
-          </tr>
 
-        `
+                <td>
+                  ${escapeHtml(
+                    getTimestampText(
+                      item.createdAt
+                    )
+                  )}
+                </td>
+
+
+                <td>
+
+                  <div class="save-row">
+
+                    <button
+                      class="save-btn"
+                      data-action="save-registration"
+                      data-id="${escapeHtml(item.id)}"
+                    >
+                      儲存
+                    </button>
+
+                    <button
+                      class="reset-btn"
+                      data-action="reset-registration"
+                      data-id="${escapeHtml(item.id)}"
+                    >
+                      還原
+                    </button>
+
+                    <button
+                      class="delete-btn"
+                      data-action="delete-registration"
+                      data-id="${escapeHtml(item.id)}"
+                    >
+                      🗑 刪除
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            `;
+
+          }
         ).join("");
 
     }
 
 
-    /* =========================
-       SAVE REGISTRATION
-    ========================= */
+    function renderShirtOrders() {
+
+      const tbody =
+        document.getElementById(
+          "shirtsTableBody"
+        );
+
+
+      const list =
+        getFilteredShirtOrders();
+
+
+      if (list.length === 0) {
+
+        tbody.innerHTML = `
+
+          <tr>
+
+            <td
+              colspan="10"
+              class="empty"
+            >
+              目前沒有符合條件的衣服訂單。
+            </td>
+
+          </tr>
+
+        `;
+
+        return;
+
+      }
+
+
+      tbody.innerHTML =
+        list.map(
+          (item, index) => {
+
+            const size =
+              getShirtSize(item);
+
+
+            return `
+
+              <tr data-id="${escapeHtml(item.id)}">
+
+                <td>
+                  ${index + 1}
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="chineseName"
+                    value="${escapeHtml(
+                      getChineseName(item)
+                    )}"
+                  />
+
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="googleName"
+                    value="${escapeHtml(
+                      getValue(
+                        item,
+                        "googleName"
+                      )
+                    )}"
+                  />
+
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="email"
+                    value="${escapeHtml(
+                      getValue(
+                        item,
+                        "email"
+                      )
+                    )}"
+                  />
+
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="phone"
+                    value="${escapeHtml(
+                      getValue(
+                        item,
+                        "phone"
+                      )
+                    )}"
+                  />
+
+                </td>
+
+
+                <td>
+
+                  <select
+                    class="editable"
+                    data-field="shirtSize"
+                  >
+
+                    ${
+                      [
+                        "XS",
+                        "S",
+                        "M",
+                        "L",
+                        "XL",
+                        "XXL",
+                        "XXXL"
+                      ]
+                      .map(option => `
+
+                        <option
+                          value="${option}"
+                          ${
+                            String(size)
+                              .toUpperCase() === option
+                              ? "selected"
+                              : ""
+                          }
+                        >
+                          ${option}
+                        </option>
+
+                      `)
+                      .join("")
+                    }
+
+                  </select>
+
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="shirtBack"
+                    value="${escapeHtml(
+                      getShirtBack(item)
+                    )}"
+                  />
+
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="editable"
+                    data-field="platinum"
+                    value="${escapeHtml(
+                      getPlatinumName(item)
+                    )}"
+                  />
+
+                </td>
+
+
+                <td>
+                  ${escapeHtml(
+                    getTimestampText(
+                      item.createdAt
+                    )
+                  )}
+                </td>
+
+
+                <td>
+
+                  <div class="save-row">
+
+                    <button
+                      class="save-btn"
+                      data-action="save-shirt"
+                      data-id="${escapeHtml(item.id)}"
+                    >
+                      儲存
+                    </button>
+
+                    <button
+                      class="reset-btn"
+                      data-action="reset-shirt"
+                      data-id="${escapeHtml(item.id)}"
+                    >
+                      還原
+                    </button>
+
+                    <button
+                      class="delete-btn"
+                      data-action="delete-shirt"
+                      data-id="${escapeHtml(item.id)}"
+                    >
+                      🗑 刪除
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            `;
+
+          }
+        ).join("");
+
+    }
+
 
     async function saveRegistration(
       id,
-      button
+      row
     ) {
 
+      const item =
+        registrations.find(
+          record => record.id === id
+        );
+
+
+      if (!item) {
+
+        showMessage(
+          "找不到這筆報名資料。",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const data = {};
+
+
+      row
+        .querySelectorAll(
+          "[data-field]"
+        )
+        .forEach(input => {
+
+          data[input.dataset.field] =
+            input.value.trim();
+
+        });
+
+
       try {
-
-        const row =
-          button.closest("tr");
-
-
-        const data = {};
-
-
-        row
-          .querySelectorAll(
-            "[data-field]"
-          )
-          .forEach(
-            input => {
-
-              data[
-                input.dataset.field
-              ] =
-                input.value.trim();
-
-            }
-          );
-
 
         await updateDoc(
           doc(
@@ -2099,41 +2520,33 @@
         );
 
 
-        const index =
-          registrations.findIndex(
-            item =>
-              item.id === id
-          );
+        Object.assign(
+          item,
+          data
+        );
 
 
-        if (index !== -1) {
-
-          registrations[index] = {
-            ...registrations[index],
-            ...data
-          };
-
-        }
-
-
-        updateStats();
+        updateStatistics();
 
         renderAttendance();
 
-        updateSizeSummary();
-
 
         showMessage(
-          "出席資料已更新。"
+          "出席報名資料已成功儲存。",
+          "success"
         );
+
 
       } catch (error) {
 
         console.error(error);
 
         showMessage(
-          "更新失敗：" +
-          error.message,
+          "儲存失敗：" +
+          (
+            error.message ||
+            "請檢查 Firebase Rules"
+          ),
           "error"
         );
 
@@ -2142,29 +2555,152 @@
     }
 
 
-    /* =========================
-       DELETE REGISTRATION
-    ========================= */
-
-    async function deleteRegistration(
-      id
+    async function saveShirtOrder(
+      id,
+      row
     ) {
 
       const item =
-        registrations.find(
-          x => x.id === id
+        shirtOrders.find(
+          record => record.id === id
         );
+
+
+      if (!item) {
+
+        showMessage(
+          "找不到這筆衣服訂單。",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      const data = {};
+
+
+      row
+        .querySelectorAll(
+          "[data-field]"
+        )
+        .forEach(input => {
+
+          data[input.dataset.field] =
+            input.value.trim();
+
+        });
+
+
+      try {
+
+        await updateDoc(
+          doc(
+            db,
+            "shirtOrders",
+            id
+          ),
+          data
+        );
+
+
+        Object.assign(
+          item,
+          data
+        );
+
+
+        updateStatistics();
+
+        renderShirtOrders();
+
+
+        showMessage(
+          "衣服訂單已成功儲存。",
+          "success"
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          "儲存失敗：" +
+          (
+            error.message ||
+            "請檢查 Firebase Rules"
+          ),
+          "error"
+        );
+
+      }
+
+    }
+
+
+    /* =====================================
+       出席報名刪除
+       ===================================== */
+
+    async function deleteRegistration(id) {
+
+      const item =
+        registrations.find(
+          record => record.id === id
+        );
+
+
+      if (!item) {
+
+        showMessage(
+          "找不到這筆報名資料。",
+          "error"
+        );
+
+        return;
+
+      }
 
 
       const name =
         getChineseName(item) ||
-        item?.email ||
-        "這筆報名";
+        getEnglishName(item) ||
+        "未填寫姓名";
 
+
+      const email =
+        getValue(
+          item,
+          "email"
+        ) ||
+        "未填寫 Email";
+
+
+      /*
+       * 第一次確認
+       */
 
       const firstConfirm =
         window.confirm(
-          `確定要刪除「${name}」的出席報名嗎？`
+
+          "⚠️ 第一次確認\n\n" +
+
+          "你即將刪除以下「出席報名」資料：\n\n" +
+
+          "姓名：" +
+          name +
+          "\n" +
+
+          "Email：" +
+          email +
+          "\n\n" +
+
+          "刪除後將無法從此後台復原。\n\n" +
+
+          "確定要繼續嗎？"
+
         );
 
 
@@ -2175,11 +2711,26 @@
       }
 
 
+      /*
+       * 第二次確認
+       */
+
       const secondConfirm =
         window.confirm(
-          `⚠️ 第二次確認\n\n` +
-          `刪除後資料將無法從後台恢復。\n\n` +
-          `真的要刪除「${name}」嗎？`
+
+          "🚨 第二次確認\n\n" +
+
+          "請再次確認你真的要永久刪除：\n\n" +
+
+          name +
+          "\n" +
+          email +
+          "\n\n" +
+
+          "這個操作無法復原！\n\n" +
+
+          "按「確定」才會真正刪除。"
+
         );
 
 
@@ -2203,30 +2754,36 @@
 
         registrations =
           registrations.filter(
-            item =>
-              item.id !== id
+            record =>
+              record.id !== id
           );
 
 
-        updateStats();
+        updateStatistics();
 
         renderAttendance();
 
-        updateSizeSummary();
-
 
         showMessage(
-          "報名資料已刪除。"
+          "出席報名資料已成功刪除。",
+          "success"
         );
+
 
       } catch (error) {
 
         console.error(error);
 
         showMessage(
+
           "刪除失敗：" +
-          error.message,
+          (
+            error.message ||
+            "請檢查 Firebase Rules 是否允許刪除"
+          ),
+
           "error"
+
         );
 
       }
@@ -2234,353 +2791,66 @@
     }
 
 
-    /* =========================
-       SHIRT FILTER
-    ========================= */
+    /* =====================================
+       衣服訂單刪除
+       ===================================== */
 
-    function getFilteredShirtOrders() {
+    async function deleteShirtOrder(id) {
 
-      const keyword =
-        normalize(
-          shirtSearch.value
-        );
-
-      const shirtSize =
-        normalize(
-          shirtSizeFilter2.value
-        );
-
-      const platinumKeyword =
-        normalize(
-          shirtPlatinumSearch.value
+      const item =
+        shirtOrders.find(
+          record => record.id === id
         );
 
 
-      return shirtOrders.filter(
-        item => {
+      if (!item) {
 
-          const searchText = [
-
-            getChineseName(item),
-
-            item.googleName,
-
-            item.email,
-
-            getPhone(item),
-
-            getShirtSize(item),
-
-            getShirtBack(item),
-
-            getPlatinum(item),
-
-            getPlatinumEmail(item)
-
-          ]
-            .join(" ")
-            .toLowerCase();
-
-
-          const platinumText =
-            getPlatinumSearchText(item);
-
-
-          const matchesKeyword =
-            !keyword ||
-            searchText.includes(
-              keyword
-            );
-
-
-          const matchesSize =
-            !shirtSize ||
-            normalize(
-              getShirtSize(item)
-            ) === shirtSize;
-
-
-          const matchesPlatinum =
-            !platinumKeyword ||
-            platinumText.includes(
-              platinumKeyword
-            );
-
-
-          return (
-            matchesKeyword &&
-            matchesSize &&
-            matchesPlatinum
-          );
-
-        }
-      );
-
-    }
-
-
-    /* =========================
-       RENDER SHIRTS
-    ========================= */
-
-    function renderShirts() {
-
-      const list =
-        getFilteredShirtOrders();
-
-
-      document.getElementById(
-        "shirtCount"
-      ).textContent =
-        `${list.length} 筆資料`;
-
-
-      if (!list.length) {
-
-        shirtTable.innerHTML = `
-          <tr>
-            <td colspan="9">
-              <div class="empty">
-                沒有符合條件的資料
-              </div>
-            </td>
-          </tr>
-        `;
+        showMessage(
+          "找不到這筆衣服訂單。",
+          "error"
+        );
 
         return;
 
       }
 
 
-      shirtTable.innerHTML =
-        list.map(
-          item => `
-
-          <tr data-id="${escapeHtml(item.id)}">
-
-            <td>
-              <input
-                class="table-input"
-                data-field="chineseName"
-                value="${escapeHtml(
-                  getChineseName(item)
-                )}"
-              >
-            </td>
-
-
-            <td>
-              ${escapeHtml(
-                item.googleName
-              )}
-            </td>
-
-
-            <td>
-              ${escapeHtml(
-                item.email
-              )}
-            </td>
-
-
-            <td>
-              <input
-                class="table-input"
-                data-field="phone"
-                value="${escapeHtml(
-                  getPhone(item)
-                )}"
-              >
-            </td>
-
-
-            <td>
-              <input
-                class="table-input"
-                data-field="shirtSize"
-                value="${escapeHtml(
-                  getShirtSize(item)
-                )}"
-              >
-            </td>
-
-
-            <td>
-              <input
-                class="table-input"
-                data-field="shirtBack"
-                value="${escapeHtml(
-                  getShirtBack(item)
-                )}"
-              >
-            </td>
-
-
-            <td>
-              <input
-                class="table-input"
-                data-field="platinum"
-                value="${escapeHtml(
-                  getPlatinum(item)
-                )}"
-              >
-            </td>
-
-
-            <td>
-              <input
-                class="table-input"
-                data-field="platinumEmail"
-                value="${escapeHtml(
-                  getPlatinumEmail(item)
-                )}"
-              >
-            </td>
-
-
-            <td>
-
-              <div class="action-buttons">
-
-                <button
-                  class="save-btn"
-                  data-action="save-shirt"
-                  data-id="${escapeHtml(item.id)}"
-                >
-                  💾 儲存
-                </button>
-
-
-                <button
-                  class="delete-btn"
-                  data-action="delete-shirt"
-                  data-id="${escapeHtml(item.id)}"
-                >
-                  🗑️ 刪除
-                </button>
-
-              </div>
-
-            </td>
-
-          </tr>
-
-        `
-        ).join("");
-
-    }
-
-
-    /* =========================
-       SAVE SHIRT
-    ========================= */
-
-    async function saveShirtOrder(
-      id,
-      button
-    ) {
-
-      try {
-
-        const row =
-          button.closest("tr");
-
-
-        const data = {};
-
-
-        row
-          .querySelectorAll(
-            "[data-field]"
-          )
-          .forEach(
-            input => {
-
-              data[
-                input.dataset.field
-              ] =
-                input.value.trim();
-
-            }
-          );
-
-
-        await updateDoc(
-          doc(
-            db,
-            "shirtOrders",
-            id
-          ),
-          data
-        );
-
-
-        const index =
-          shirtOrders.findIndex(
-            item =>
-              item.id === id
-          );
-
-
-        if (index !== -1) {
-
-          shirtOrders[index] = {
-            ...shirtOrders[index],
-            ...data
-          };
-
-        }
-
-
-        updateStats();
-
-        renderShirts();
-
-        updateSizeSummary();
-
-
-        showMessage(
-          "T-shirt 訂單已更新。"
-        );
-
-      } catch (error) {
-
-        console.error(error);
-
-        showMessage(
-          "更新失敗：" +
-          error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================
-       DELETE SHIRT
-    ========================= */
-
-    async function deleteShirtOrder(
-      id
-    ) {
-
-      const item =
-        shirtOrders.find(
-          x => x.id === id
-        );
-
-
       const name =
         getChineseName(item) ||
-        item?.email ||
-        "這筆 T-shirt 訂單";
+        getValue(
+          item,
+          "googleName"
+        ) ||
+        "未填寫姓名";
+
+
+      const email =
+        getValue(
+          item,
+          "email"
+        ) ||
+        "未填寫 Email";
 
 
       const firstConfirm =
         window.confirm(
-          `確定要刪除「${name}」的 T-shirt 訂單嗎？`
+
+          "⚠️ 第一次確認\n\n" +
+
+          "你即將刪除以下「只買衣服」訂單：\n\n" +
+
+          "姓名：" +
+          name +
+          "\n" +
+
+          "Email：" +
+          email +
+          "\n\n" +
+
+          "刪除後將無法從此後台復原。\n\n" +
+
+          "確定要繼續嗎？"
+
         );
 
 
@@ -2593,9 +2863,20 @@
 
       const secondConfirm =
         window.confirm(
-          `⚠️ 第二次確認\n\n` +
-          `刪除後資料將無法從後台恢復。\n\n` +
-          `真的要刪除「${name}」嗎？`
+
+          "🚨 第二次確認\n\n" +
+
+          "請再次確認你真的要永久刪除：\n\n" +
+
+          name +
+          "\n" +
+          email +
+          "\n\n" +
+
+          "這個操作無法復原！\n\n" +
+
+          "按「確定」才會真正刪除。"
+
         );
 
 
@@ -2619,30 +2900,36 @@
 
         shirtOrders =
           shirtOrders.filter(
-            item =>
-              item.id !== id
+            record =>
+              record.id !== id
           );
 
 
-        updateStats();
+        updateStatistics();
 
-        renderShirts();
-
-        updateSizeSummary();
+        renderShirtOrders();
 
 
         showMessage(
-          "T-shirt 訂單已刪除。"
+          "衣服訂單已成功刪除。",
+          "success"
         );
+
 
       } catch (error) {
 
         console.error(error);
 
         showMessage(
+
           "刪除失敗：" +
-          error.message,
+          (
+            error.message ||
+            "請檢查 Firebase Rules 是否允許刪除"
+          ),
+
           "error"
+
         );
 
       }
@@ -2650,179 +2937,503 @@
     }
 
 
-    /* =========================
-       SIZE SUMMARY
-    ========================= */
+    function resetRegistration(id) {
 
-    function updateSizeSummary() {
-
-      const sizes = [
-        "XS",
-        "S",
-        "M",
-        "L",
-        "XL",
-        "2XL",
-        "3XL"
-      ];
-
-
-      const counts = {};
-
-
-      sizes.forEach(
-        size => {
-          counts[size] = 0;
-        }
-      );
-
-
-      registrations.forEach(
-        item => {
-
-          const size =
-            getShirtSize(item);
-
-
-          if (
-            counts[size] !== undefined
-          ) {
-
-            counts[size]++;
-
-          }
-
-        }
-      );
-
-
-      shirtOrders.forEach(
-        item => {
-
-          const size =
-            getShirtSize(item);
-
-
-          if (
-            counts[size] !== undefined
-          ) {
-
-            counts[size]++;
-
-          }
-
-        }
-      );
-
-
-      const total =
-        Object.values(counts)
-          .reduce(
-            (a, b) => a + b,
-            0
-          );
-
-
-      const summary =
-        document.getElementById(
-          "sizeSummary"
-        );
-
-
-      summary.innerHTML =
-
-        sizes.map(
-          size => `
-
-            <div class="size-item">
-              ${size}：
-              ${counts[size]}
-            </div>
-
-          `
-        ).join("") +
-
-        `
-          <div class="size-item">
-            總數：
-            ${total}
-          </div>
-        `;
+      renderAttendance();
 
     }
 
 
-    /* =========================
-       TABS
-    ========================= */
+    function resetShirtOrder(id) {
+
+      renderShirtOrders();
+
+    }
+
+
+    function switchTab(tab) {
+
+      currentTab = tab;
+
+      const attendanceActive =
+        tab === "attendance";
+
+
+      attendanceTab.classList.toggle(
+        "active",
+        attendanceActive
+      );
+
+
+      shirtsTab.classList.toggle(
+        "active",
+        !attendanceActive
+      );
+
+
+      attendancePanel.style.display =
+        attendanceActive
+          ? "block"
+          : "none";
+
+
+      shirtsPanel.style.display =
+        attendanceActive
+          ? "none"
+          : "block";
+
+    }
+
+
+    function csvEscape(value) {
+
+      return `"${String(
+        value ?? ""
+      ).replaceAll('"', '""')}"`;
+
+    }
+
+
+    function downloadCsv(
+      filename,
+      rows
+    ) {
+
+      const csv =
+        "\uFEFF" +
+
+        rows
+          .map(row =>
+            row
+              .map(csvEscape)
+              .join(",")
+          )
+          .join("\n");
+
+
+      const blob =
+        new Blob(
+          [csv],
+          {
+            type:
+              "text/csv;charset=utf-8;"
+          }
+        );
+
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href = url;
+
+      link.download =
+        filename;
+
+      link.click();
+
+
+      URL.revokeObjectURL(
+        url
+      );
+
+    }
+
+
+    function exportAttendance() {
+
+      const list =
+        getFilteredRegistrations();
+
+
+      const rows = [
+
+        [
+          "中文姓名／匿名",
+          "Google Email",
+          "IC English name",
+          "IC Number",
+          "電話",
+          "飲食",
+          "衣服尺寸",
+          "背面文字",
+          "活動",
+          "Partner Group",
+          "Partner",
+          "Platinum",
+          "Platinum Email",
+          "報名時間"
+        ]
+
+      ];
+
+
+      list.forEach(item => {
+
+        rows.push([
+
+          getChineseName(item),
+
+          getValue(
+            item,
+            "email"
+          ),
+
+          getEnglishName(item),
+
+          getValue(
+            item,
+            "icNumber"
+          ),
+
+          getValue(
+            item,
+            "phone"
+          ),
+
+          getMeal(item),
+
+          getShirtSize(item),
+
+          getShirtBack(item),
+
+          getParticipation(item),
+
+          getValue(
+            item,
+            "partnerGroup"
+          ),
+
+          getValue(
+            item,
+            "partner"
+          ),
+
+          getPlatinumName(item),
+
+          getPlatinumEmail(item),
+
+          getTimestampText(
+            item.createdAt
+          )
+
+        ]);
+
+      });
+
+
+      downloadCsv(
+        "SatayCelup-出席報名.csv",
+        rows
+      );
+
+    }
+
+
+    function exportShirtOrders() {
+
+      const list =
+        getFilteredShirtOrders();
+
+
+      const rows = [
+
+        [
+          "中文姓名／匿名",
+          "Google 名稱",
+          "Google Email",
+          "電話",
+          "衣服尺寸",
+          "背面文字",
+          "Platinum",
+          "Platinum Email",
+          "訂單時間"
+        ]
+
+      ];
+
+
+      list.forEach(item => {
+
+        rows.push([
+
+          getChineseName(item),
+
+          getValue(
+            item,
+            "googleName"
+          ),
+
+          getValue(
+            item,
+            "email"
+          ),
+
+          getValue(
+            item,
+            "phone"
+          ),
+
+          getShirtSize(item),
+
+          getShirtBack(item),
+
+          getPlatinumName(item),
+
+          getPlatinumEmail(item),
+
+          getTimestampText(
+            item.createdAt
+          )
+
+        ]);
+
+      });
+
+
+      downloadCsv(
+        "SatayCelup-只買衣服.csv",
+        rows
+      );
+
+    }
+
+
+    function exportAllShirts() {
+
+      const rows = [
+
+        [
+          "來源",
+          "中文姓名／匿名",
+          "Google 名稱",
+          "Google Email",
+          "電話",
+          "衣服尺寸",
+          "背面文字",
+          "Platinum",
+          "Platinum Email",
+          "時間"
+        ]
+
+      ];
+
+
+      registrations
+        .filter(hasShirt)
+        .forEach(item => {
+
+          rows.push([
+
+            "出席報名",
+
+            getChineseName(item),
+
+            "",
+
+            getValue(
+              item,
+              "email"
+            ),
+
+            getValue(
+              item,
+              "phone"
+            ),
+
+            getShirtSize(item),
+
+            getShirtBack(item),
+
+            getPlatinumName(item),
+
+            getPlatinumEmail(item),
+
+            getTimestampText(
+              item.createdAt
+            )
+
+          ]);
+
+        });
+
+
+      shirtOrders.forEach(item => {
+
+        rows.push([
+
+          "只買衣服",
+
+          getChineseName(item),
+
+          getValue(
+            item,
+            "googleName"
+          ),
+
+          getValue(
+            item,
+            "email"
+          ),
+
+          getValue(
+            item,
+            "phone"
+          ),
+
+          getShirtSize(item),
+
+          getShirtBack(item),
+
+          getPlatinumName(item),
+
+          getPlatinumEmail(item),
+
+          getTimestampText(
+            item.createdAt
+          )
+
+        ]);
+
+      });
+
+
+      const header =
+        rows.shift();
+
+
+      rows.sort((a, b) => {
+
+        return (
+          (sizeOrder[a[5]] || 99) -
+          (sizeOrder[b[5]] || 99)
+        );
+
+      });
+
+
+      downloadCsv(
+
+        "SatayCelup-全部衣服名單.csv",
+
+        [
+          header,
+          ...rows
+        ]
+
+      );
+
+    }
+
+
+    /* =====================================
+       Google 登入
+       ===================================== */
+
+    loginBtn.addEventListener(
+      "click",
+      async () => {
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+          "登入中...";
+
+
+        try {
+
+          const provider =
+            new GoogleAuthProvider();
+
+
+          await signInWithPopup(
+            auth,
+            provider
+          );
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          showMessage(
+
+            "登入失敗：" +
+            (
+              error.message ||
+              "請稍後再試"
+            ),
+
+            "error"
+
+          );
+
+        } finally {
+
+          loginBtn.disabled = false;
+
+          loginBtn.textContent =
+            "使用 Google 登入";
+
+        }
+
+      }
+    );
+
+
+    logoutBtn.addEventListener(
+      "click",
+      async () => {
+
+        await signOut(auth);
+
+      }
+    );
+
+
+    refreshBtn.addEventListener(
+      "click",
+      loadData
+    );
+
 
     attendanceTab.addEventListener(
       "click",
       () => {
 
-        attendanceTab.classList.add(
-          "active"
+        switchTab(
+          "attendance"
         );
-
-        shirtTab.classList.remove(
-          "active"
-        );
-
-        attendanceSection.style.display =
-          "block";
-
-        shirtSection.style.display =
-          "none";
 
       }
     );
 
 
-    shirtTab.addEventListener(
+    shirtsTab.addEventListener(
       "click",
       () => {
 
-        shirtTab.classList.add(
-          "active"
+        switchTab(
+          "shirts"
         );
-
-        attendanceTab.classList.remove(
-          "active"
-        );
-
-        attendanceSection.style.display =
-          "none";
-
-        shirtSection.style.display =
-          "block";
 
       }
     );
 
-
-    /* =========================
-       FILTER EVENTS
-    ========================= */
 
     attendanceSearch.addEventListener(
       "input",
       renderAttendance
     );
 
-    mealFilter.addEventListener(
-      "change",
-      renderAttendance
-    );
-
-    participationFilter.addEventListener(
-      "change",
-      renderAttendance
-    );
-
-    shirtSizeFilter.addEventListener(
-      "change",
-      renderAttendance
-    );
 
     platinumSearch.addEventListener(
       "input",
@@ -2830,63 +3441,75 @@
     );
 
 
-    shirtSearch.addEventListener(
-      "input",
-      renderShirts
+    mealFilter.addEventListener(
+      "change",
+      renderAttendance
     );
 
-    shirtSizeFilter2.addEventListener(
+
+    participationFilter.addEventListener(
       "change",
-      renderShirts
+      renderAttendance
     );
+
+
+    sizeFilter.addEventListener(
+      "change",
+      renderAttendance
+    );
+
+
+    shirtSearch.addEventListener(
+      "input",
+      renderShirtOrders
+    );
+
 
     shirtPlatinumSearch.addEventListener(
       "input",
-      renderShirts
+      renderShirtOrders
+    );
+
+
+    shirtSizeFilter.addEventListener(
+      "change",
+      renderShirtOrders
     );
 
 
     document
       .getElementById(
-        "clearAttendanceBtn"
+        "exportAttendanceBtn"
       )
       .addEventListener(
         "click",
-        () => {
-
-          attendanceSearch.value = "";
-          mealFilter.value = "";
-          participationFilter.value = "";
-          shirtSizeFilter.value = "";
-          platinumSearch.value = "";
-
-          renderAttendance();
-
-        }
+        exportAttendance
       );
 
 
     document
       .getElementById(
-        "clearShirtBtn"
+        "exportShirtOrdersBtn"
       )
       .addEventListener(
         "click",
-        () => {
-
-          shirtSearch.value = "";
-          shirtSizeFilter2.value = "";
-          shirtPlatinumSearch.value = "";
-
-          renderShirts();
-
-        }
+        exportShirtOrders
       );
 
 
-    /* =========================
-       EVENT DELEGATION
-    ========================= */
+    document
+      .getElementById(
+        "exportAllShirtsBtn"
+      )
+      .addEventListener(
+        "click",
+        exportAllShirts
+      );
+
+
+    /* =====================================
+       按鈕事件
+       ===================================== */
 
     document.addEventListener(
       "click",
@@ -2894,22 +3517,23 @@
 
         const button =
           event.target.closest(
-            "button[data-action]"
+            "[data-action]"
           );
 
 
-        if (!button) {
+        if (!button) return;
 
-          return;
 
-        }
+        const id =
+          button.dataset.id;
+
+
+        const row =
+          button.closest("tr");
 
 
         const action =
           button.dataset.action;
-
-        const id =
-          button.dataset.id;
 
 
         if (
@@ -2919,7 +3543,19 @@
 
           saveRegistration(
             id,
-            button
+            row
+          );
+
+        }
+
+
+        if (
+          action ===
+          "reset-registration"
+        ) {
+
+          resetRegistration(
+            id
           );
 
         }
@@ -2944,7 +3580,19 @@
 
           saveShirtOrder(
             id,
-            button
+            row
+          );
+
+        }
+
+
+        if (
+          action ===
+          "reset-shirt"
+        ) {
+
+          resetShirtOrder(
+            id
           );
 
         }
@@ -2965,229 +3613,99 @@
     );
 
 
-    /* =========================
-       CSV
-    ========================= */
+    /* =====================================
+       Firebase 登入狀態
+       ===================================== */
 
-    function csvEscape(value) {
+    onAuthStateChanged(
+      auth,
+      async user => {
 
-      return `"${String(
-        value ?? ""
-      ).replaceAll(
-        '"',
-        '""'
-      )}"`;
-
-    }
+        if (authCheckFinished) {
+          return;
+        }
 
 
-    function downloadCSV(
-      filename,
-      rows
-    ) {
+        authCheckFinished = true;
 
-      if (!rows.length) {
 
-        showMessage(
-          "目前沒有資料可以匯出。",
-          "error"
+        if (!user) {
+
+          loginPanel.classList.add(
+            "active"
+          );
+
+          dashboard.classList.remove(
+            "active"
+          );
+
+
+          logoutBtn.style.display =
+            "none";
+
+
+          refreshBtn.style.display =
+            "none";
+
+
+          return;
+
+        }
+
+
+        if (
+          user.email !==
+          ADMIN_EMAIL
+        ) {
+
+          await signOut(auth);
+
+
+          loginPanel.classList.add(
+            "active"
+          );
+
+          dashboard.classList.remove(
+            "active"
+          );
+
+
+          showMessage(
+
+            "這個 Google 帳號不是指定管理員帳號。",
+
+            "error"
+
+          );
+
+
+          return;
+
+        }
+
+
+        loginPanel.classList.remove(
+          "active"
         );
 
-        return;
+
+        dashboard.classList.add(
+          "active"
+        );
+
+
+        logoutBtn.style.display =
+          "inline-block";
+
+
+        refreshBtn.style.display =
+          "inline-block";
+
+
+        await loadData();
 
       }
-
-
-      const headers =
-        Object.keys(
-          rows[0]
-        );
-
-
-      const csv = [
-
-        headers
-          .map(csvEscape)
-          .join(","),
-
-        ...rows.map(
-          row =>
-            headers
-              .map(
-                header =>
-                  csvEscape(
-                    row[header]
-                  )
-              )
-              .join(",")
-        )
-
-      ].join("\n");
-
-
-      const blob =
-        new Blob(
-          [
-            "\uFEFF" +
-            csv
-          ],
-          {
-            type:
-              "text/csv;charset=utf-8;"
-          }
-        );
-
-
-      const url =
-        URL.createObjectURL(
-          blob
-        );
-
-
-      const a =
-        document.createElement(
-          "a"
-        );
-
-
-      a.href = url;
-
-      a.download =
-        filename;
-
-      a.click();
-
-
-      URL.revokeObjectURL(
-        url
-      );
-
-    }
-
-
-    function exportAllShirts() {
-
-      const sizeOrder = {
-        XS: 1,
-        S: 2,
-        M: 3,
-        L: 4,
-        XL: 5,
-        "2XL": 6,
-        "3XL": 7
-      };
-
-
-      const all = [
-
-        ...registrations
-          .filter(
-            item =>
-              getShirtSize(item)
-          )
-          .map(
-            item => ({
-
-              中文姓名:
-                getChineseName(item),
-
-              英文姓名:
-                getEnglishName(item),
-
-              Email:
-                item.email || "",
-
-              電話:
-                getPhone(item),
-
-              T恤尺寸:
-                getShirtSize(item),
-
-              背面文字:
-                getShirtBack(item),
-
-              Platinum:
-                getPlatinum(item),
-
-              PlatinumEmail:
-                getPlatinumEmail(item),
-
-              來源:
-                "出席報名"
-
-            })
-          ),
-
-
-        ...shirtOrders
-          .map(
-            item => ({
-
-              中文姓名:
-                getChineseName(item),
-
-              英文姓名:
-                item.googleName || "",
-
-              Email:
-                item.email || "",
-
-              電話:
-                getPhone(item),
-
-              T恤尺寸:
-                getShirtSize(item),
-
-              背面文字:
-                getShirtBack(item),
-
-              Platinum:
-                getPlatinum(item),
-
-              PlatinumEmail:
-                getPlatinumEmail(item),
-
-              來源:
-                "T-shirt 訂單"
-
-            })
-          )
-
-      ];
-
-
-      all.sort(
-        (a, b) =>
-          (
-            sizeOrder[
-              a.T恤尺寸
-            ] || 99
-          ) -
-          (
-            sizeOrder[
-              b.T恤尺寸
-            ] || 99
-          )
-      );
-
-
-      downloadCSV(
-        "SatayCelup-Tshirt-orders.csv",
-        all
-      );
-
-    }
-
-
-    document
-      .getElementById(
-        "exportShirtsBtn"
-      )
-      .addEventListener(
-        "click",
-        exportAllShirts
-      );
-
+    );
 
   </script>
 
