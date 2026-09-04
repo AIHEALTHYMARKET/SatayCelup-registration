@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
+
         .form-page {
             width: 100%;
             max-width: 760px;
@@ -67,12 +68,14 @@
         select,
         textarea {
             width: 100%;
-            box-sizing: border-box;
             padding: 13px 14px;
+
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: 12px;
+
             background: rgba(0,0,0,0.25);
             color: white;
+
             font-size: 15px;
             outline: none;
         }
@@ -93,22 +96,19 @@
             border-color: rgba(255,255,255,0.55);
         }
 
-        input:disabled,
-        select:disabled,
-        textarea:disabled {
-            opacity: 0.65;
-            cursor: not-allowed;
-        }
-
         .readonly {
             opacity: 0.7;
         }
 
         .event-notice {
             padding: 18px;
+
             margin-bottom: 25px;
+
             border-radius: 15px;
+
             background: rgba(0,0,0,0.2);
+
             line-height: 1.7;
         }
 
@@ -118,13 +118,18 @@
 
         .submit-btn {
             width: 100%;
+
             padding: 16px;
+
             border: none;
             border-radius: 14px;
+
             background: white;
             color: #17120d;
+
             font-size: 16px;
             font-weight: 700;
+
             cursor: pointer;
         }
 
@@ -137,52 +142,25 @@
             margin-top: 18px;
             text-align: center;
             line-height: 1.6;
-            word-break: break-word;
-        }
-
-        .success-message {
-            color: #9ff0b0;
-        }
-
-        .error-message {
-            color: #ffaaaa;
         }
 
         .logout-btn {
             margin-top: 18px;
+
             background: transparent;
             color: rgba(255,255,255,0.65);
-            border: none;
-            cursor: pointer;
-        }
 
-        .logout-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            border: none;
+
+            cursor: pointer;
         }
 
         .hidden {
             display: none;
         }
 
-        .loading-message {
-            text-align: center;
-            padding: 20px;
-            color: rgba(255,255,255,0.7);
-        }
-
-        .debug-box {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 10px;
-            background: rgba(255,0,0,0.08);
-            font-size: 12px;
-            text-align: left;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-
         @media(max-width:600px) {
+
             .form-card {
                 padding: 20px 16px;
             }
@@ -191,6 +169,7 @@
                 font-size: 30px;
             }
         }
+
     </style>
 </head>
 
@@ -199,6 +178,7 @@
 <main class="form-page">
 
     <header class="form-header">
+
         <div class="badge">
             2026 EVENT
         </div>
@@ -207,340 +187,365 @@
 
         <p>
             活動報名表
-        </p>
+        </p >
+
     </header>
+
 
     <section class="form-card">
 
-        <div id="loadingMessage" class="loading-message">
-            正在確認 Google 登入狀態...
+        <!-- 活動資訊 -->
+
+        <div class="event-notice">
+
+            <div>
+                活動費用：
+                <strong>RM168</strong>
+            </div>
+
+            <div>
+                繳費日期：
+                <strong>05/09/2026 - 25/09/2026</strong>
+            </div>
+
+            <div style="margin-top:8px;">
+                請確認付款後再提交報名資料。
+            </div>
+
         </div>
 
-        <div id="formContainer" class="hidden">
 
-            <div class="event-notice">
-                <div>
-                    活動費用：
-                    <strong>RM168</strong>
+        <form id="registrationForm">
+
+            <!-- 個人資料 -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+                    ① 個人資料
                 </div>
 
-                <div>
-                    繳費日期：
-                    <strong>05/09/2026 - 25/09/2026</strong>
+
+                <div class="form-group">
+
+                    <label>
+                        Google Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        class="readonly"
+                        readonly
+                    >
+
                 </div>
 
-                <div style="margin-top:8px;">
-                    請確認付款後再提交報名資料。
+
+                <div class="form-group">
+
+                    <label>
+                        IC上英文姓名
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="englishName"
+                        placeholder="請按照 IC 上的英文姓名填寫"
+                        required
+                    >
+
                 </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        IC號碼
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="icNumber"
+                        placeholder="請輸入 IC 號碼"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        中文名或匿名
+                    </label>
+
+                    <input
+                        type="text"
+                        id="chineseName"
+                        placeholder="可填中文姓名，也可以填匿名"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        聯絡電話
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="例如：0123456789"
+                        required
+                    >
+
+                </div>
+
             </div>
 
-            <form id="registrationForm">
 
-                <div class="form-section">
+            <!-- 活動資料 -->
 
-                    <div class="form-section-title">
-                        ① 個人資料
-                    </div>
+            <div class="form-section">
 
-                    <div class="form-group">
-                        <label>
-                            Google Email
-                        </label>
+                <div class="form-section-title">
+                    ② 活動資料
+                </div>
 
-                        <input
-                            type="email"
-                            id="email"
-                            class="readonly"
-                            readonly
-                        >
-                    </div>
 
-                    <div class="form-group">
-                        <label>
-                            IC上英文姓名
-                            <span class="required">*</span>
-                        </label>
+                <div class="form-group">
 
-                        <input
-                            type="text"
-                            id="englishName"
-                            placeholder="請按照 IC 上的英文姓名填寫"
-                            required
-                        >
-                    </div>
+                    <label>
+                        膳食
+                        <span class="required">*</span>
+                    </label>
 
-                    <div class="form-group">
-                        <label>
-                            IC號碼
-                            <span class="required">*</span>
-                        </label>
+                    <select id="meal" required>
 
-                        <input
-                            type="text"
-                            id="icNumber"
-                            placeholder="請輸入 IC 號碼"
-                            required
-                        >
-                    </div>
+                        <option value="">
+                            請選擇
+                        </option>
 
-                    <div class="form-group">
-                        <label>
-                            中文名或匿名
-                        </label>
+                        <option value="葷">
+                            葷
+                        </option>
 
-                        <input
-                            type="text"
-                            id="chineseName"
-                            placeholder="可填中文姓名，也可以填匿名"
-                        >
-                    </div>
+                        <option value="素">
+                            素
+                        </option>
 
-                    <div class="form-group">
-                        <label>
-                            聯絡電話
-                            <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="tel"
-                            id="phone"
-                            placeholder="例如：0123456789"
-                            required
-                        >
-                    </div>
+                    </select>
 
                 </div>
 
-                <div class="form-section">
 
-                    <div class="form-section-title">
-                        ② 活動資料
-                    </div>
+                <div class="form-group">
 
-                    <div class="form-group">
-                        <label>
-                            膳食
-                            <span class="required">*</span>
-                        </label>
+                    <label>
+                        衣服尺寸
+                        <span class="required">*</span>
+                    </label>
 
-                        <select id="meal" required>
-                            <option value="">
-                                請選擇
-                            </option>
+                    <select id="shirtSize" required>
 
-                            <option value="葷">
-                                葷
-                            </option>
+                        <option value="">
+                            請選擇
+                        </option>
 
-                            <option value="素">
-                                素
-                            </option>
-                        </select>
-                    </div>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="XXXL">XXXL</option>
 
-                    <div class="form-group">
-                        <label>
-                            衣服尺寸
-                            <span class="required">*</span>
-                        </label>
+                    </select>
 
-                        <select id="shirtSize" required>
-                            <option value="">
-                                請選擇
-                            </option>
+                </div>
 
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                            <option value="XXXL">XXXL</option>
-                        </select>
-                    </div>
 
-                    <div class="form-group">
-                        <label>
-                            衣服背後文字
-                            <span class="required">*</span>
-                        </label>
+                <div class="form-group">
 
-                        <input
-                            type="text"
-                            id="shirtText"
-                            maxlength="30"
-                            placeholder="例如：WYANE"
-                            required
-                        >
-                    </div>
+                    <label>
+                        衣服背後文字
+                        <span class="required">*</span>
+                    </label>
 
-                    <div class="form-group">
-                        <label>
-                            參與方式
-                            <span class="required">*</span>
-                        </label>
-
-                        <select id="participation" required>
-                            <option value="">
-                                請選擇
-                            </option>
-
-                            <option value="羽球">
-                                羽球
-                            </option>
-
-                            <option value="pickleball">
-                                pickleball
-                            </option>
-
-                            <option value="觀眾">
-                                觀眾
-                            </option>
-                        </select>
-                    </div>
-
-                    <div
-                        class="form-group"
-                        id="partnerGroup"
+                    <input
+                        type="text"
+                        id="shirtText"
+                        maxlength="30"
+                        placeholder="例如：WYANE"
+                        required
                     >
-                        <label>
-                            參賽搭檔
-                        </label>
-
-                        <input
-                            type="text"
-                            id="partner"
-                            placeholder="請輸入參賽搭檔姓名"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label>
-                            白金
-                            <span class="required">*</span>
-                        </label>
-
-                        <select id="platinum" required>
-                            <option value="">
-                                請選擇
-                            </option>
-
-                            <option value="Sense&Lavenier">
-                                Sense&Lavenier
-                            </option>
-
-                            <option value="Amos">
-                                Amos
-                            </option>
-
-                            <option value="Sunny">
-                                Sunny
-                            </option>
-
-                            <option value="Robin&Zoey">
-                                Robin&Zoey
-                            </option>
-
-                            <option value="RyanLio">
-                                RyanLio
-                            </option>
-
-                            <option value="Wyane&Momo">
-                                Wyane&Momo
-                            </option>
-
-                            <option value="Jess">
-                                Jess
-                            </option>
-
-                            <option value="Keong&Ngah">
-                                Keong&Ngah
-                            </option>
-
-                            <option value="JayChew">
-                                JayChew
-                            </option>
-
-                            <option value="Lynn">
-                                Lynn
-                            </option>
-
-                            <option value="SzeChew">
-                                SzeChew
-                            </option>
-                        </select>
-                    </div>
 
                 </div>
 
-                <div class="form-section">
 
-                    <div class="form-section-title">
-                        ③ 繳費資料
-                    </div>
+                <div class="form-group">
 
-                    <div class="event-notice">
-                        <div>
-                            <strong>RM168</strong>
-                        </div>
+                    <label>
+                        參與方式
+                        <span class="required">*</span>
+                    </label>
 
-                        <div>
-                            有效繳費日期：
-                            05/09/2026 至 25/09/2026
-                        </div>
-                    </div>
+                    <select id="participation" required>
 
-                    <div class="form-group">
-                        <label>
-                            繳費收據 JPG
-                            <span class="required">*</span>
-                        </label>
+                        <option value="">
+                            請選擇
+                        </option>
 
-                        <input
-                            type="file"
-                            id="receipt"
-                            accept=".jpg,.jpeg,image/jpeg"
-                            required
-                        >
+                        <option value="羽球">
+                            羽球
+                        </option>
 
-                        <small style="display:block;margin-top:8px;color:rgba(255,255,255,0.55);">
-                            目前只記錄收據檔案資料，圖片上傳功能將於下一階段接入。
-                        </small>
-                    </div>
+                        <option value="pickleball">
+                            pickleball
+                        </option>
+
+                        <option value="觀眾">
+                            觀眾
+                        </option>
+
+                    </select>
 
                 </div>
 
-                <button
-                    type="submit"
-                    class="submit-btn"
-                    id="submitBtn"
-                >
-                    提交報名
-                </button>
 
                 <div
-                    id="message"
-                    class="message"
-                    aria-live="polite"
-                ></div>
-
-            </form>
-
-            <div style="text-align:center;">
-                <button
-                    id="logoutBtn"
-                    class="logout-btn"
-                    type="button"
+                    class="form-group"
+                    id="partnerGroup"
                 >
-                    登出 Google 帳號
-                </button>
+
+                    <label>
+                        參賽搭檔
+                    </label>
+
+                    <input
+                        type="text"
+                        id="partner"
+                        placeholder="請輸入參賽搭檔姓名"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        白金
+                        <span class="required">*</span>
+                    </label>
+
+                    <select id="platinum" required>
+
+                        <option value="">
+                            請選擇
+                        </option>
+
+                        <option>Sense&Lavenier</option>
+                        <option>Amos</option>
+                        <option>Sunny</option>
+                        <option>Robin&Zoey</option>
+                        <option>RyanLio</option>
+                        <option>Wyane&Momo</option>
+                        <option>Jess</option>
+                        <option>Keong&Ngah</option>
+                        <option>JayChew</option>
+                        <option>Lynn</option>
+                        <option>SzeChew</option>
+
+                    </select>
+
+                </div>
+
             </div>
+
+
+            <!-- 收據 -->
+
+            <div class="form-section">
+
+                <div class="form-section-title">
+                    ③ 繳費資料
+                </div>
+
+
+                <div class="event-notice">
+
+                    <div>
+                        <strong>RM168</strong>
+                    </div>
+
+                    <div>
+                        有效繳費日期：
+                        05/09/2026 至 25/09/2026
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        繳費收據 JPG
+                        <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="file"
+                        id="receipt"
+                        accept=".jpg,.jpeg,image/jpeg"
+                        required
+                    >
+
+                    <small style="display:block;margin-top:8px;color:rgba(255,255,255,0.55);">
+                        收據功能將在下一階段接入 Firebase Storage。
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="submit-btn"
+                id="submitBtn"
+            >
+                提交報名
+            </button>
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+        </form>
+
+
+        <div style="text-align:center;">
+
+            <button
+                id="logoutBtn"
+                class="logout-btn"
+            >
+                登出 Google 帳號
+            </button>
 
         </div>
 
     </section>
 
 </main>
+
 
 <script type="module">
 
@@ -560,12 +565,6 @@ import {
     db
 } from "./js/firebase-config.js";
 
-
-const loadingMessage =
-    document.getElementById("loadingMessage");
-
-const formContainer =
-    document.getElementById("formContainer");
 
 const emailInput =
     document.getElementById("email");
@@ -596,110 +595,35 @@ const logoutBtn =
 
 
 let currentUser = null;
-let isSubmitting = false;
-let authFinished = false;
 
 
 /*
-    顯示錯誤
+    ============================
+    檢查 Google 登入
+    ============================
 */
 
-function showError(text, error = null) {
+onAuthStateChanged(auth, (user) => {
 
-    console.error(text, error);
+    if (!user) {
 
-    loadingMessage.classList.remove("hidden");
+        window.location.href = "index.html";
 
-    loadingMessage.style.color = "#ffaaaa";
-
-    loadingMessage.innerHTML =
-        text +
-        "<br><br>" +
-        "<small>" +
-        "請重新整理頁面，或重新登入 Google。" +
-        "</small>";
-
-}
-
-
-/*
-    Google 登入狀態檢查
-*/
-
-try {
-
-    onAuthStateChanged(auth, (user) => {
-
-        authFinished = true;
-
-        if (!user) {
-
-            showError(
-                "目前沒有偵測到 Google 登入狀態。"
-            );
-
-            setTimeout(() => {
-
-                window.location.href =
-                    "index.html";
-
-            }, 2500);
-
-            return;
-        }
-
-        currentUser = user;
-
-        emailInput.value =
-            user.email || "";
-
-        loadingMessage.classList.add("hidden");
-
-        formContainer.classList.remove("hidden");
-
-        console.log(
-            "Google 登入成功：",
-            user.email
-        );
-
-    }, (error) => {
-
-        showError(
-            "Google 登入狀態讀取失敗。",
-            error
-        );
-
-    });
-
-} catch (error) {
-
-    showError(
-        "Firebase 初始化失敗。",
-        error
-    );
-
-}
-
-
-/*
-    10 秒逾時保護
-*/
-
-setTimeout(() => {
-
-    if (!authFinished) {
-
-        showError(
-            "Firebase 登入檢查逾時。"
-        );
-
+        return;
     }
 
-}, 10000);
+    currentUser = user;
+
+    emailInput.value =
+        user.email || "";
+
+});
 
 
 /*
-    觀眾不需要搭檔
+    ============================
+    觀眾 / 參賽搭檔
+    ============================
 */
 
 participation.addEventListener(
@@ -723,7 +647,9 @@ participation.addEventListener(
 
 
 /*
-    收據檢查
+    ============================
+    JPG 收據檢查
+    ============================
 */
 
 receipt.addEventListener(
@@ -735,12 +661,10 @@ receipt.addEventListener(
 
         if (!file) return;
 
-        const isJpg =
-            file.type === "image/jpeg" ||
-            file.name.toLowerCase().endsWith(".jpg") ||
-            file.name.toLowerCase().endsWith(".jpeg");
 
-        if (!isJpg) {
+        if (
+            file.type !== "image/jpeg"
+        ) {
 
             alert(
                 "只允許上傳 JPG / JPEG 格式。"
@@ -751,7 +675,12 @@ receipt.addEventListener(
             return;
         }
 
-        if (file.size > 5 * 1024 * 1024) {
+
+        const maxSize =
+            5 * 1024 * 1024;
+
+
+        if (file.size > maxSize) {
 
             alert(
                 "收據圖片不能超過 5MB。"
@@ -766,7 +695,9 @@ receipt.addEventListener(
 
 
 /*
+    ============================
     登出
+    ============================
 */
 
 logoutBtn.addEventListener(
@@ -782,9 +713,10 @@ logoutBtn.addEventListener(
 
         } catch (error) {
 
-            showError(
-                "登出失敗。",
-                error
+            console.error(error);
+
+            alert(
+                "登出失敗，請再試一次。"
             );
 
         }
@@ -794,7 +726,9 @@ logoutBtn.addEventListener(
 
 
 /*
+    ============================
     提交報名
+    ============================
 */
 
 form.addEventListener(
@@ -802,30 +736,29 @@ form.addEventListener(
     async (event) => {
 
         event.preventDefault();
-        event.stopPropagation();
 
-        if (isSubmitting) return;
+
+        /*
+            確認 Google 登入
+        */
 
         if (!currentUser) {
 
-            showError(
-                "尚未完成 Google 登入，請重新登入。"
-            );
+            message.textContent =
+                "登入狀態已失效，請重新登入 Google。";
 
             return;
 
         }
 
-        if (!form.checkValidity()) {
 
-            form.reportValidity();
-
-            return;
-
-        }
+        /*
+            確認收據
+        */
 
         const file =
             receipt.files[0];
+
 
         if (!file) {
 
@@ -836,7 +769,106 @@ form.addEventListener(
 
         }
 
-        isSubmitting = true;
+
+        /*
+            再次確認 JPG
+        */
+
+        if (
+            file.type !== "image/jpeg"
+        ) {
+
+            message.textContent =
+                "收據只允許 JPG / JPEG 格式。";
+
+            return;
+
+        }
+
+
+        /*
+            確認檔案大小
+        */
+
+        const maxSize =
+            5 * 1024 * 1024;
+
+
+        if (file.size > maxSize) {
+
+            message.textContent =
+                "收據圖片不能超過 5MB。";
+
+            return;
+
+        }
+
+
+        /*
+            讀取表單資料
+        */
+
+        const englishName =
+            document.getElementById("englishName").value.trim();
+
+        const icNumber =
+            document.getElementById("icNumber").value.trim();
+
+        const chineseName =
+            document.getElementById("chineseName").value.trim();
+
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        const meal =
+            document.getElementById("meal").value;
+
+        const shirtSize =
+            document.getElementById("shirtSize").value;
+
+        const shirtText =
+            document.getElementById("shirtText").value.trim();
+
+        const participationValue =
+            participation.value;
+
+        const finalPartner =
+            participationValue === "觀眾"
+                ? ""
+                : partnerInput.value.trim();
+
+        const platinum =
+            document.getElementById("platinum").value;
+
+
+        /*
+            ============================
+            基本資料確認
+            ============================
+        */
+
+        if (!englishName ||
+            !icNumber ||
+            !phone ||
+            !meal ||
+            !shirtSize ||
+            !shirtText ||
+            !participationValue ||
+            !platinum) {
+
+            message.textContent =
+                "請確認所有必填資料都已填寫。";
+
+            return;
+
+        }
+
+
+        /*
+            ============================
+            開始提交
+            ============================
+        */
 
         submitBtn.disabled = true;
 
@@ -847,74 +879,120 @@ form.addEventListener(
             "正在儲存報名資料，請稍候...";
 
 
-        const registrationData = {
-
-            email:
-                currentUser.email || "",
-
-            uid:
-                currentUser.uid,
-
-            englishName:
-                document.getElementById("englishName").value.trim(),
-
-            icNumber:
-                document.getElementById("icNumber").value.trim(),
-
-            chineseName:
-                document.getElementById("chineseName").value.trim(),
-
-            phone:
-                document.getElementById("phone").value.trim(),
-
-            meal:
-                document.getElementById("meal").value,
-
-            shirtSize:
-                document.getElementById("shirtSize").value,
-
-            shirtText:
-                document.getElementById("shirtText").value.trim(),
-
-            participation:
-                participation.value,
-
-            partner:
-                participation.value === "觀眾"
-                    ? ""
-                    : partnerInput.value.trim(),
-
-            platinum:
-                document.getElementById("platinum").value,
-
-            receiptFileName:
-                file.name,
-
-            receiptFileType:
-                file.type,
-
-            receiptFileSize:
-                file.size,
-
-            paymentStatus:
-                "待審核",
-
-            paymentAmount:
-                null,
-
-            paymentDate:
-                null,
-
-            createdAt:
-                serverTimestamp(),
-
-            updatedAt:
-                serverTimestamp()
-
-        };
-
-
         try {
+
+
+            /*
+                ============================
+                寫入 Firestore
+                ============================
+            */
+
+            const registrationData = {
+
+                /*
+                    Google 帳號
+                */
+
+                email:
+                    currentUser.email,
+
+                uid:
+                    currentUser.uid,
+
+
+                /*
+                    個人資料
+                */
+
+                englishName:
+                    englishName,
+
+                icNumber:
+                    icNumber,
+
+                chineseName:
+                    chineseName,
+
+                phone:
+                    phone,
+
+
+                /*
+                    活動資料
+                */
+
+                meal:
+                    meal,
+
+                shirtSize:
+                    shirtSize,
+
+                shirtText:
+                    shirtText,
+
+                participation:
+                    participationValue,
+
+                partner:
+                    finalPartner,
+
+
+                /*
+                    白金
+                    第一版保留：
+                    報名者自行選擇
+                */
+
+                platinum:
+                    platinum,
+
+
+                /*
+                    收據基本資料
+                    目前尚未上傳 Storage
+                */
+
+                receiptFileName:
+                    file.name,
+
+                receiptFileType:
+                    file.type,
+
+                receiptFileSize:
+                    file.size,
+
+
+                /*
+                    繳費狀態
+                */
+
+                paymentStatus:
+                    "待審核",
+
+                paymentAmount:
+                    null,
+
+                paymentDate:
+                    null,
+
+
+                /*
+                    時間
+                */
+
+                createdAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+
+            };
+
+
+            /*
+                寫入 registrations
+            */
 
             const docRef =
                 await addDoc(
@@ -922,45 +1000,90 @@ form.addEventListener(
                     registrationData
                 );
 
-            message.style.color =
-                "#9ff0b0";
 
-            message.textContent =
-                "✅ 報名成功！報名編號：" +
-                docRef.id;
+            /*
+                ============================
+                成功
+                ============================
+            */
+
+            message.innerHTML = `
+                <div style="font-size:22px;font-weight:700;">
+                    ✅ 報名成功
+                </div>
+
+                <div style="margin-top:10px;">
+                    您的報名資料已成功提交。
+                </div>
+
+                <div style="margin-top:8px;">
+                    報名編號：
+                    <strong>${docRef.id}</strong>
+                </div>
+
+                <div style="margin-top:10px;">
+                    繳費狀態：待審核
+                </div>
+            `;
+
+
+            /*
+                防止重複提交
+            */
+
+            submitBtn.disabled = true;
 
             submitBtn.textContent =
                 "報名已提交";
 
+
+            /*
+                鎖定表單
+            */
+
             const inputs =
                 form.querySelectorAll(
-                    "input, select, textarea, button"
+                    "input, select, textarea"
                 );
 
-            inputs.forEach((input) => {
-                input.disabled = true;
-            });
+            inputs.forEach(
+                (input) => {
+                    input.disabled = true;
+                }
+            );
+
 
         } catch (error) {
 
             console.error(
-                "Firestore 錯誤：",
+                "Firestore 提交錯誤：",
                 error
             );
 
-            message.style.color =
-                "#ffaaaa";
 
-            message.textContent =
-                "報名提交失敗：" +
-                (error.message || "未知錯誤");
+            /*
+                顯示錯誤
+            */
+
+            message.innerHTML = `
+                <div style="font-weight:700;">
+                    ❌ 報名提交失敗
+                </div>
+
+                <div style="margin-top:8px;">
+                    ${error.message}
+                </div>
+
+                <div style="margin-top:8px;font-size:13px;opacity:0.7;">
+                    請截圖這個錯誤訊息給管理員。
+                </div>
+            `;
+
 
             submitBtn.disabled = false;
 
             submitBtn.textContent =
                 "重新提交";
-
-            isSubmitting = false;
 
         }
 
