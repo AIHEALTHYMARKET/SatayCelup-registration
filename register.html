@@ -9,10 +9,6 @@
 
 <style>
 
-/* =========================================
-   SATAY CELUP｜清新歡樂時光
-========================================= */
-
 * {
     box-sizing: border-box;
 }
@@ -40,11 +36,6 @@ body {
         linear-gradient(180deg, #f8fff9 0%, #fffaf0 100%);
 }
 
-
-/* =========================================
-   裝飾
-========================================= */
-
 body::before {
     content: "🍢";
     position: fixed;
@@ -66,22 +57,12 @@ body::after {
     pointer-events: none;
 }
 
-
-/* =========================================
-   主容器
-========================================= */
-
 .container {
     width: 100%;
     max-width: 680px;
     margin: 0 auto;
     padding: 22px 16px 50px;
 }
-
-
-/* =========================================
-   Hero
-========================================= */
 
 .hero {
     position: relative;
@@ -134,11 +115,6 @@ body::after {
     opacity: 0.65;
 }
 
-
-/* =========================================
-   標籤
-========================================= */
-
 .badge {
     position: relative;
     z-index: 2;
@@ -160,11 +136,6 @@ body::after {
 
     margin-bottom: 13px;
 }
-
-
-/* =========================================
-   標題
-========================================= */
 
 h1 {
     position: relative;
@@ -204,11 +175,6 @@ h1 {
     font-weight: 700;
 }
 
-
-/* =========================================
-   Loading
-========================================= */
-
 .loading-message {
     position: relative;
     z-index: 3;
@@ -225,11 +191,6 @@ h1 {
 
     line-height: 1.7;
 }
-
-
-/* =========================================
-   Google Login
-========================================= */
 
 .login-box {
     position: relative;
@@ -328,11 +289,6 @@ h1 {
     color: #68766d !important;
 }
 
-
-/* =========================================
-   Google Email
-========================================= */
-
 .form-group:first-child {
     background: #f3faf4;
 
@@ -359,11 +315,6 @@ h1 {
     font-weight: 600;
 }
 
-
-/* =========================================
-   表單區塊
-========================================= */
-
 #formContainer {
     position: relative;
     z-index: 3;
@@ -388,11 +339,6 @@ h1 {
 .form-group label::first-letter {
     color: #5b9b68;
 }
-
-
-/* =========================================
-   Input / Select
-========================================= */
 
 input,
 select {
@@ -434,21 +380,11 @@ input::placeholder {
     color: #a9b2ab;
 }
 
-
-/* =========================================
-   Select
-========================================= */
-
 select {
     appearance: auto;
 
     cursor: pointer;
 }
-
-
-/* =========================================
-   File
-========================================= */
 
 input[type="file"] {
     padding: 10px;
@@ -476,17 +412,10 @@ input[type="file"]::file-selector-button {
     cursor: pointer;
 }
 
-
-/* =========================================
-   Section 視覺分組
-========================================= */
-
 #registrationForm {
     position: relative;
 }
 
-
-/* 第一組：基本資料 */
 #registrationForm .form-group:nth-child(2),
 #registrationForm .form-group:nth-child(3),
 #registrationForm .form-group:nth-child(4),
@@ -499,11 +428,6 @@ input[type="file"]::file-selector-button {
 
     border: 1px solid #f1ead7;
 }
-
-
-/* =========================================
-   特別提示
-========================================= */
 
 #registrationForm::before {
     content: "👋 先填寫參加者資料";
@@ -518,11 +442,6 @@ input[type="file"]::file-selector-button {
 
     font-weight: 900;
 }
-
-
-/* =========================================
-   Submit Button
-========================================= */
 
 .primary-btn {
     width: 100%;
@@ -580,11 +499,6 @@ input[type="file"]::file-selector-button {
     transform: none;
 }
 
-
-/* =========================================
-   提交按鈕特別設計
-========================================= */
-
 #submitBtn {
     margin-top: 12px;
 
@@ -607,11 +521,6 @@ input[type="file"]::file-selector-button {
     font-size: 20px;
 }
 
-
-/* =========================================
-   Message
-========================================= */
-
 .status {
     min-height: 24px;
 
@@ -623,11 +532,6 @@ input[type="file"]::file-selector-button {
 
     line-height: 1.6;
 }
-
-
-/* =========================================
-   登出
-========================================= */
 
 #logoutBtn {
     margin-top: 20px;
@@ -646,11 +550,6 @@ input[type="file"]::file-selector-button {
 
     box-shadow: none;
 }
-
-
-/* =========================================
-   SUCCESS
-========================================= */
 
 #successContainer {
     display: none;
@@ -764,11 +663,6 @@ input[type="file"]::file-selector-button {
     font-size: 12px;
 }
 
-
-/* =========================================
-   小裝飾
-========================================= */
-
 .fun-note {
     margin: 22px 0 8px;
 
@@ -787,11 +681,6 @@ input[type="file"]::file-selector-button {
     text-align: center;
 }
 
-
-/* =========================================
-   動畫
-========================================= */
-
 @keyframes bounceIn {
 
     0% {
@@ -808,11 +697,6 @@ input[type="file"]::file-selector-button {
         opacity: 1;
     }
 }
-
-
-/* =========================================
-   手機
-========================================= */
 
 @media (max-width: 480px) {
 
@@ -847,11 +731,6 @@ input[type="file"]::file-selector-button {
 
 }
 
-
-/* =========================================
-   Desktop
-========================================= */
-
 @media (min-width: 700px) {
 
     .container {
@@ -878,496 +757,442 @@ input[type="file"]::file-selector-button {
 <section class="hero">
 
 
-    <!-- =====================================
-         Header
-    ====================================== -->
+<div class="badge">
+    ☀️ 2026 EVENT
+</div>
 
-    <div class="badge">
-        ☀️ 2026 EVENT
+
+<h1>
+    🍢 SatayCelup之戰
+</h1>
+
+
+<p class="subtitle">
+    活動報名表
+</p>
+
+
+<div
+    id="loadingMessage"
+    class="loading-message">
+
+    正在確認 Google 登入狀態...
+
+</div>
+
+
+<div
+    id="loginContainer"
+    class="login-box"
+    style="display:none;">
+
+    <div class="login-box-icon">
+        🔐
     </div>
 
+    <h2>
+        請先登入 Google
+    </h2>
 
-    <h1>
-        🍢 SatayCelup之戰
-    </h1>
-
-
-    <p class="subtitle">
-        活動報名表
+    <p>
+        登入後即可填寫 SatayCelup之戰報名資料。<br>
+        如果你要幫朋友報名，也可以登入後連續提交。
     </p>
 
+    <button
+        type="button"
+        id="googleLoginBtn"
+        class="google-login-btn">
 
-    <!-- =====================================
-         Login Loading
-    ====================================== -->
+        使用 Google 登入
 
-    <div
-        id="loadingMessage"
-        class="loading-message">
+    </button>
 
-        正在確認 Google 登入狀態...
+    <p
+        id="loginStatus"
+        class="login-status">
 
-    </div>
+    </p>
 
+</div>
 
-    <!-- =====================================
-         Google Login
-    ====================================== -->
 
-    <div
-        id="loginContainer"
-        class="login-box"
-        style="display:none;">
+<div
+    id="formContainer"
+    style="display:none;">
 
-        <div class="login-box-icon">
-            🔐
-        </div>
 
-        <h2>
-            請先登入 Google
-        </h2>
+<form
+    id="registrationForm">
 
-        <p>
-            登入後即可填寫 SatayCelup之戰報名資料。<br>
-            如果你要幫朋友報名，也可以登入後連續提交。
-        </p>
 
-        <button
-            type="button"
-            id="googleLoginBtn"
-            class="google-login-btn">
+<div class="form-group">
 
-            使用 Google 登入
+    <label>
+        📧 Google Email
+    </label>
 
-        </button>
+    <input
+        type="email"
+        id="email"
+        readonly>
 
-        <p
-            id="loginStatus"
-            class="login-status">
+</div>
 
-        </p>
 
-    </div>
+<div class="form-group">
 
+    <label>
+        👤 IC English Name *
+    </label>
 
-    <!-- =====================================
-         Form
-    ====================================== -->
+    <input
+        type="text"
+        id="englishName"
+        placeholder="請輸入 IC English Name"
+        required>
 
-    <div
-        id="formContainer"
-        style="display:none;">
+</div>
 
 
-        <form
-            id="registrationForm">
+<div class="form-group">
 
+    <label>
+        🪪 IC Number *
+    </label>
 
-            <!-- Google Email -->
+    <input
+        type="text"
+        id="icNumber"
+        placeholder="請輸入 IC Number"
+        required>
 
-            <div class="form-group">
+</div>
 
-                <label>
-                    📧 Google Email
-                </label>
 
-                <input
-                    type="email"
-                    id="email"
-                    readonly>
+<div class="form-group">
 
-            </div>
+    <label>
+        ✨ 中文姓名 / 匿名
+    </label>
 
+    <input
+        type="text"
+        id="chineseName"
+        placeholder="可填姓名，也可以填匿名">
 
-            <!-- IC English Name -->
+</div>
 
-            <div class="form-group">
 
-                <label>
-                    👤 IC English Name *
-                </label>
+<div class="form-group">
 
-                <input
-                    type="text"
-                    id="englishName"
-                    placeholder="請輸入 IC English Name"
-                    required>
+    <label>
+        📱 電話 *
+    </label>
 
-            </div>
+    <input
+        type="tel"
+        id="phone"
+        placeholder="請輸入聯絡電話"
+        required>
 
+</div>
 
-            <!-- IC Number -->
 
-            <div class="form-group">
+<div class="form-group">
 
-                <label>
-                    🪪 IC Number *
-                </label>
+    <label>
+        🍽️ 飲食 *
+    </label>
 
-                <input
-                    type="text"
-                    id="icNumber"
-                    placeholder="請輸入 IC Number"
-                    required>
+    <select
+        id="meal"
+        required>
 
-            </div>
+        <option value="">
+            請選擇飲食
+        </option>
 
+        <option value="葷">
+            🍖 葷
+        </option>
 
-            <!-- 中文姓名 -->
+        <option value="素">
+            🥬 素
+        </option>
 
-            <div class="form-group">
+    </select>
 
-                <label>
-                    ✨ 中文姓名 / 匿名
-                </label>
+</div>
 
-                <input
-                    type="text"
-                    id="chineseName"
-                    placeholder="可填姓名，也可以填匿名">
 
-            </div>
+<div class="form-group">
 
+    <label>
+        👕 衣服尺寸 *
+    </label>
 
-            <!-- 電話 -->
+    <select
+        id="shirtSize"
+        required>
 
-            <div class="form-group">
+        <option value="">
+            請選擇衣服尺寸
+        </option>
 
-                <label>
-                    📱 電話 *
-                </label>
+        <option value="XS">XS</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+        <option value="XXXL">XXXL</option>
 
-                <input
-                    type="tel"
-                    id="phone"
-                    placeholder="請輸入聯絡電話"
-                    required>
+    </select>
 
-            </div>
+</div>
 
 
-            <!-- 飲食 -->
+<div class="form-group">
 
-            <div class="form-group">
+    <label>
+        👕 衣服背面文字
+    </label>
 
-                <label>
-                    🍽️ 飲食 *
-                </label>
+    <input
+        type="text"
+        id="shirtText"
+        placeholder="想印在衣服背面的文字">
 
-                <select
-                    id="meal"
-                    required>
+</div>
 
-                    <option value="">
-                        請選擇飲食
-                    </option>
 
-                    <option value="葷">
-                        🍖 葷
-                    </option>
+<div class="form-group">
 
-                    <option value="素">
-                        🥬 素
-                    </option>
+    <label>
+        🏸 參與項目 *
+    </label>
 
-                </select>
+    <select
+        id="participation"
+        required>
 
-            </div>
+        <option value="">
+            請選擇參與項目
+        </option>
 
+        <option value="羽球">
+            🏸 羽球
+        </option>
 
-            <!-- 衣服尺寸 -->
+        <option value="pickleball">
+            🥒 Pickleball
+        </option>
 
-            <div class="form-group">
+        <option value="觀眾">
+            👀 觀眾
+        </option>
 
-                <label>
-                    👕 衣服尺寸 *
-                </label>
+    </select>
 
-                <select
-                    id="shirtSize"
-                    required>
+</div>
 
-                    <option value="">
-                        請選擇衣服尺寸
-                    </option>
 
-                    <option value="XS">XS</option>
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                    <option value="XL">XL</option>
-                    <option value="XXL">XXL</option>
-                    <option value="XXXL">XXXL</option>
+<div class="form-group">
 
-                </select>
+    <label>
+        👥 球伴組別
+    </label>
 
-            </div>
+    <input
+        type="text"
+        id="partnerGroup"
+        placeholder="如果有球伴組別，請填寫">
 
+</div>
 
-            <!-- 衣服背面 -->
 
-            <div class="form-group">
+<div class="form-group">
 
-                <label>
-                    👕 衣服背面文字
-                </label>
+    <label>
+        👫 球伴
+    </label>
 
-                <input
-                    type="text"
-                    id="shirtText"
-                    placeholder="想印在衣服背面的文字">
+    <input
+        type="text"
+        id="partner"
+        placeholder="球伴姓名">
 
-            </div>
+</div>
 
 
-            <!-- 參與項目 -->
+<div class="form-group">
 
-            <div class="form-group">
+    <label>
+        💎 Platinum
+    </label>
 
-                <label>
-                    🏸 參與項目 *
-                </label>
+    <select
+        id="platinum">
 
-                <select
-                    id="participation"
-                    required>
+        <option value="">
+            請選擇 Platinum
+        </option>
 
-                    <option value="">
-                        請選擇參與項目
-                    </option>
+        <option value="Sense&Lavenier">
+            Sense&Lavenier
+        </option>
 
-                    <option value="羽球">
-                        🏸 羽球
-                    </option>
+        <option value="Amos">
+            Amos
+        </option>
 
-                    <option value="pickleball">
-                        🥒 Pickleball
-                    </option>
+        <option value="Sunny">
+            Sunny
+        </option>
 
-                    <option value="觀眾">
-                        👀 觀眾
-                    </option>
+        <option value="Robin&Zoey">
+            Robin&Zoey
+        </option>
 
-                </select>
+        <option value="RyanLio">
+            RyanLio
+        </option>
 
-            </div>
+        <option value="Wyane&Momo">
+            Wyane&Momo
+        </option>
 
+        <option value="Jess">
+            Jess
+        </option>
 
-            <!-- 球伴組別 -->
+        <option value="Keong&Ngah">
+            Keong&Ngah
+        </option>
 
-            <div class="form-group">
+        <option value="JayChew">
+            JayChew
+        </option>
 
-                <label>
-                    👥 球伴組別
-                </label>
+        <option value="Lynn">
+            Lynn
+        </option>
 
-                <input
-                    type="text"
-                    id="partnerGroup"
-                    placeholder="如果有球伴組別，請填寫">
+        <option value="SzeChew">
+            SzeChew
+        </option>
 
-            </div>
+    </select>
 
+</div>
 
-            <!-- 球伴 -->
 
-            <div class="form-group">
+<div class="form-group">
 
-                <label>
-                    👫 球伴
-                </label>
+    <label>
+        🧾 繳費收據 JPG
+    </label>
 
-                <input
-                    type="text"
-                    id="partner"
-                    placeholder="球伴姓名">
+    <input
+        type="file"
+        id="receipt"
+        accept=".jpg,.jpeg,image/jpeg">
 
-            </div>
+</div>
 
 
-            <!-- Platinum -->
+<div class="fun-note">
 
-            <div class="form-group">
+    🍢 填好資料後就可以出發！<br>
+    如果你要幫朋友報名，也可以提交後繼續幫下一位報名喔！
 
-                <label>
-                    💎 Platinum
-                </label>
+</div>
 
-                <select
-                    id="platinum">
 
-                    <option value="">
-                        請選擇 Platinum
-                    </option>
+<button
+    type="submit"
+    id="submitBtn"
+    class="primary-btn">
 
-                    <option>
-                        Sense&Lavenier
-                    </option>
+    🎉 提交我的報名
 
-                    <option>
-                        Amos
-                    </option>
+</button>
 
-                    <option>
-                        Sunny
-                    </option>
 
-                    <option>
-                        Robin&Zoey
-                    </option>
+<p
+    id="message"
+    class="status">
+</p>
 
-                    <option>
-                        RyanLio
-                    </option>
 
-                    <option>
-                        Wyane&Momo
-                    </option>
+</form>
 
-                    <option>
-                        Jess
-                    </option>
 
-                    <option>
-                        Keong&Ngah
-                    </option>
+<button
+    type="button"
+    id="logoutBtn"
+    class="primary-btn">
 
-                    <option>
-                        JayChew
-                    </option>
+    Google 登出
 
-                    <option>
-                        Lynn
-                    </option>
+</button>
 
-                    <option>
-                        SzeChew
-                    </option>
 
-                </select>
+</div>
 
-            </div>
 
+<div
+    id="successContainer">
 
-            <!-- 收據 -->
 
-            <div class="form-group">
+<div class="success-icon">
+    🎉
+</div>
 
-                <label>
-                    🧾 繳費收據 JPG
-                </label>
 
-                <input
-                    type="file"
-                    id="receipt"
-                    accept=".jpg,.jpeg,image/jpeg">
+<h2>
+    報名成功！
+</h2>
 
-            </div>
 
+<p class="success-text">
 
-            <!-- 提醒 -->
+    太棒了！這位參加者的資料已經收到啦。<br>
 
-            <div class="fun-note">
+    <strong>SatayCelup之戰見！🍢</strong>
 
-                🍢 填好資料後就可以出發！<br>
-                如果你要幫朋友報名，也可以提交後繼續幫下一位報名喔！
+</p>
 
-            </div>
 
+<button
+    type="button"
+    id="continueBtn"
+    class="success-btn continue-btn">
 
-            <!-- Submit -->
+    ➕ 繼續幫其他人報名
 
-            <button
-                type="submit"
-                id="submitBtn"
-                class="primary-btn">
+</button>
 
-                🎉 提交我的報名
 
-            </button>
+<button
+    type="button"
+    id="homeBtn"
+    class="success-btn home-btn">
 
+    🏠 返回活動介紹
 
-            <!-- Message -->
+</button>
 
-            <p
-                id="message"
-                class="status">
-            </p>
 
+<div
+    id="successEmail"
+    class="success-email">
 
-        </form>
+</div>
 
 
-        <!-- Logout -->
-
-        <button
-            type="button"
-            id="logoutBtn"
-            class="primary-btn">
-
-            Google 登出
-
-        </button>
-
-
-    </div>
-
-
-    <!-- =====================================
-         Success
-    ====================================== -->
-
-    <div
-        id="successContainer">
-
-
-        <div class="success-icon">
-            🎉
-        </div>
-
-
-        <h2>
-            報名成功！
-        </h2>
-
-
-        <p class="success-text">
-
-            太棒了！這位參加者的資料已經收到啦。<br>
-
-            <strong>SatayCelup之戰見！🍢</strong>
-
-        </p>
-
-
-        <button
-            type="button"
-            id="continueBtn"
-            class="success-btn continue-btn">
-
-            ➕ 繼續幫其他人報名
-
-        </button>
-
-
-        <button
-            type="button"
-            id="homeBtn"
-            class="success-btn home-btn">
-
-            🏠 返回活動介紹
-
-        </button>
-
-
-        <div
-            id="successEmail"
-            class="success-email">
-
-        </div>
-
-
-    </div>
+</div>
 
 
 </section>
@@ -1424,6 +1249,45 @@ import {
     db
 
 } from "./js/firebase-config.js";
+
+
+/* =========================================
+   Platinum UID Mapping
+=========================================
+
+   目前先留空。
+
+   下一步建立 11 個 Platinum Firebase
+   Authentication 帳號後，把真正 UID
+   填入這裡。
+
+========================================= */
+
+const PLATINUM_UIDS = {
+
+    "Sense&Lavenier": "",
+
+    "Amos": "",
+
+    "Sunny": "",
+
+    "Robin&Zoey": "",
+
+    "RyanLio": "",
+
+    "Wyane&Momo": "",
+
+    "Jess": "",
+
+    "Keong&Ngah": "",
+
+    "JayChew": "",
+
+    "Lynn": "",
+
+    "SzeChew": ""
+
+};
 
 
 /* =========================================
@@ -1586,10 +1450,6 @@ onAuthStateChanged(
         );
 
 
-        /* ==============================
-           未登入
-        ============================== */
-
         if (!user) {
 
             loadingMessage.style.display =
@@ -1611,10 +1471,6 @@ onAuthStateChanged(
             return;
         }
 
-
-        /* ==============================
-           已登入
-        ============================== */
 
         console.log(
             "登入成功：",
@@ -1715,6 +1571,46 @@ form.addEventListener(
 
 
             /* ==========================
+               Platinum
+            ========================== */
+
+            const selectedPlatinum =
+                document
+                    .getElementById(
+                        "platinum"
+                    )
+                    .value;
+
+
+            const selectedPlatinumUid =
+                PLATINUM_UIDS[
+                    selectedPlatinum
+                ] || "";
+
+
+            /* ==========================
+               Platinum 設定檢查
+            ========================== */
+
+            if (
+                selectedPlatinum &&
+                !selectedPlatinumUid
+            ) {
+
+                message.textContent =
+                    "這位 Platinum 的系統帳號尚未完成設定，請聯絡管理員。";
+
+                message.style.color =
+                    "#d97706";
+
+                submitBtn.disabled =
+                    false;
+
+                return;
+            }
+
+
+            /* ==========================
                Registration Data
             ========================== */
 
@@ -1807,11 +1703,10 @@ form.addEventListener(
                         .trim(),
 
                 platinum:
-                    document
-                        .getElementById(
-                            "platinum"
-                        )
-                        .value,
+                    selectedPlatinum,
+
+                platinumUid:
+                    selectedPlatinumUid,
 
                 receiptName:
                     receipt
@@ -1939,16 +1834,8 @@ continueBtn.addEventListener(
             auth.currentUser;
 
 
-        /* ==============================
-           Reset form
-        ============================== */
-
         form.reset();
 
-
-        /* ==============================
-           Keep Google Email
-        ============================== */
 
         if (user) {
 
@@ -1965,10 +1852,6 @@ continueBtn.addEventListener(
         message.style.color =
             "";
 
-
-        /* ==============================
-           Show form
-        ============================== */
 
         successContainer.style.display =
             "none";
