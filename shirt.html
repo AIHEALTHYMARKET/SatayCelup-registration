@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>只購買活動衣服｜SatayCelup之戰</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "Noto Sans TC",
+                "Microsoft JhengHei",
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff8ef,
+                    #ffffff
+                );
+
+            color: #222;
+        }
+
+        .top {
+
+            background: #111;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 14px 20px;
+
+            font-size: 14px;
+
+            letter-spacing: 1px;
+        }
+
+        .container {
+
+            width: 100%;
+
+            max-width: 620px;
+
+            margin: 0 auto;
+
+            padding: 30px 18px 60px;
+        }
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+        .badge {
+
+            display: inline-block;
+
+            background: #f59e0b;
+
+            color: white;
+
+            padding: 7px 16px;
+
+            border-radius: 30px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+        h1 {
+
+            margin: 0;
+
+            font-size: 32px;
+
+            line-height: 1.25;
+        }
+
+        .subtitle {
+
+            margin-top: 10px;
+
+            color: #777;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+        }
+
+        .card {
+
+            background: white;
+
+            border-radius: 20px;
+
+            padding: 25px 22px;
+
+            box-shadow:
+                0 8px 30px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 20px;
+        }
+
+
+        /* ==============================
+           Google 登入
+        ============================== */
+
+        .login-box {
+
+            text-align: center;
+
+            padding: 15px 5px 5px;
+        }
+
+        .google-icon {
+
+            width: 60px;
+
+            height: 60px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: #f5f5f5;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 30px;
+        }
+
+        .login-box h2 {
+
+            margin: 0 0 8px;
+
+            font-size: 22px;
+        }
+
+        .login-box p {
+
+            margin: 0 0 20px;
+
+            color: #777;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+        .google-btn {
+
+            width: 100%;
+
+            border: 1px solid #ddd;
+
+            background: white;
+
+            color: #222;
+
+            border-radius: 12px;
+
+            padding: 14px;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .google-btn:hover {
+
+            background: #f7f7f7;
+        }
+
+
+        /* ==============================
+           登入狀態
+        ============================== */
+
+        .user-box {
+
+            display: none;
+
+            background: #f7f7f7;
+
+            border-radius: 12px;
+
+            padding: 12px 15px;
+
+            margin-bottom: 20px;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+        .user-info {
+
+            min-width: 0;
+        }
+
+        .user-name {
+
+            font-weight: 700;
+
+            font-size: 14px;
+
+        }
+
+        .user-email {
+
+            color: #777;
+
+            font-size: 12px;
+
+            margin-top: 3px;
+
+            word-break: break-all;
+        }
+
+        .logout-btn {
+
+            width: auto;
+
+            padding: 8px 12px;
+
+            background: white;
+
+            color: #555;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+
+            cursor: pointer;
+        }
+
+
+        /* ==============================
+           表單
+        ============================== */
+
+        #formArea {
+
+            display: none;
+        }
+
+        .photo-placeholder {
+
+            width: 100%;
+
+            aspect-ratio: 16 / 9;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f3f3f3,
+                    #e8e8e8
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #999;
+
+            font-size: 14px;
+
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+        .field {
+
+            margin-bottom: 20px;
+        }
+
+        label {
+
+            display: block;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+
+            font-size: 15px;
+        }
+
+        .required {
+
+            color: #e53935;
+
+            margin-left: 4px;
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            background: white;
+
+            outline: none;
+        }
+
+        input:focus {
+
+            border-color: #f59e0b;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(245,158,11,0.12);
+        }
+
+        .hint {
+
+            margin-top: 6px;
+
+            color: #999;
+
+            font-size: 12px;
+        }
+
+
+        /* ==============================
+           尺寸
+        ============================== */
+
+        .sizes {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 8px;
+        }
+
+        .size-option {
+
+            position: relative;
+        }
+
+        .size-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+        .size-option label {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            height: 48px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-weight: 600;
+
+            margin: 0;
+
+            transition: 0.2s;
+        }
+
+        .size-option input:checked + label {
+
+            background: #f59e0b;
+
+            color: white;
+
+            border-color: #f59e0b;
+        }
+
+
+        /* ==============================
+           白金
+        ============================== */
+
+        .platinum-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+        .platinum-option {
+
+            position: relative;
+        }
+
+        .platinum-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+        .platinum-option label {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 50px;
+
+            padding: 10px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .platinum-option input:checked + label {
+
+            background: #111;
+
+            color: white;
+
+            border-color: #111;
+        }
+
+
+        /* ==============================
+           提交
+        ============================== */
+
+        .submit-btn {
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 14px;
+
+            padding: 16px;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            background: #f59e0b;
+
+            color: white;
+
+            transition: 0.2s;
+        }
+
+        .submit-btn:hover {
+
+            transform:
+                translateY(-1px);
+
+            opacity: 0.92;
+        }
+
+        .submit-btn:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* ==============================
+           錯誤
+        ============================== */
+
+        .error {
+
+            color: #d32f2f;
+
+            background: #fff1f1;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            margin-top: 15px;
+
+            display: none;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ==============================
+           成功
+        ============================== */
+
+        .success {
+
+            display: none;
+
+            text-align: center;
+
+            padding: 35px 20px;
+        }
+
+        .success-icon {
+
+            font-size: 60px;
+
+            margin-bottom: 15px;
+        }
+
+        .success h2 {
+
+            margin: 0 0 10px;
+
+            font-size: 26px;
+        }
+
+        .success p {
+
+            color: #777;
+
+            line-height: 1.7;
+        }
+
+        .success-buttons {
+
+            margin-top: 25px;
+        }
+
+        .success-buttons button,
+        .success-buttons a {
+
+            display: block;
+
+            width: 100%;
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+            margin-bottom: 10px;
+
+            cursor: pointer;
+        }
+
+        .continue-btn {
+
+            background: #f59e0b;
+
+            color: white;
+
+            border: none;
+        }
+
+        .home-btn {
+
+            background: white;
+
+            color: #555;
+
+            border: 1px solid #ddd;
+        }
+
+
+        .back-button {
+
+            display: block;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: #666;
+
+            text-decoration: none;
+
+            font-size: 14px;
+        }
+
+
+        /* ==============================
+           手機
+        ============================== */
+
+        @media (max-width: 500px) {
+
+            h1 {
+
+                font-size: 28px;
+            }
+
+            .card {
+
+                padding: 20px 17px;
+            }
+
+            .platinum-grid {
+
+                grid-template-columns:
+                    repeat(1, 1fr);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="top">
+
+        🍢 SatayCelup之戰
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- 標題 -->
+
+        <div class="header">
+
+            <div class="badge">
+
+                👕 活動衣服
+
+            </div>
+
+            <h1>
+
+                只購買活動衣服
+
+            </h1>
+
+            <div class="subtitle">
+
+                無法出席活動，也可以購買
+                SatayCelup之戰活動衣服
+
+            </div>
+
+        </div>
+
+
+        <!-- Google 登入卡 -->
+
+        <div
+            class="card"
+            id="loginArea"
+        >
+
+            <div class="login-box">
+
+                <div class="google-icon">
+
+                    G
+
+                </div>
+
+                <h2>
+
+                    請先使用 Google 登入
+
+                </h2>
+
+                <p>
+
+                    登入後即可填寫衣服購買資料。<br>
+
+                    同一個 Google Email
+                    可以購買多份衣服。
+
+                </p>
+
+                <button
+                    class="google-btn"
+                    id="googleLoginBtn"
+                >
+
+                    🔵 使用 Google 登入
+
+                </button>
+
+                <div
+                    class="error"
+                    id="loginError"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- 表單 -->
+
+        <div
+            class="card"
+            id="formArea"
+        >
+
+            <!-- 登入使用者 -->
+
+            <div
+                class="user-box"
+                id="userBox"
+            >
+
+                <div class="user-info">
+
+                    <div
+                        class="user-name"
+                        id="userName"
+                    ></div>
+
+                    <div
+                        class="user-email"
+                        id="userEmail"
+                    ></div>
+
+                </div>
+
+                <button
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+
+                    登出
+
+                </button>
+
+            </div>
+
+
+            <!-- 未來衣服照片 -->
+
+            <div class="photo-placeholder">
+
+                👕<br>
+                活動衣服宣傳照片<br>
+                <small>
+                    未來可替換圖片
+                </small>
+
+            </div>
+
+
+            <form id="shirtForm">
+
+
+                <!-- 中文姓名 -->
+
+                <div class="field">
+
+                    <label>
+
+                        中文姓名／匿名
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="chineseName"
+                        placeholder="請輸入姓名或匿名"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 電話 -->
+
+                <div class="field">
+
+                    <label>
+
+                        電話
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        placeholder="例如：0123456789"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- 尺寸 -->
+
+                <div class="field">
+
+                    <label>
+
+                        衣服尺寸
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <div class="sizes">
+
+
+                        <div class="size-option">
+
+                            <input
+                                type="radio"
+                                name="shirtSize"
+                                id="sizeXS"
+                                value="XS"
+                                required
+                            >
+
+                            <label for="sizeXS">
+                                XS
+                            </label>
+
+                        </div>
+
+
+                        <div class="size-option">
+
+                            <input
+                                type="radio"
+                                name="shirtSize"
+                                id="sizeS"
+                                value="S"
+                            >
+
+                            <label for="sizeS">
+                                S
+                            </label>
+
+                        </div>
+
+
+                        <div class="size-option">
+
+                            <input
+                                type="radio"
+                                name="shirtSize"
+                                id="sizeM"
+                                value="M"
+                            >
+
+                            <label for="sizeM">
+                                M
+                            </label>
+
+                        </div>
+
+
+                        <div class="size-option">
+
+                            <input
+                                type="radio"
+                                name="shirtSize"
+                                id="sizeL"
+                                value="L"
+                            >
+
+                            <label for="sizeL">
+                                L
+                            </label>
+
+                        </div>
+
+
+                        <div class="size-option">
+
+                            <input
+                                type="radio"
+                                name="shirtSize"
+                                id="sizeXL"
+                                value="XL"
+                            >
+
+                            <label for="sizeXL">
+                                XL
+                            </label>
+
+                        </div>
+
+
+                        <div class="size-option">
+
+                            <input
+                                type="radio"
+                                name="shirtSize"
+                                id="sizeXXL"
+                                value="XXL"
+                            >
+
+                            <label for="sizeXXL">
+                                XXL
+                            </label>
+
+                        </div>
+
+
+                        <div class="size-option">
+
+                            <input
+                                type="radio"
+                                name="shirtSize"
+                                id="sizeXXXL"
+                                value="XXXL"
+                            >
+
+                            <label for="sizeXXXL">
+                                XXXL
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- 背面文字 -->
+
+                <div class="field">
+
+                    <label>
+
+                        衣服背面文字
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="shirtBack"
+                        placeholder="例如：WYANE"
+                        maxlength="30"
+                    >
+
+                    <div class="hint">
+
+                        如不需要印名字，可以留空
+
+                    </div>
+
+                </div>
+
+
+                <!-- 白金 -->
+
+                <div class="field">
+
+                    <label>
+
+                        白金
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <div class="platinum-grid">
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p1"
+                                value="Sense&Lavenier"
+                                required
+                            >
+
+                            <label for="p1">
+                                Sense&Lavenier
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p2"
+                                value="Amos"
+                            >
+
+                            <label for="p2">
+                                Amos
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p3"
+                                value="Sunny"
+                            >
+
+                            <label for="p3">
+                                Sunny
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p4"
+                                value="Robin&Zoey"
+                            >
+
+                            <label for="p4">
+                                Robin&Zoey
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p5"
+                                value="RyanLio"
+                            >
+
+                            <label for="p5">
+                                RyanLio
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p6"
+                                value="Wyane&Momo"
+                            >
+
+                            <label for="p6">
+                                Wyane&Momo
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p7"
+                                value="Jess"
+                            >
+
+                            <label for="p7">
+                                Jess
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p8"
+                                value="Keong&Ngah"
+                            >
+
+                            <label for="p8">
+                                Keong&Ngah
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p9"
+                                value="JayChew"
+                            >
+
+                            <label for="p9">
+                                JayChew
+                            </label>
+
+                        </div>
+
+
+                        <div class="platinum-option">
+
+                            <input
+                                type="radio"
+                                name="platinum"
+                                id="p10"
+                                value="Lynn"
+                            >
+
+                            <label for="p10">
+                                Lynn
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                    id="submitBtn"
+                >
+
+                    👕 提交衣服報名
+
+                </button>
+
+
+                <div
+                    class="error"
+                    id="errorMessage"
+                ></div>
+
+
+            </form>
+
+
+            <!-- 成功畫面 -->
+
+            <div
+                class="success"
+                id="successMessage"
+            >
+
+                <div class="success-icon">
+
+                    🎉
+
+                </div>
+
+                <h2>
+
+                    衣服報名成功！
+
+                </h2>
+
+                <p>
+
+                    我們已收到你的衣服購買資料。<br>
+
+                    如果還要幫其他人購買衣服，
+                    可以直接繼續填寫。
+
+                </p>
+
+
+                <div class="success-buttons">
+
+                    <button
+                        class="continue-btn"
+                        id="continueBtn"
+                    >
+
+                        👕 繼續購買其他人的衣服
+
+                    </button>
+
+
+                    <a
+                        href="index.html"
+                        class="home-btn"
+                    >
+
+                        ← 返回活動介紹
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <a
+            href="index.html"
+            class="back-button"
+        >
+
+            ← 返回活動介紹
+
+        </a>
+
+
+    </div>
+
+
+    <!-- Firebase -->
+
+    <script type="module">
+
+
+        import {
+
+            GoogleAuthProvider,
+
+            signInWithPopup,
+
+            onAuthStateChanged,
+
+            signOut
+
+        }
+        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+        import {
+
+            collection,
+
+            addDoc,
+
+            serverTimestamp
+
+        }
+        from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        import {
+
+            auth,
+
+            db
+
+        }
+        from "./js/firebase-config.js";
+
+
+        const googleProvider =
+            new GoogleAuthProvider();
+
+
+        const loginArea =
+            document.getElementById(
+                "loginArea"
+            );
+
+
+        const formArea =
+            document.getElementById(
+                "formArea"
+            );
+
+
+        const googleLoginBtn =
+            document.getElementById(
+                "googleLoginBtn"
+            );
+
+
+        const loginError =
+            document.getElementById(
+                "loginError"
+            );
+
+
+        const userBox =
+            document.getElementById(
+                "userBox"
+            );
+
+
+        const userName =
+            document.getElementById(
+                "userName"
+            );
+
+
+        const userEmail =
+            document.getElementById(
+                "userEmail"
+            );
+
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        const form =
+            document.getElementById(
+                "shirtForm"
+            );
+
+
+        const submitBtn =
+            document.getElementById(
+                "submitBtn"
+            );
+
+
+        const errorMessage =
+            document.getElementById(
+                "errorMessage"
+            );
+
+
+        const successMessage =
+            document.getElementById(
+                "successMessage"
+            );
+
+
+        const continueBtn =
+            document.getElementById(
+                "continueBtn"
+            );
+
+
+        // ======================================
+        // Google 登入
+        // ======================================
+
+        googleLoginBtn.addEventListener(
+            "click",
+            async () => {
+
+                loginError.style.display =
+                    "none";
+
+                googleLoginBtn.disabled =
+                    true;
+
+                googleLoginBtn.textContent =
+                    "⏳ 正在登入 Google...";
+
+
+                try {
+
+                    await signInWithPopup(
+                        auth,
+                        googleProvider
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Google 登入錯誤：",
+                        error
+                    );
+
+                    loginError.textContent =
+                        "Google 登入失敗：" +
+                        (
+                            error.message ||
+                            "請稍後再試"
+                        );
+
+                    loginError.style.display =
+                        "block";
+
+                    googleLoginBtn.disabled =
+                        false;
+
+                    googleLoginBtn.textContent =
+                        "🔵 使用 Google 登入";
+                }
+
+            }
+        );
+
+
+        // ======================================
+        // 監聽登入狀態
+        // ======================================
+
+        onAuthStateChanged(
+            auth,
+            (user) => {
+
+                if (user) {
+
+                    console.log(
+                        "Google 登入成功：",
+                        user.email
+                    );
+
+
+                    loginArea.style.display =
+                        "none";
+
+
+                    formArea.style.display =
+                        "block";
+
+
+                    userBox.style.display =
+                        "flex";
+
+
+                    userName.textContent =
+                        user.displayName ||
+                        "Google 使用者";
+
+
+                    userEmail.textContent =
+                        user.email || "";
+
+
+                } else {
+
+                    loginArea.style.display =
+                        "block";
+
+
+                    formArea.style.display =
+                        "none";
+
+
+                    userBox.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        // ======================================
+        // 登出
+        // ======================================
+
+        logoutBtn.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await signOut(auth);
+
+                } catch (error) {
+
+                    console.error(
+                        "登出錯誤：",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+
+        // ======================================
+        // 提交衣服報名
+        // ======================================
+
+        form.addEventListener(
+            "submit",
+            async (event) => {
+
+                event.preventDefault();
+
+
+                const user =
+                    auth.currentUser;
+
+
+                if (!user) {
+
+                    errorMessage.textContent =
+                        "請先使用 Google 登入。";
+
+                    errorMessage.style.display =
+                        "block";
+
+                    return;
+                }
+
+
+                errorMessage.style.display =
+                    "none";
+
+
+                submitBtn.disabled =
+                    true;
+
+
+                submitBtn.textContent =
+                    "⏳ 正在提交...";
+
+
+                try {
+
+
+                    const chineseName =
+                        document
+                        .getElementById(
+                            "chineseName"
+                        )
+                        .value
+                        .trim();
+
+
+                    const phone =
+                        document
+                        .getElementById(
+                            "phone"
+                        )
+                        .value
+                        .trim();
+
+
+                    const shirtBack =
+                        document
+                        .getElementById(
+                            "shirtBack"
+                        )
+                        .value
+                        .trim();
+
+
+                    const shirtSize =
+                        document
+                        .querySelector(
+                            'input[name="shirtSize"]:checked'
+                        )
+                        ?.value || "";
+
+
+                    const platinum =
+                        document
+                        .querySelector(
+                            'input[name="platinum"]:checked'
+                        )
+                        ?.value || "";
+
+
+                    if (!chineseName) {
+
+                        throw new Error(
+                            "請輸入中文姓名或匿名"
+                        );
+
+                    }
+
+
+                    if (!phone) {
+
+                        throw new Error(
+                            "請輸入電話"
+                        );
+
+                    }
+
+
+                    if (!shirtSize) {
+
+                        throw new Error(
+                            "請選擇衣服尺寸"
+                        );
+
+                    }
+
+
+                    if (!platinum) {
+
+                        throw new Error(
+                            "請選擇白金"
+                        );
+
+                    }
+
+
+                    const shirtData = {
+
+                        chineseName:
+                            chineseName,
+
+                        phone:
+                            phone,
+
+                        shirtSize:
+                            shirtSize,
+
+                        shirtBack:
+                            shirtBack,
+
+                        platinum:
+                            platinum,
+
+                        email:
+                            user.email,
+
+                        googleName:
+                            user.displayName ||
+                            "",
+
+                        createdAt:
+                            serverTimestamp()
+
+                    };
+
+
+                    await addDoc(
+
+                        collection(
+                            db,
+                            "shirtOrders"
+                        ),
+
+                        shirtData
+
+                    );
+
+
+                    // 隱藏表格
+                    form.style.display =
+                        "none";
+
+
+                    // 顯示成功
+                    successMessage.style.display =
+                        "block";
+
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+
+                } catch (error) {
+
+                    console.error(
+                        "衣服報名錯誤：",
+                        error
+                    );
+
+
+                    errorMessage.textContent =
+                        "提交失敗：" +
+                        (
+                            error.message ||
+                            "請稍後再試"
+                        );
+
+
+                    errorMessage.style.display =
+                        "block";
+
+
+                    submitBtn.disabled =
+                        false;
+
+
+                    submitBtn.textContent =
+                        "👕 提交衣服報名";
+
+                }
+
+            }
+        );
+
+
+        // ======================================
+        // 繼續購買
+        // ======================================
+
+        continueBtn.addEventListener(
+            "click",
+            () => {
+
+                form.reset();
+
+                successMessage.style.display =
+                    "none";
+
+                form.style.display =
+                    "block";
+
+                errorMessage.style.display =
+                    "none";
+
+                submitBtn.disabled =
+                    false;
+
+                submitBtn.textContent =
+                    "👕 提交衣服報名";
+
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
