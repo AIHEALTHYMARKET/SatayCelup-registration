@@ -597,51 +597,109 @@ const logoutBtn =
 
 let currentUser = null;
 let isSubmitting = false;
+let authFinished = false;
 
 
 /*
-    顯示訊息
+    顯示錯誤
 */
 
-function showMessage(text, type = "") {
+function showError(text, error = null) {
 
-    message.className = "message";
+    console.error(text, error);
 
-    if (type) {
-        message.classList.add(type);
-    }
+    loadingMessage.classList.remove("hidden");
 
-    message.textContent = text;
+    loadingMessage.style.color = "#ffaaaa";
+
+    loadingMessage.innerHTML =
+        text +
+        "<br><br>" +
+        "<small>" +
+        "請重新整理頁面，或重新登入 Google。" +
+        "</small>";
+
 }
 
 
 /*
-    檢查 Google 登入
+    Google 登入狀態檢查
 */
 
-onAuthStateChanged(auth, (user) => {
+try {
 
-    if (!user) {
+    onAuthStateChanged(auth, (user) => {
 
-        window.location.href = "index.html";
+        authFinished = true;
 
-        return;
-    }
+        if (!user) {
 
-    currentUser = user;
+            showError(
+                "目前沒有偵測到 Google 登入狀態。"
+            );
 
-    emailInput.value =
-        user.email || "";
+            setTimeout(() => {
 
-    loadingMessage.classList.add("hidden");
+                window.location.href =
+                    "index.html";
 
-    formContainer.classList.remove("hidden");
+            }, 2500);
 
-});
+            return;
+        }
+
+        currentUser = user;
+
+        emailInput.value =
+            user.email || "";
+
+        loadingMessage.classList.add("hidden");
+
+        formContainer.classList.remove("hidden");
+
+        console.log(
+            "Google 登入成功：",
+            user.email
+        );
+
+    }, (error) => {
+
+        showError(
+            "Google 登入狀態讀取失敗。",
+            error
+        );
+
+    });
+
+} catch (error) {
+
+    showError(
+        "Firebase 初始化失敗。",
+        error
+    );
+
+}
 
 
 /*
-    觀眾不需要填搭檔
+    10 秒逾時保護
+*/
+
+setTimeout(() => {
+
+    if (!authFinished) {
+
+        showError(
+            "Firebase 登入檢查逾時。"
+        );
+
+    }
+
+}, 10000);
+
+
+/*
+    觀眾不需要搭檔
 */
 
 participation.addEventListener(
@@ -665,7 +723,7 @@ participation.addEventListener(
 
 
 /*
-    收據檔案檢查
+    收據檢查
 */
 
 receipt.addEventListener(
@@ -675,9 +733,7 @@ receipt.addEventListener(
         const file =
             receipt.files[0];
 
-        if (!file) {
-            return;
-        }
+        if (!file) return;
 
         const isJpg =
             file.type === "image/jpeg" ||
@@ -695,10 +751,7 @@ receipt.addEventListener(
             return;
         }
 
-        const maxSize =
-            5 * 1024 * 1024;
-
-        if (file.size > maxSize) {
+        if (file.size > 5 * 1024 * 1024) {
 
             alert(
                 "收據圖片不能超過 5MB。"
@@ -720,8 +773,6 @@ logoutBtn.addEventListener(
     "click",
     async () => {
 
-        logoutBtn.disabled = true;
-
         try {
 
             await signOut(auth);
@@ -731,14 +782,10 @@ logoutBtn.addEventListener(
 
         } catch (error) {
 
-            console.error(error);
-
-            showMessage(
-                "登出失敗，請再試一次。",
-                "error-message"
+            showError(
+                "登出失敗。",
+                error
             );
-
-            logoutBtn.disabled = false;
 
         }
 
@@ -755,25 +802,18 @@ form.addEventListener(
     async (event) => {
 
         event.preventDefault();
-
-        /*
-            防止瀏覽器重新載入頁面
-        */
-
         event.stopPropagation();
 
-        if (isSubmitting) {
-            return;
-        }
+        if (isSubmitting) return;
 
         if (!currentUser) {
 
-            showMessage(
-                "登入狀態已失效，請重新登入 Google。",
-                "error-message"
+            showError(
+                "尚未完成 Google 登入，請重新登入。"
             );
 
             return;
+
         }
 
         if (!form.checkValidity()) {
@@ -781,6 +821,7 @@ form.addEventListener(
             form.reportValidity();
 
             return;
+
         }
 
         const file =
@@ -788,75 +829,12 @@ form.addEventListener(
 
         if (!file) {
 
-            showMessage(
-                "請上傳繳費收據。",
-                "error-message"
-            );
+            message.textContent =
+                "請上傳繳費收據。";
 
             return;
+
         }
-
-        const isJpg =
-            file.type === "image/jpeg" ||
-            file.name.toLowerCase().endsWith(".jpg") ||
-            file.name.toLowerCase().endsWith(".jpeg");
-
-        if (!isJpg) {
-
-            showMessage(
-                "收據只允許 JPG / JPEG 格式。",
-                "error-message"
-            );
-
-            return;
-        }
-
-        const maxSize =
-            5 * 1024 * 1024;
-
-        if (file.size > maxSize) {
-
-            showMessage(
-                "收據圖片不能超過 5MB。",
-                "error-message"
-            );
-
-            return;
-        }
-
-
-        const englishName =
-            document.getElementById("englishName").value.trim();
-
-        const icNumber =
-            document.getElementById("icNumber").value.trim();
-
-        const chineseName =
-            document.getElementById("chineseName").value.trim();
-
-        const phone =
-            document.getElementById("phone").value.trim();
-
-        const meal =
-            document.getElementById("meal").value;
-
-        const shirtSize =
-            document.getElementById("shirtSize").value;
-
-        const shirtText =
-            document.getElementById("shirtText").value.trim();
-
-        const participationValue =
-            participation.value;
-
-        const finalPartner =
-            participationValue === "觀眾"
-                ? ""
-                : partnerInput.value.trim();
-
-        const platinum =
-            document.getElementById("platinum").value;
-
 
         isSubmitting = true;
 
@@ -865,83 +843,78 @@ form.addEventListener(
         submitBtn.textContent =
             "正在提交...";
 
-        showMessage(
-            "正在儲存報名資料，請稍候..."
-        );
+        message.textContent =
+            "正在儲存報名資料，請稍候...";
+
+
+        const registrationData = {
+
+            email:
+                currentUser.email || "",
+
+            uid:
+                currentUser.uid,
+
+            englishName:
+                document.getElementById("englishName").value.trim(),
+
+            icNumber:
+                document.getElementById("icNumber").value.trim(),
+
+            chineseName:
+                document.getElementById("chineseName").value.trim(),
+
+            phone:
+                document.getElementById("phone").value.trim(),
+
+            meal:
+                document.getElementById("meal").value,
+
+            shirtSize:
+                document.getElementById("shirtSize").value,
+
+            shirtText:
+                document.getElementById("shirtText").value.trim(),
+
+            participation:
+                participation.value,
+
+            partner:
+                participation.value === "觀眾"
+                    ? ""
+                    : partnerInput.value.trim(),
+
+            platinum:
+                document.getElementById("platinum").value,
+
+            receiptFileName:
+                file.name,
+
+            receiptFileType:
+                file.type,
+
+            receiptFileSize:
+                file.size,
+
+            paymentStatus:
+                "待審核",
+
+            paymentAmount:
+                null,
+
+            paymentDate:
+                null,
+
+            createdAt:
+                serverTimestamp(),
+
+            updatedAt:
+                serverTimestamp()
+
+        };
 
 
         try {
-
-            const registrationData = {
-
-                email:
-                    currentUser.email || "",
-
-                uid:
-                    currentUser.uid,
-
-                englishName:
-                    englishName,
-
-                icNumber:
-                    icNumber,
-
-                chineseName:
-                    chineseName,
-
-                phone:
-                    phone,
-
-                meal:
-                    meal,
-
-                shirtSize:
-                    shirtSize,
-
-                shirtText:
-                    shirtText,
-
-                participation:
-                    participationValue,
-
-                partner:
-                    finalPartner,
-
-                platinum:
-                    platinum,
-
-                receiptFileName:
-                    file.name,
-
-                receiptFileType:
-                    file.type,
-
-                receiptFileSize:
-                    file.size,
-
-                paymentStatus:
-                    "待審核",
-
-                paymentAmount:
-                    null,
-
-                paymentDate:
-                    null,
-
-                createdAt:
-                    serverTimestamp(),
-
-                updatedAt:
-                    serverTimestamp()
-
-            };
-
-
-            console.log(
-                "準備寫入 Firestore：",
-                registrationData
-            );
-
 
             const docRef =
                 await addDoc(
@@ -949,64 +922,38 @@ form.addEventListener(
                     registrationData
                 );
 
+            message.style.color =
+                "#9ff0b0";
 
-            console.log(
-                "Firestore 寫入成功：",
-                docRef.id
-            );
-
-
-            showMessage(
-                "報名成功！報名編號：" + docRef.id,
-                "success-message"
-            );
-
+            message.textContent =
+                "✅ 報名成功！報名編號：" +
+                docRef.id;
 
             submitBtn.textContent =
                 "報名已提交";
-
 
             const inputs =
                 form.querySelectorAll(
                     "input, select, textarea, button"
                 );
 
-            inputs.forEach(
-                (input) => {
-                    input.disabled = true;
-                }
-            );
-
+            inputs.forEach((input) => {
+                input.disabled = true;
+            });
 
         } catch (error) {
 
             console.error(
-                "Firestore 提交錯誤：",
+                "Firestore 錯誤：",
                 error
             );
 
+            message.style.color =
+                "#ffaaaa";
 
-            showMessage(
+            message.textContent =
                 "報名提交失敗：" +
-                (error.message || "未知錯誤"),
-                "error-message"
-            );
-
-
-            const debugBox =
-                document.createElement("div");
-
-            debugBox.className =
-                "debug-box";
-
-            debugBox.textContent =
-                "錯誤代碼：" +
-                (error.code || "無") +
-                "\n錯誤訊息：" +
-                (error.message || "無");
-
-            message.appendChild(debugBox);
-
+                (error.message || "未知錯誤");
 
             submitBtn.disabled = false;
 
