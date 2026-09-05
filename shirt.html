@@ -314,6 +314,33 @@
     }
 
     /* =========================
+       RECEIPT
+    ========================= */
+
+    .receipt-box {
+      border: 2px dashed #b8dccc;
+      background: #f9fefb;
+      border-radius: 16px;
+      padding: 15px;
+    }
+
+    .receipt-box input[type="file"] {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #d8e8e1;
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .receipt-info {
+      margin-top: 8px;
+      color: #7d968e;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* =========================
        SIZE
     ========================= */
 
@@ -430,6 +457,14 @@
       opacity: .6;
       cursor: not-allowed;
       transform: none;
+    }
+
+    .form-message {
+      margin-top: 13px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.7;
+      min-height: 20px;
     }
 
     /* =========================
@@ -985,6 +1020,37 @@
         </div>
 
 
+        <!-- =========================
+             收據
+        ========================= -->
+
+        <div class="field">
+
+          <label>
+            🧾 衣服繳費收據 JPG
+            <span class="required">*</span>
+          </label>
+
+          <div class="receipt-box">
+
+            <input
+              type="file"
+              id="receipt"
+              accept=".jpg,.jpeg,image/jpeg"
+              required
+            >
+
+            <div class="receipt-info">
+              必須上傳 JPG / JPEG 格式。<br>
+              收據圖片不可超過 5MB。<br>
+              收據會自動保存至活動 Google Drive。
+            </div>
+
+          </div>
+
+        </div>
+
+
         <!-- SUBMIT -->
 
         <button
@@ -995,6 +1061,11 @@
           👕 送出衣服訂單
 
         </button>
+
+        <div
+          class="form-message"
+          id="formMessage">
+        </div>
 
       </form>
 
@@ -1016,7 +1087,7 @@
       </div>
 
       <div class="success-text">
-        資料已成功送出。<br>
+        衣服資料與繳費收據已成功送出。<br>
         謝謝你支持 SatayCelup之戰 ❤️
       </div>
 
@@ -1098,8 +1169,16 @@
 
 
   /* =========================================
+     Google Apps Script
+     ========================================= */
+
+  const APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
+
+
+  /* =========================================
      11 位 PLATINUM UID
-  ========================================= */
+     ========================================= */
 
   const PLATINUM_UIDS = {
 
@@ -1141,7 +1220,7 @@
 
   /* =========================================
      ELEMENTS
-  ========================================= */
+     ========================================= */
 
   const loginSection =
     document.getElementById(
@@ -1203,10 +1282,15 @@
       "userEmail"
     );
 
+  const formMessage =
+    document.getElementById(
+      "formMessage"
+    );
+
 
   /* =========================================
      GOOGLE LOGIN
-  ========================================= */
+     ========================================= */
 
   googleLoginBtn.addEventListener(
     "click",
@@ -1221,6 +1305,10 @@
 
         const provider =
           new GoogleAuthProvider();
+
+        provider.setCustomParameters({
+          prompt: "select_account"
+        });
 
         await signInWithPopup(
           auth,
@@ -1249,7 +1337,7 @@
 
   /* =========================================
      AUTH STATE
-  ========================================= */
+     ========================================= */
 
   onAuthStateChanged(
     auth,
@@ -1306,13 +1394,16 @@
 
   /* =========================================
      SUBMIT
-  ========================================= */
+     ========================================= */
 
   shirtForm.addEventListener(
     "submit",
     async (event) => {
 
       event.preventDefault();
+
+      formMessage.textContent = "";
+      formMessage.style.color = "";
 
 
       const user =
@@ -1321,7 +1412,7 @@
 
       if (!user) {
 
-        alert(
+        showError(
           "請先使用 Google 登入。"
         );
 
@@ -1329,6 +1420,10 @@
 
       }
 
+
+      /* =====================================
+         取得資料
+         ===================================== */
 
       const chineseName =
         document
@@ -1369,20 +1464,126 @@
         );
 
 
+      const receipt =
+        document
+          .getElementById(
+            "receipt"
+          )
+          .files[0];
+
+
       /* =====================================
-         VALIDATION
-      ===================================== */
+         必填檢查
+         ===================================== */
+
+      if (!chineseName) {
+
+        showError(
+          "請輸入中文姓名／匿名。"
+        );
+
+        return;
+
+      }
+
+
+      if (!phone) {
+
+        showError(
+          "請輸入電話。"
+        );
+
+        return;
+
+      }
+
+
+      if (!shirtSizeElement) {
+
+        showError(
+          "請選擇衣服尺寸。"
+        );
+
+        return;
+
+      }
+
+
+      if (!shirtText) {
+
+        showError(
+          "請輸入衣服背面文字。"
+        );
+
+        return;
+
+      }
+
+
+      if (!platinumElement) {
+
+        showError(
+          "請選擇你的 Platinum。"
+        );
+
+        return;
+
+      }
+
+
+      /* =====================================
+         收據必填
+         ===================================== */
+
+      if (!receipt) {
+
+        showError(
+          "請上傳衣服繳費收據 JPG。"
+        );
+
+        return;
+
+      }
+
+
+      /* =====================================
+         收據格式
+         ===================================== */
+
+      const validJpg =
+        receipt.type === "image/jpeg" ||
+        receipt.type === "image/jpg" ||
+        /\.(jpg|jpeg)$/i.test(
+          receipt.name
+        );
+
+
+      if (!validJpg) {
+
+        showError(
+          "衣服收據只接受 JPG / JPEG 格式。"
+        );
+
+        return;
+
+      }
+
+
+      /* =====================================
+         收據大小
+         ===================================== */
+
+      const MAX_FILE_SIZE =
+        5 * 1024 * 1024;
+
 
       if (
-        !chineseName ||
-        !phone ||
-        !shirtText ||
-        !shirtSizeElement ||
-        !platinumElement
+        receipt.size >
+        MAX_FILE_SIZE
       ) {
 
-        alert(
-          "請完整填寫所有資料。"
+        showError(
+          "衣服收據圖片不能超過 5MB。"
         );
 
         return;
@@ -1399,16 +1600,18 @@
 
 
       /* =====================================
-         從 Platinum 名稱取得 UID
-      ===================================== */
+         Platinum UID
+         ===================================== */
 
       const platinumUid =
-        PLATINUM_UIDS[platinum];
+        PLATINUM_UIDS[
+          platinum
+        ];
 
 
       if (!platinumUid) {
 
-        alert(
+        showError(
           "這位 Platinum 的系統帳號尚未完成設定，請聯絡管理員。"
         );
 
@@ -1418,93 +1621,140 @@
 
 
       /* =====================================
-         防止錯誤 UID
-      ===================================== */
+         開始
+         ===================================== */
 
-      if (
-        !Object.values(
-          PLATINUM_UIDS
-        ).includes(
-          platinumUid
-        )
-      ) {
-
-        alert(
-          "Platinum 系統設定錯誤，請聯絡管理員。"
-        );
-
-        return;
-
-      }
-
-
-      submitBtn.disabled = true;
+      submitBtn.disabled =
+        true;
 
       submitBtn.textContent =
-        "⏳ 正在送出...";
+        "⏳ 正在處理收據...";
+
+
+      formMessage.textContent =
+        "正在將衣服繳費收據保存至 Google Drive，請稍候...";
+
+      formMessage.style.color =
+        "#477fc5";
 
 
       try {
 
         /* ===================================
-           寫入 Firestore
-        =================================== */
+           1. 上傳衣服收據
+           =================================== */
+
+        const driveResult =
+          await uploadReceiptToDrive(
+            receipt,
+            chineseName
+          );
+
+
+        if (
+          !driveResult ||
+          !driveResult.success
+        ) {
+
+          throw new Error(
+            driveResult?.error ||
+            "Google Drive 上傳失敗"
+          );
+
+        }
+
+
+        /* ===================================
+           2. 寫入 Firestore
+           =================================== */
+
+        submitBtn.textContent =
+          "⏳ 正在保存衣服資料...";
+
+
+        formMessage.textContent =
+          "收據已成功保存，正在建立衣服訂單...";
+
+
+        const shirtOrderData = {
+
+          /* Google 使用者 */
+
+          uid:
+            user.uid,
+
+          email:
+            user.email || "",
+
+          googleName:
+            user.displayName || "",
+
+
+          /* 衣服資料 */
+
+          chineseName:
+            chineseName,
+
+          phone:
+            phone,
+
+          shirtSize:
+            shirtSize,
+
+          shirtText:
+            shirtText,
+
+
+          /* Platinum */
+
+          platinum:
+            platinum,
+
+          platinumUid:
+            platinumUid,
+
+
+          /* 收據 */
+
+          receiptName:
+            receipt.name,
+
+          receiptType:
+            receipt.type,
+
+          receiptSize:
+            receipt.size,
+
+          receiptFileId:
+            driveResult.fileId || "",
+
+          receiptFileName:
+            driveResult.fileName || "",
+
+          receiptDriveUrl:
+            driveResult.driveUrl || "",
+
+
+          /* 建立時間 */
+
+          createdAt:
+            serverTimestamp()
+
+        };
+
 
         await addDoc(
           collection(
             db,
             "shirtOrders"
           ),
-          {
-
-            /* Google 使用者 */
-
-            uid:
-              user.uid,
-
-            email:
-              user.email || "",
-
-            googleName:
-              user.displayName || "",
-
-
-            /* 衣服資料 */
-
-            chineseName:
-              chineseName,
-
-            phone:
-              phone,
-
-            shirtSize:
-              shirtSize,
-
-            shirtText:
-              shirtText,
-
-
-            /* Platinum 歸屬 */
-
-            platinum:
-              platinum,
-
-            platinumUid:
-              platinumUid,
-
-
-            /* 建立時間 */
-
-            createdAt:
-              serverTimestamp()
-
-          }
+          shirtOrderData
         );
 
 
         /* ===================================
-           成功畫面
-        =================================== */
+           3. 成功
+           =================================== */
 
         formSection.style.display =
           "none";
@@ -1521,10 +1771,15 @@
 
       } catch (error) {
 
-        console.error(error);
+        console.error(
+          "Shirt order error:",
+          error
+        );
+
 
         let errorMessage =
-          "送出失敗。";
+          error.message ||
+          "送出失敗，請稍後再試。";
 
 
         if (
@@ -1532,24 +1787,21 @@
           "permission-denied"
         ) {
 
-          errorMessage +=
-            "\n\nFirestore 權限被拒絕。請確認 Firestore Rules 已更新。";
-
-        } else {
-
-          errorMessage +=
-            "\n\n" +
-            error.message;
+          errorMessage =
+            "Firestore 權限被拒絕。請確認 Firestore Rules 已更新。";
 
         }
 
 
-        alert(
+        showError(
+          "衣服訂單送出失敗：" +
           errorMessage
         );
 
+      } finally {
 
-        submitBtn.disabled = false;
+        submitBtn.disabled =
+          false;
 
         submitBtn.textContent =
           "👕 送出衣服訂單";
@@ -1561,14 +1813,17 @@
 
 
   /* =========================================
-     CONTINUE
-  ========================================= */
+     繼續幫其他人買衣服
+     ========================================= */
 
   continueBtn.addEventListener(
     "click",
     () => {
 
       shirtForm.reset();
+
+      formMessage.textContent = "";
+      formMessage.style.color = "";
 
       successSection.style.display =
         "none";
@@ -1582,7 +1837,6 @@
       bottomActions.style.display =
         "flex";
 
-
       submitBtn.disabled =
         false;
 
@@ -1590,9 +1844,25 @@
         "👕 送出衣服訂單";
 
 
+      const user =
+        auth.currentUser;
+
+
+      if (user) {
+
+        userName.textContent =
+          user.displayName ||
+          "Google 使用者";
+
+        userEmail.textContent =
+          user.email || "";
+
+      }
+
+
       window.scrollTo({
-        top:0,
-        behavior:"smooth"
+        top: 0,
+        behavior: "smooth"
       });
 
     }
@@ -1601,7 +1871,7 @@
 
   /* =========================================
      LOGOUT
-  ========================================= */
+     ========================================= */
 
   logoutBtn.addEventListener(
     "click",
@@ -1624,6 +1894,416 @@
 
     }
   );
+
+
+  /* =========================================
+     Google Drive Upload
+     ========================================= */
+
+  async function uploadReceiptToDrive(
+    file,
+    participantName
+  ) {
+
+    return new Promise(
+      async (resolve, reject) => {
+
+        try {
+
+          /* ===============================
+             File → Base64
+             =============================== */
+
+          const base64 =
+            await fileToBase64(
+              file
+            );
+
+
+          const timestamp =
+            Date.now();
+
+
+          const safeParticipantName =
+            sanitizeFileName(
+              participantName
+            );
+
+
+          const fileName =
+            "SatayCelup_衣服收據_" +
+            safeParticipantName +
+            "_" +
+            timestamp +
+            ".jpg";
+
+
+          /* ===============================
+             建立 iframe
+             =============================== */
+
+          const iframeName =
+            "shirtReceiptUploadFrame_" +
+            timestamp;
+
+
+          const iframe =
+            document.createElement(
+              "iframe"
+            );
+
+
+          iframe.name =
+            iframeName;
+
+          iframe.style.display =
+            "none";
+
+
+          document.body.appendChild(
+            iframe
+          );
+
+
+          /* ===============================
+             建立 POST Form
+             =============================== */
+
+          const form =
+            document.createElement(
+              "form"
+            );
+
+
+          form.method =
+            "POST";
+
+          form.action =
+            APPS_SCRIPT_URL;
+
+          form.target =
+            iframeName;
+
+          form.style.display =
+            "none";
+
+
+          addHiddenInput(
+            form,
+            "type",
+            "shirt"
+          );
+
+
+          addHiddenInput(
+            form,
+            "fileName",
+            fileName
+          );
+
+
+          addHiddenInput(
+            form,
+            "mimeType",
+            "image/jpeg"
+          );
+
+
+          addHiddenInput(
+            form,
+            "base64",
+            base64
+          );
+
+
+          document.body.appendChild(
+            form
+          );
+
+
+          /* ===============================
+             完成控制
+             =============================== */
+
+          let finished =
+            false;
+
+
+          const cleanup =
+            () => {
+
+              try {
+                form.remove();
+              } catch (_) {}
+
+              try {
+                iframe.remove();
+              } catch (_) {}
+
+            };
+
+
+          /* ===============================
+             120 秒逾時
+             =============================== */
+
+          const timer =
+            setTimeout(
+              () => {
+
+                if (finished) {
+                  return;
+                }
+
+
+                finished =
+                  true;
+
+
+                cleanup();
+
+
+                reject(
+                  new Error(
+                    "Google Drive 上傳逾時，請重新嘗試。"
+                  )
+                );
+
+              },
+              120000
+            );
+
+
+          /* ===============================
+             接收 Apps Script 回覆
+             =============================== */
+
+          const messageHandler =
+            (event) => {
+
+              if (
+                !event.data ||
+                event.data.source !==
+                  "sataycelup-receipt-upload"
+              ) {
+
+                return;
+
+              }
+
+
+              if (finished) {
+                return;
+              }
+
+
+              finished =
+                true;
+
+
+              clearTimeout(
+                timer
+              );
+
+
+              window.removeEventListener(
+                "message",
+                messageHandler
+              );
+
+
+              cleanup();
+
+
+              resolve(
+                event.data.result
+              );
+
+            };
+
+
+          window.addEventListener(
+            "message",
+            messageHandler
+          );
+
+
+          /* ===============================
+             送出
+             =============================== */
+
+          form.submit();
+
+        } catch (error) {
+
+          reject(error);
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =========================================
+     File → Base64
+     ========================================= */
+
+  function fileToBase64(
+    file
+  ) {
+
+    return new Promise(
+      (resolve, reject) => {
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          () => {
+
+            try {
+
+              const result =
+                reader.result;
+
+
+              const base64 =
+                String(result)
+                  .split(",")[1];
+
+
+              if (!base64) {
+
+                reject(
+                  new Error(
+                    "無法讀取收據圖片。"
+                  )
+                );
+
+                return;
+
+              }
+
+
+              resolve(
+                base64
+              );
+
+            } catch (error) {
+
+              reject(error);
+
+            }
+
+          };
+
+
+        reader.onerror =
+          () => {
+
+            reject(
+              new Error(
+                "無法讀取收據圖片。"
+              )
+            );
+
+          };
+
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================
+     Hidden Input
+     ========================================= */
+
+  function addHiddenInput(
+    form,
+    name,
+    value
+  ) {
+
+    const input =
+      document.createElement(
+        "input"
+      );
+
+
+    input.type =
+      "hidden";
+
+
+    input.name =
+      name;
+
+
+    input.value =
+      value;
+
+
+    form.appendChild(
+      input
+    );
+
+  }
+
+
+  /* =========================================
+     File Name
+     ========================================= */
+
+  function sanitizeFileName(
+    name
+  ) {
+
+    return String(name)
+      .replace(
+        /[\\\/:*?"<>|#%{}]/g,
+        "_"
+      )
+      .replace(
+        /\s+/g,
+        "_"
+      )
+      .substring(
+        0,
+        80
+      );
+
+  }
+
+
+  /* =========================================
+     Error
+     ========================================= */
+
+  function showError(
+    message
+  ) {
+
+    formMessage.textContent =
+      message;
+
+    formMessage.style.color =
+      "#c84b4b";
+
+    submitBtn.disabled =
+      false;
+
+    submitBtn.textContent =
+      "👕 送出衣服訂單";
+
+  }
 
 </script>
 
