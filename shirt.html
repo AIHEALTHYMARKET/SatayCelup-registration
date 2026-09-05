@@ -20,8 +20,15 @@
         "Noto Sans TC",
         "Microsoft JhengHei",
         sans-serif;
+
       background:
-        linear-gradient(180deg, #fffdf5 0%, #f1fff8 55%, #fffaf0 100%);
+        linear-gradient(
+          180deg,
+          #fffdf5 0%,
+          #f1fff8 55%,
+          #fffaf0 100%
+        );
+
       color: #29443d;
       min-height: 100vh;
       line-height: 1.7;
@@ -48,10 +55,24 @@
       overflow: hidden;
       padding: 42px 22px 48px;
       text-align: center;
+
       background:
-        radial-gradient(circle at 15% 20%, #fff0a8 0 45px, transparent 46px),
-        radial-gradient(circle at 90% 15%, #ffd98c 0 35px, transparent 36px),
-        linear-gradient(145deg, #dff8ed, #fff8d9);
+        radial-gradient(
+          circle at 15% 20%,
+          #fff0a8 0 45px,
+          transparent 46px
+        ),
+        radial-gradient(
+          circle at 90% 15%,
+          #ffd98c 0 35px,
+          transparent 36px
+        ),
+        linear-gradient(
+          145deg,
+          #dff8ed,
+          #fff8d9
+        );
+
       border-radius: 0 0 38px 38px;
     }
 
@@ -109,11 +130,11 @@
 
     .card {
       background: rgba(255,255,255,.92);
-      border: 1px solid rgba(87, 147, 125, .12);
+      border: 1px solid rgba(87,147,125,.12);
       border-radius: 24px;
       padding: 22px;
       margin-bottom: 18px;
-      box-shadow: 0 10px 30px rgba(47, 89, 75, .08);
+      box-shadow: 0 10px 30px rgba(47,89,75,.08);
     }
 
     .card-title {
@@ -127,20 +148,29 @@
     }
 
     /* =========================
-       SHIRT PHOTO PLACEHOLDER
+       SHIRT PREVIEW
     ========================= */
 
     .shirt-preview {
       border-radius: 20px;
       min-height: 310px;
+
       background:
-        linear-gradient(135deg, #f6fff9, #fff8dc);
+        linear-gradient(
+          135deg,
+          #f6fff9,
+          #fff8dc
+        );
+
       border: 2px dashed #b8dccc;
+
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
       text-align: center;
+
       padding: 30px 20px;
       margin-bottom: 18px;
     }
@@ -289,7 +319,7 @@
 
     .size-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4,1fr);
       gap: 9px;
     }
 
@@ -331,7 +361,7 @@
 
     .platinum-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2,1fr);
       gap: 9px;
     }
 
@@ -376,7 +406,12 @@
       border: none;
       border-radius: 17px;
       padding: 16px;
-      background: linear-gradient(135deg, #ef8b3b, #e56d2d);
+      background:
+        linear-gradient(
+          135deg,
+          #ef8b3b,
+          #e56d2d
+        );
       color: white;
       font-size: 18px;
       font-weight: 900;
@@ -447,7 +482,7 @@
     }
 
     /* =========================
-       LOGOUT / BACK
+       BOTTOM
     ========================= */
 
     .bottom-actions {
@@ -486,7 +521,7 @@
        MOBILE
     ========================= */
 
-    @media (max-width: 480px) {
+    @media (max-width:480px){
 
       .hero {
         padding: 35px 18px 43px;
@@ -510,13 +545,15 @@
       }
 
       .size-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3,1fr);
       }
 
       .platinum-grid {
         grid-template-columns: 1fr;
       }
+
     }
+
   </style>
 </head>
 
@@ -525,6 +562,7 @@
 <div class="page">
 
   <!-- HERO -->
+
   <section class="hero">
 
     <div class="eyebrow">
@@ -545,6 +583,7 @@
   <main class="content">
 
     <!-- 衣服介紹 -->
+
     <section class="card">
 
       <div class="card-title">
@@ -563,7 +602,7 @@
 
         <p>
           衣服設計圖準備後<br>
-         會放在這裡
+          會放在這裡
         </p>
 
       </div>
@@ -581,7 +620,10 @@
 
 
     <!-- LOGIN -->
-    <section class="card" id="loginSection">
+
+    <section
+      class="card"
+      id="loginSection">
 
       <div class="card-title">
         🔐 Google 登入
@@ -595,19 +637,27 @@
       <button
         type="button"
         class="google-btn"
-        id="googleLoginBtn"
-      >
-        <span class="google-icon">🌐</span>
+        id="googleLoginBtn">
+
+        <span class="google-icon">
+          🌐
+        </span>
+
         使用 Google 登入
+
       </button>
 
     </section>
 
 
     <!-- USER INFO -->
-    <section class="card" id="userInfo">
+
+    <section
+      class="card"
+      id="userInfo">
 
       <div class="logged-user">
+
         👋 歡迎你！
 
         <strong id="userName">
@@ -619,13 +669,17 @@
         <span id="userEmail">
           -
         </span>
+
       </div>
 
     </section>
 
 
     <!-- FORM -->
-    <section class="card" id="formSection">
+
+    <section
+      class="card"
+      id="formSection">
 
       <div class="card-title">
         📝 衣服資料
@@ -634,6 +688,7 @@
       <form id="shirtForm">
 
         <!-- 中文姓名 -->
+
         <div class="field">
 
           <label>
@@ -652,6 +707,7 @@
 
 
         <!-- 電話 -->
+
         <div class="field">
 
           <label>
@@ -670,6 +726,7 @@
 
 
         <!-- 尺寸 -->
+
         <div class="field">
 
           <label>
@@ -756,6 +813,7 @@
 
 
         <!-- 背面文字 -->
+
         <div class="field">
 
           <label>
@@ -778,7 +836,8 @@
         </div>
 
 
-        <!-- 白金 -->
+        <!-- PLATINUM -->
+
         <div class="field">
 
           <label>
@@ -789,58 +848,136 @@
           <div class="platinum-grid">
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p1" value="Sense&Lavenier" required>
-              <label for="p1">Sense&Lavenier</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p1"
+                value="Sense&Lavenier"
+                required
+              >
+              <label for="p1">
+                Sense&Lavenier
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p2" value="Amos">
-              <label for="p2">Amos</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p2"
+                value="Amos"
+              >
+              <label for="p2">
+                Amos
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p3" value="Sunny">
-              <label for="p3">Sunny</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p3"
+                value="Sunny"
+              >
+              <label for="p3">
+                Sunny
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p4" value="Robin&Zoey">
-              <label for="p4">Robin&Zoey</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p4"
+                value="Robin&Zoey"
+              >
+              <label for="p4">
+                Robin&Zoey
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p5" value="RyanLio">
-              <label for="p5">RyanLio</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p5"
+                value="RyanLio"
+              >
+              <label for="p5">
+                RyanLio
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p6" value="Wyane&Momo">
-              <label for="p6">Wyane&Momo</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p6"
+                value="Wyane&Momo"
+              >
+              <label for="p6">
+                Wyane&Momo
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p7" value="Jess">
-              <label for="p7">Jess</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p7"
+                value="Jess"
+              >
+              <label for="p7">
+                Jess
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p8" value="Keong&Ngah">
-              <label for="p8">Keong&Ngah</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p8"
+                value="Keong&Ngah"
+              >
+              <label for="p8">
+                Keong&Ngah
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p9" value="JayChew">
-              <label for="p9">JayChew</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p9"
+                value="JayChew"
+              >
+              <label for="p9">
+                JayChew
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p10" value="Lynn">
-              <label for="p10">Lynn</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p10"
+                value="Lynn"
+              >
+              <label for="p10">
+                Lynn
+              </label>
             </div>
 
             <div class="platinum-option">
-              <input type="radio" name="platinum" id="p11" value="SzeChew">
-              <label for="p11">SzeChew</label>
+              <input
+                type="radio"
+                name="platinum"
+                id="p11"
+                value="SzeChew"
+              >
+              <label for="p11">
+                SzeChew
+              </label>
             </div>
 
           </div>
@@ -849,12 +986,14 @@
 
 
         <!-- SUBMIT -->
+
         <button
           type="submit"
           class="submit-btn"
-          id="submitBtn"
-        >
+          id="submitBtn">
+
           👕 送出衣服訂單
+
         </button>
 
       </form>
@@ -863,7 +1002,10 @@
 
 
     <!-- SUCCESS -->
-    <section class="card" id="successSection">
+
+    <section
+      class="card"
+      id="successSection">
 
       <div class="success-icon">
         🎉
@@ -880,26 +1022,28 @@
 
       <button
         class="action-btn action-primary"
-        id="continueBtn"
-      >
+        id="continueBtn">
+
         👕 繼續幫其他人買衣服
+
       </button>
 
       <a
         href="index.html"
-        class="action-btn action-secondary"
-      >
+        class="action-btn action-secondary">
+
         🏠 返回活動介紹
+
       </a>
 
     </section>
 
 
     <!-- BOTTOM -->
+
     <div
       class="bottom-actions"
-      id="bottomActions"
-    >
+      id="bottomActions">
 
       <a href="index.html">
         ← 活動介紹
@@ -907,9 +1051,10 @@
 
       <button
         type="button"
-        id="logoutBtn"
-      >
+        id="logoutBtn">
+
         登出 Google
+
       </button>
 
     </div>
@@ -918,8 +1063,10 @@
 
 
   <footer>
+
     🍢 SatayCelup之戰 2026<br>
     一起吃・一起玩・一起留下回憶
+
   </footer>
 
 </div>
@@ -932,13 +1079,17 @@
     signInWithPopup,
     onAuthStateChanged,
     signOut
-  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+  } from
+  "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
   import {
     collection,
     addDoc,
     serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+  } from
+  "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
 
   import {
     auth,
@@ -946,50 +1097,116 @@
   } from "./js/firebase-config.js";
 
 
-  /* =========================
+  /* =========================================
+     11 位 PLATINUM UID
+  ========================================= */
+
+  const PLATINUM_UIDS = {
+
+    "Sense&Lavenier":
+      "2rNB2dEMwYeDxMPHxJGMq9F7vHU2",
+
+    "Amos":
+      "ZzWLiS9wR7dOy4lwpW9E3PxmNiE2",
+
+    "Sunny":
+      "TZHOLfx55dRfomerJJL1ZaxdfMm1",
+
+    "Robin&Zoey":
+      "NV6OKbVKe7QSX06nKUUEGhoBae32",
+
+    "RyanLio":
+      "cqW7ZHpWsmdjsc1zJiAL9MhRlIA2",
+
+    "Wyane&Momo":
+      "Zn6rj5cQ84P6wiPr6QpvFhACXkV2",
+
+    "Jess":
+      "6iYJHVztThdgj4jpN3pdewzUDbE2",
+
+    "Keong&Ngah":
+      "Zgil7YpCJsdD4qT5oAmfI0vLBl53",
+
+    "JayChew":
+      "UALJAeujRXazWubxSTRsFo5OxwI3",
+
+    "Lynn":
+      "x7Kp4XNKcBV4MzHIG7DBdwnSYWV2",
+
+    "SzeChew":
+      "hY1QzYljziQsprfbFFowNteqmuH2"
+
+  };
+
+
+  /* =========================================
      ELEMENTS
-  ========================= */
+  ========================================= */
 
   const loginSection =
-    document.getElementById("loginSection");
+    document.getElementById(
+      "loginSection"
+    );
 
   const formSection =
-    document.getElementById("formSection");
+    document.getElementById(
+      "formSection"
+    );
 
   const successSection =
-    document.getElementById("successSection");
+    document.getElementById(
+      "successSection"
+    );
 
   const userInfo =
-    document.getElementById("userInfo");
+    document.getElementById(
+      "userInfo"
+    );
 
   const bottomActions =
-    document.getElementById("bottomActions");
+    document.getElementById(
+      "bottomActions"
+    );
 
   const googleLoginBtn =
-    document.getElementById("googleLoginBtn");
+    document.getElementById(
+      "googleLoginBtn"
+    );
 
   const logoutBtn =
-    document.getElementById("logoutBtn");
+    document.getElementById(
+      "logoutBtn"
+    );
 
   const shirtForm =
-    document.getElementById("shirtForm");
+    document.getElementById(
+      "shirtForm"
+    );
 
   const submitBtn =
-    document.getElementById("submitBtn");
+    document.getElementById(
+      "submitBtn"
+    );
 
   const continueBtn =
-    document.getElementById("continueBtn");
+    document.getElementById(
+      "continueBtn"
+    );
 
   const userName =
-    document.getElementById("userName");
+    document.getElementById(
+      "userName"
+    );
 
   const userEmail =
-    document.getElementById("userEmail");
+    document.getElementById(
+      "userEmail"
+    );
 
 
-  /* =========================
+  /* =========================================
      GOOGLE LOGIN
-  ========================= */
+  ========================================= */
 
   googleLoginBtn.addEventListener(
     "click",
@@ -1030,9 +1247,9 @@
   );
 
 
-  /* =========================
+  /* =========================================
      AUTH STATE
-  ========================= */
+  ========================================= */
 
   onAuthStateChanged(
     auth,
@@ -1087,9 +1304,9 @@
   );
 
 
-  /* =========================
+  /* =========================================
      SUBMIT
-  ========================= */
+  ========================================= */
 
   shirtForm.addEventListener(
     "submit",
@@ -1097,7 +1314,10 @@
 
       event.preventDefault();
 
-      const user = auth.currentUser;
+
+      const user =
+        auth.currentUser;
+
 
       if (!user) {
 
@@ -1112,26 +1332,36 @@
 
       const chineseName =
         document
-          .getElementById("chineseName")
+          .getElementById(
+            "chineseName"
+          )
           .value
           .trim();
+
 
       const phone =
         document
-          .getElementById("phone")
+          .getElementById(
+            "phone"
+          )
           .value
           .trim();
 
-      const shirtBack =
+
+      const shirtText =
         document
-          .getElementById("shirtBack")
+          .getElementById(
+            "shirtBack"
+          )
           .value
           .trim();
+
 
       const shirtSizeElement =
         document.querySelector(
           'input[name="shirtSize"]:checked'
         );
+
 
       const platinumElement =
         document.querySelector(
@@ -1139,10 +1369,14 @@
         );
 
 
+      /* =====================================
+         VALIDATION
+      ===================================== */
+
       if (
         !chineseName ||
         !phone ||
-        !shirtBack ||
+        !shirtText ||
         !shirtSizeElement ||
         !platinumElement
       ) {
@@ -1159,8 +1393,49 @@
       const shirtSize =
         shirtSizeElement.value;
 
+
       const platinum =
         platinumElement.value;
+
+
+      /* =====================================
+         從 Platinum 名稱取得 UID
+      ===================================== */
+
+      const platinumUid =
+        PLATINUM_UIDS[platinum];
+
+
+      if (!platinumUid) {
+
+        alert(
+          "這位 Platinum 的系統帳號尚未完成設定，請聯絡管理員。"
+        );
+
+        return;
+
+      }
+
+
+      /* =====================================
+         防止錯誤 UID
+      ===================================== */
+
+      if (
+        !Object.values(
+          PLATINUM_UIDS
+        ).includes(
+          platinumUid
+        )
+      ) {
+
+        alert(
+          "Platinum 系統設定錯誤，請聯絡管理員。"
+        );
+
+        return;
+
+      }
 
 
       submitBtn.disabled = true;
@@ -1171,6 +1446,10 @@
 
       try {
 
+        /* ===================================
+           寫入 Firestore
+        =================================== */
+
         await addDoc(
           collection(
             db,
@@ -1178,12 +1457,19 @@
           ),
           {
 
+            /* Google 使用者 */
+
+            uid:
+              user.uid,
+
             email:
-              user.email,
+              user.email || "",
 
             googleName:
-              user.displayName ||
-              "",
+              user.displayName || "",
+
+
+            /* 衣服資料 */
 
             chineseName:
               chineseName,
@@ -1194,11 +1480,20 @@
             shirtSize:
               shirtSize,
 
-            shirtBack:
-              shirtBack,
+            shirtText:
+              shirtText,
+
+
+            /* Platinum 歸屬 */
 
             platinum:
               platinum,
+
+            platinumUid:
+              platinumUid,
+
+
+            /* 建立時間 */
 
             createdAt:
               serverTimestamp()
@@ -1207,7 +1502,9 @@
         );
 
 
-        /* 成功畫面 */
+        /* ===================================
+           成功畫面
+        =================================== */
 
         formSection.style.display =
           "none";
@@ -1226,10 +1523,31 @@
 
         console.error(error);
 
+        let errorMessage =
+          "送出失敗。";
+
+
+        if (
+          error.code ===
+          "permission-denied"
+        ) {
+
+          errorMessage +=
+            "\n\nFirestore 權限被拒絕。請確認 Firestore Rules 已更新。";
+
+        } else {
+
+          errorMessage +=
+            "\n\n" +
+            error.message;
+
+        }
+
+
         alert(
-          "送出失敗。\n\n" +
-          error.message
+          errorMessage
         );
+
 
         submitBtn.disabled = false;
 
@@ -1242,9 +1560,9 @@
   );
 
 
-  /* =========================
+  /* =========================================
      CONTINUE
-  ========================= */
+  ========================================= */
 
   continueBtn.addEventListener(
     "click",
@@ -1264,18 +1582,26 @@
       bottomActions.style.display =
         "flex";
 
+
+      submitBtn.disabled =
+        false;
+
+      submitBtn.textContent =
+        "👕 送出衣服訂單";
+
+
       window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        top:0,
+        behavior:"smooth"
       });
 
     }
   );
 
 
-  /* =========================
+  /* =========================================
      LOGOUT
-  ========================= */
+  ========================================= */
 
   logoutBtn.addEventListener(
     "click",
