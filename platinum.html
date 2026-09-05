@@ -164,21 +164,100 @@
       line-height:1.7;
     }
 
-    .google-btn{
+    .login-form{
+      margin-top:25px;
+      text-align:left;
+    }
+
+    .login-field{
+      margin-bottom:15px;
+    }
+
+    .login-field label{
+      display:block;
+      font-size:13px;
+      font-weight:800;
+      color:var(--text);
+      margin-bottom:7px;
+    }
+
+    .password-wrap{
+      position:relative;
+    }
+
+    .login-input{
       width:100%;
       border:1px solid var(--border);
+      border-radius:13px;
+      padding:13px 45px 13px 14px;
+      outline:none;
       background:white;
       color:var(--text);
+    }
+
+    .login-input:focus{
+      border-color:var(--mint-dark);
+      box-shadow:0 0 0 3px rgba(36,122,85,.08);
+    }
+
+    .password-toggle{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform:translateY(-50%);
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      font-size:18px;
+      padding:5px;
+    }
+
+    .login-btn{
+      width:100%;
+      border:0;
+      background:var(--mint-dark);
+      color:white;
       padding:14px;
       border-radius:14px;
       cursor:pointer;
       font-weight:800;
-      margin-top:20px;
-      box-shadow:0 4px 12px rgba(0,0,0,.04);
+      margin-top:8px;
+      box-shadow:0 5px 15px rgba(36,122,85,.18);
     }
 
-    .google-btn:hover{
-      background:#fafafa;
+    .login-btn:hover{
+      opacity:.9;
+    }
+
+    .login-btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    .forgot-btn{
+      display:block;
+      margin:17px auto 0;
+      border:0;
+      background:transparent;
+      color:var(--blue);
+      cursor:pointer;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .forgot-btn:hover{
+      text-decoration:underline;
+    }
+
+    .login-hint{
+      margin-top:22px;
+      padding:12px 14px;
+      border-radius:12px;
+      background:#f7faf8;
+      border:1px solid var(--border);
+      font-size:12px;
+      line-height:1.7;
+      color:var(--muted);
     }
 
     /* =========================
@@ -460,12 +539,6 @@
       color:var(--muted);
     }
 
-    .loading{
-      padding:50px 20px;
-      text-align:center;
-      color:var(--muted);
-    }
-
     .badge{
       display:inline-block;
       padding:5px 9px;
@@ -480,6 +553,7 @@
     ========================= */
 
     @media(max-width:1200px){
+
       .stats{
         grid-template-columns:repeat(4,1fr);
       }
@@ -487,6 +561,7 @@
       .filter-grid{
         grid-template-columns:2fr 1fr 1fr;
       }
+
     }
 
     @media(max-width:760px){
@@ -547,6 +622,7 @@
         margin:35px auto;
         padding:28px 20px;
       }
+
     }
   </style>
 </head>
@@ -569,19 +645,97 @@
 
       <p>
         SatayCelup之戰<br>
-        請使用你的 Google 帳號登入。
+        請使用你的 Email 與密碼登入。
       </p>
 
       <p style="font-size:13px;">
-        系統會自動辨識你的 Platinum 身份，
+        登入後系統會自動辨識你的 Platinum 身份，
         你只能查看自己的團隊資料。
       </p>
 
+
+      <div id="loginMessage" class="alert"></div>
+
+
+      <form id="loginForm" class="login-form">
+
+        <div class="login-field">
+
+          <label for="emailInput">
+            Email
+          </label>
+
+          <input
+            id="emailInput"
+            class="login-input"
+            type="email"
+            placeholder="請輸入你的 Email"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+
+        <div class="login-field">
+
+          <label for="passwordInput">
+            密碼
+          </label>
+
+          <div class="password-wrap">
+
+            <input
+              id="passwordInput"
+              class="login-input"
+              type="password"
+              placeholder="請輸入密碼"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              id="passwordToggle"
+              class="password-toggle"
+              aria-label="顯示密碼">
+              👁️
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          id="loginBtn"
+          type="submit"
+          class="login-btn">
+          🔐 登入 Platinum 系統
+        </button>
+
+      </form>
+
+
       <button
-        id="googleLoginBtn"
-        class="google-btn">
-        🔐 使用 Google 帳號登入
+        id="forgotPasswordBtn"
+        class="forgot-btn"
+        type="button">
+        忘記密碼？
       </button>
+
+
+      <div class="login-hint">
+
+        💡 <strong>第一次登入</strong><br>
+
+        請使用管理員提供給你的
+        Email 與密碼登入。<br>
+
+        如果忘記密碼，可以點擊「忘記密碼」
+        重新設定。
+
+      </div>
 
     </div>
 
@@ -669,74 +823,42 @@
 
       <div class="stat">
         <div class="stat-label">我的團隊報名</div>
-        <div
-          class="stat-value"
-          id="totalRegistrations">
-          0
-        </div>
+        <div class="stat-value" id="totalRegistrations">0</div>
       </div>
 
       <div class="stat">
         <div class="stat-label">只買衣服</div>
-        <div
-          class="stat-value"
-          id="totalOrders">
-          0
-        </div>
+        <div class="stat-value" id="totalOrders">0</div>
       </div>
 
       <div class="stat">
         <div class="stat-label">衣服總數</div>
-        <div
-          class="stat-value"
-          id="totalShirts">
-          0
-        </div>
+        <div class="stat-value" id="totalShirts">0</div>
       </div>
 
       <div class="stat">
         <div class="stat-label">葷食</div>
-        <div
-          class="stat-value"
-          id="totalMeat">
-          0
-        </div>
+        <div class="stat-value" id="totalMeat">0</div>
       </div>
 
       <div class="stat">
         <div class="stat-label">素食</div>
-        <div
-          class="stat-value"
-          id="totalVegetarian">
-          0
-        </div>
+        <div class="stat-value" id="totalVegetarian">0</div>
       </div>
 
       <div class="stat">
         <div class="stat-label">羽球</div>
-        <div
-          class="stat-value"
-          id="totalBadminton">
-          0
-        </div>
+        <div class="stat-value" id="totalBadminton">0</div>
       </div>
 
       <div class="stat">
         <div class="stat-label">Pickleball</div>
-        <div
-          class="stat-value"
-          id="totalPickleball">
-          0
-        </div>
+        <div class="stat-value" id="totalPickleball">0</div>
       </div>
 
       <div class="stat">
         <div class="stat-label">觀眾</div>
-        <div
-          class="stat-value"
-          id="totalAudience">
-          0
-        </div>
+        <div class="stat-value" id="totalAudience">0</div>
       </div>
 
     </div>
@@ -792,17 +914,9 @@
 
           <select id="mealFilter">
 
-            <option value="">
-              全部
-            </option>
-
-            <option value="葷食">
-              葷食
-            </option>
-
-            <option value="素食">
-              素食
-            </option>
+            <option value="">全部</option>
+            <option value="葷食">葷食</option>
+            <option value="素食">素食</option>
 
           </select>
 
@@ -819,21 +933,10 @@
 
           <select id="participationFilter">
 
-            <option value="">
-              全部
-            </option>
-
-            <option value="羽球">
-              羽球
-            </option>
-
-            <option value="pickleball">
-              Pickleball
-            </option>
-
-            <option value="觀眾">
-              觀眾
-            </option>
+            <option value="">全部</option>
+            <option value="羽球">羽球</option>
+            <option value="pickleball">Pickleball</option>
+            <option value="觀眾">觀眾</option>
 
           </select>
 
@@ -848,9 +951,7 @@
 
           <select id="shirtSizeFilter">
 
-            <option value="">
-              全部
-            </option>
+            <option value="">全部</option>
 
             <option value="XS">XS</option>
             <option value="S">S</option>
@@ -890,9 +991,7 @@
 
       </div>
 
-      <div
-        id="registrationTable">
-      </div>
+      <div id="registrationTable"></div>
 
     </div>
 
@@ -918,9 +1017,7 @@
 
       </div>
 
-      <div
-        id="orderTable">
-      </div>
+      <div id="orderTable"></div>
 
     </div>
 
@@ -936,14 +1033,16 @@
   } from
   "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
+
   import {
     getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
     onAuthStateChanged,
     signOut
   } from
   "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
   import {
     getFirestore,
@@ -987,8 +1086,10 @@
   const app =
     initializeApp(firebaseConfig);
 
+
   const auth =
     getAuth(app);
+
 
   const db =
     getFirestore(app);
@@ -1061,8 +1162,26 @@
   const appSection =
     document.getElementById("app");
 
-  const googleLoginBtn =
-    document.getElementById("googleLoginBtn");
+  const loginForm =
+    document.getElementById("loginForm");
+
+  const emailInput =
+    document.getElementById("emailInput");
+
+  const passwordInput =
+    document.getElementById("passwordInput");
+
+  const loginBtn =
+    document.getElementById("loginBtn");
+
+  const passwordToggle =
+    document.getElementById("passwordToggle");
+
+  const forgotPasswordBtn =
+    document.getElementById("forgotPasswordBtn");
+
+  const loginMessage =
+    document.getElementById("loginMessage");
 
   const logoutBtn =
     document.getElementById("logoutBtn");
@@ -1072,7 +1191,36 @@
 
 
   /* =========================================
-     MESSAGE
+     LOGIN MESSAGE
+  ========================================= */
+
+  function showLoginMessage(
+    text,
+    type = "error"
+  ){
+
+    loginMessage.textContent =
+      text;
+
+    loginMessage.className =
+      "alert show " + type;
+
+  }
+
+
+  function clearLoginMessage(){
+
+    loginMessage.textContent =
+      "";
+
+    loginMessage.className =
+      "alert";
+
+  }
+
+
+  /* =========================================
+     MAIN MESSAGE
   ========================================= */
 
   function showMessage(
@@ -1080,7 +1228,8 @@
     type = "success"
   ){
 
-    message.textContent = text;
+    message.textContent =
+      text;
 
     message.className =
       "alert show " + type;
@@ -1110,10 +1259,13 @@
       value === null ||
       value === undefined
     ){
+
       return "";
+
     }
 
     return String(value)
+
       .replace(/&/g,"&amp;")
       .replace(/</g,"&lt;")
       .replace(/>/g,"&gt;")
@@ -1134,8 +1286,12 @@
       of Object.entries(PLATINUM_UIDS)
     ){
 
-      if(platinumUid === uid){
+      if(
+        platinumUid === uid
+      ){
+
         return name;
+
       }
 
     }
@@ -1146,44 +1302,236 @@
 
 
   /* =========================================
-     GOOGLE LOGIN
+     FIREBASE AUTH ERROR
   ========================================= */
 
-  googleLoginBtn.addEventListener(
+  function getLoginErrorMessage(error){
+
+    switch(error.code){
+
+      case "auth/invalid-credential":
+
+        return "Email 或密碼錯誤，請重新確認。";
+
+      case "auth/invalid-login-credentials":
+
+        return "Email 或密碼錯誤，請重新確認。";
+
+      case "auth/user-not-found":
+
+        return "找不到這個 Email 帳號。";
+
+      case "auth/wrong-password":
+
+        return "密碼錯誤，請重新輸入。";
+
+      case "auth/invalid-email":
+
+        return "Email 格式不正確。";
+
+      case "auth/user-disabled":
+
+        return "這個帳號已被停用，請聯絡管理員。";
+
+      case "auth/too-many-requests":
+
+        return "登入嘗試次數過多，請稍後再試。";
+
+      case "auth/network-request-failed":
+
+        return "網路連線失敗，請檢查網路後再試。";
+
+      case "auth/operation-not-allowed":
+
+        return "Firebase 尚未開啟 Email/Password 登入功能。";
+
+      default:
+
+        return "登入失敗：" +
+          (error.message || "未知錯誤");
+
+    }
+
+  }
+
+
+  /* =========================================
+     PASSWORD SHOW / HIDE
+  ========================================= */
+
+  passwordToggle.addEventListener(
     "click",
-    async () => {
+    () => {
+
+      if(
+        passwordInput.type === "password"
+      ){
+
+        passwordInput.type =
+          "text";
+
+        passwordToggle.textContent =
+          "🙈";
+
+        passwordToggle.setAttribute(
+          "aria-label",
+          "隱藏密碼"
+        );
+
+      }else{
+
+        passwordInput.type =
+          "password";
+
+        passwordToggle.textContent =
+          "👁️";
+
+        passwordToggle.setAttribute(
+          "aria-label",
+          "顯示密碼"
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =========================================
+     EMAIL / PASSWORD LOGIN
+  ========================================= */
+
+  loginForm.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+      clearLoginMessage();
+
+      const email =
+        emailInput.value
+          .trim();
+
+      const password =
+        passwordInput.value;
+
+
+      if(!email){
+
+        showLoginMessage(
+          "請輸入 Email。",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if(!password){
+
+        showLoginMessage(
+          "請輸入密碼。",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      loginBtn.disabled =
+        true;
+
+      loginBtn.textContent =
+        "登入中...";
+
 
       try{
 
-        googleLoginBtn.disabled = true;
-
-        googleLoginBtn.textContent =
-          "登入中...";
-
-        const provider =
-          new GoogleAuthProvider();
-
-        await signInWithPopup(
+        await signInWithEmailAndPassword(
           auth,
-          provider
+          email,
+          password
         );
 
       }catch(error){
 
-        console.error(error);
+        console.error(
+          "LOGIN ERROR:",
+          error
+        );
 
-        showMessage(
-          "Google 登入失敗：" +
-          error.message,
+        showLoginMessage(
+          getLoginErrorMessage(error),
           "error"
         );
 
       }finally{
 
-        googleLoginBtn.disabled = false;
+        loginBtn.disabled =
+          false;
 
-        googleLoginBtn.textContent =
-          "🔐 使用 Google 帳號登入";
+        loginBtn.textContent =
+          "🔐 登入 Platinum 系統";
+
+      }
+
+    }
+  );
+
+
+  /* =========================================
+     FORGOT PASSWORD
+  ========================================= */
+
+  forgotPasswordBtn.addEventListener(
+    "click",
+    async () => {
+
+      clearLoginMessage();
+
+      const email =
+        emailInput.value.trim();
+
+
+      if(!email){
+
+        showLoginMessage(
+          "請先輸入你的 Email，再點擊「忘記密碼」。",
+          "warning"
+        );
+
+        emailInput.focus();
+
+        return;
+
+      }
+
+
+      try{
+
+        await sendPasswordResetEmail(
+          auth,
+          email
+        );
+
+
+        showLoginMessage(
+          "密碼重設信已寄出，請到你的 Email 收取重設連結。",
+          "success"
+        );
+
+
+      }catch(error){
+
+        console.error(error);
+
+        showLoginMessage(
+          getLoginErrorMessage(error),
+          "error"
+        );
 
       }
 
@@ -1197,11 +1545,12 @@
 
   onAuthStateChanged(
     auth,
-    async (user) => {
+    async user => {
 
       if(!user){
 
         currentUser = null;
+
         currentPlatinum = null;
 
         loginSection.style.display =
@@ -1215,8 +1564,21 @@
       }
 
 
+      console.log(
+        "Firebase 登入成功 UID:",
+        user.uid
+      );
+
+      console.log(
+        "登入 Email:",
+        user.email
+      );
+
+
       const platinumName =
-        getPlatinumNameByUid(user.uid);
+        getPlatinumNameByUid(
+          user.uid
+        );
 
 
       /* -------------------------------------
@@ -1225,10 +1587,28 @@
 
       if(!platinumName){
 
-        showMessage(
-          "此 Google 帳號不是 Platinum 系統帳號。",
+        currentUser = null;
+
+        currentPlatinum = null;
+
+        loginSection.style.display =
+          "block";
+
+        appSection.style.display =
+          "none";
+
+
+        showLoginMessage(
+          "這個 Email 已成功登入，但不是系統登記的 Platinum 帳號。請確認管理員建立的帳號是否正確。",
           "error"
         );
+
+
+        console.error(
+          "非 Platinum UID:",
+          user.uid
+        );
+
 
         await signOut(auth);
 
@@ -1241,9 +1621,11 @@
          是 Platinum
       ------------------------------------- */
 
-      currentUser = user;
+      currentUser =
+        user;
 
-      currentPlatinum = platinumName;
+      currentPlatinum =
+        platinumName;
 
 
       document.getElementById(
@@ -1251,10 +1633,12 @@
       ).textContent =
         platinumName;
 
+
       document.getElementById(
         "welcomeName"
       ).textContent =
         platinumName;
+
 
       document.getElementById(
         "userEmail"
@@ -1265,6 +1649,7 @@
       loginSection.style.display =
         "none";
 
+
       appSection.style.display =
         "block";
 
@@ -1272,7 +1657,6 @@
       await loadAllData();
 
     }
-
   );
 
 
@@ -1334,7 +1718,8 @@
       }else{
 
         errorText +=
-          " " + error.message;
+          " " +
+          error.message;
 
       }
 
@@ -1356,7 +1741,9 @@
   async function loadRegistrations(){
 
     if(!currentUser){
+
       return;
+
     }
 
 
@@ -1401,7 +1788,9 @@
   async function loadShirtOrders(){
 
     if(!currentUser){
+
       return;
+
     }
 
 
@@ -1476,28 +1865,37 @@
 
     let shirtTotal = 0;
 
-    registrations.forEach(item => {
 
-      if(item.shirtSize){
-        shirtTotal++;
-      }
+    registrations.forEach(
+      item => {
 
-    });
+        if(item.shirtSize){
 
+          shirtTotal++;
 
-    shirtOrders.forEach(item => {
-
-      if(item.shirtSize){
-
-        const quantity =
-          Number(item.quantity || 1);
-
-        shirtTotal +=
-          quantity;
+        }
 
       }
+    );
 
-    });
+
+    shirtOrders.forEach(
+      item => {
+
+        if(item.shirtSize){
+
+          const quantity =
+            Number(
+              item.quantity || 1
+            );
+
+          shirtTotal +=
+            quantity;
+
+        }
+
+      }
+    );
 
 
     document.getElementById(
@@ -1508,19 +1906,22 @@
 
     const meat =
       registrations.filter(
-        item => item.meal === "葷食"
+        item =>
+          item.meal === "葷食"
       ).length;
 
 
     const vegetarian =
       registrations.filter(
-        item => item.meal === "素食"
+        item =>
+          item.meal === "素食"
       ).length;
 
 
     const badminton =
       registrations.filter(
-        item => item.participation === "羽球"
+        item =>
+          item.participation === "羽球"
       ).length;
 
 
@@ -1624,44 +2025,54 @@
       ).value;
 
 
-    return registrations.filter(item => {
+    return registrations.filter(
+      item => {
 
-      if(
-        search &&
-        !getSearchText(item)
-          .includes(search)
-      ){
-        return false;
+        if(
+          search &&
+          !getSearchText(item)
+            .includes(search)
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          meal &&
+          item.meal !== meal
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          participation &&
+          item.participation !== participation
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          shirtSize &&
+          item.shirtSize !== shirtSize
+        ){
+
+          return false;
+
+        }
+
+
+        return true;
+
       }
-
-
-      if(
-        meal &&
-        item.meal !== meal
-      ){
-        return false;
-      }
-
-
-      if(
-        participation &&
-        item.participation !== participation
-      ){
-        return false;
-      }
-
-
-      if(
-        shirtSize &&
-        item.shirtSize !== shirtSize
-      ){
-        return false;
-      }
-
-
-      return true;
-
-    });
+    );
 
   }
 
@@ -1682,28 +2093,34 @@
       ).value;
 
 
-    return shirtOrders.filter(item => {
+    return shirtOrders.filter(
+      item => {
 
-      if(
-        search &&
-        !getSearchText(item)
-          .includes(search)
-      ){
-        return false;
+        if(
+          search &&
+          !getSearchText(item)
+            .includes(search)
+        ){
+
+          return false;
+
+        }
+
+
+        if(
+          shirtSize &&
+          item.shirtSize !== shirtSize
+        ){
+
+          return false;
+
+        }
+
+
+        return true;
+
       }
-
-
-      if(
-        shirtSize &&
-        item.shirtSize !== shirtSize
-      ){
-        return false;
-      }
-
-
-      return true;
-
-    });
+    );
 
   }
 
@@ -1727,7 +2144,8 @@
     document.getElementById(
       "registrationCount"
     ).textContent =
-      data.length + " 筆";
+      data.length +
+      " 筆";
 
 
     if(data.length === 0){
@@ -1785,6 +2203,7 @@
           </thead>
 
           <tbody>
+
     `;
 
 
@@ -1989,6 +2408,7 @@
   function shirtSizeOptions(selected){
 
     const sizes = [
+
       "XS",
       "S",
       "M",
@@ -1997,18 +2417,23 @@
       "2XL",
       "3XL",
       "4XL"
+
     ];
 
 
-    return sizes.map(size => `
+    return sizes
+      .map(
+        size => `
 
-      <option
-        value="${size}"
-        ${selected === size ? "selected" : ""}>
-        ${size}
-      </option>
+          <option
+            value="${size}"
+            ${selected === size ? "selected" : ""}>
+            ${size}
+          </option>
 
-    `).join("");
+        `
+      )
+      .join("");
 
   }
 
@@ -2032,7 +2457,8 @@
     document.getElementById(
       "orderCount"
     ).textContent =
-      data.length + " 筆";
+      data.length +
+      " 筆";
 
 
     if(data.length === 0){
@@ -2082,6 +2508,7 @@
           </thead>
 
           <tbody>
+
     `;
 
 
@@ -2273,7 +2700,8 @@
     };
 
 
-    button.disabled = true;
+    button.disabled =
+      true;
 
     button.textContent =
       "儲存中...";
@@ -2293,7 +2721,8 @@
 
       const index =
         registrations.findIndex(
-          item => item.id === id
+          item =>
+            item.id === id
         );
 
 
@@ -2312,6 +2741,7 @@
 
       updateStats();
 
+
       showMessage(
         "資料已成功更新。",
         "success"
@@ -2322,15 +2752,18 @@
 
       console.error(error);
 
+
       showMessage(
         "更新失敗：" +
         error.message,
         "error"
       );
 
+
     }finally{
 
-      button.disabled = false;
+      button.disabled =
+        false;
 
       button.textContent =
         "儲存";
@@ -2387,7 +2820,6 @@
         ).value,
 
       quantity:
-
         quantity,
 
       shirtText:
@@ -2398,7 +2830,8 @@
     };
 
 
-    button.disabled = true;
+    button.disabled =
+      true;
 
     button.textContent =
       "儲存中...";
@@ -2418,7 +2851,8 @@
 
       const index =
         shirtOrders.findIndex(
-          item => item.id === id
+          item =>
+            item.id === id
         );
 
 
@@ -2437,6 +2871,7 @@
 
       updateStats();
 
+
       showMessage(
         "衣服訂單已成功更新。",
         "success"
@@ -2447,15 +2882,18 @@
 
       console.error(error);
 
+
       showMessage(
         "更新失敗：" +
         error.message,
         "error"
       );
 
+
     }finally{
 
-      button.disabled = false;
+      button.disabled =
+        false;
 
       button.textContent =
         "儲存";
@@ -2480,7 +2918,9 @@
 
 
       if(!button){
+
         return;
+
       }
 
 
@@ -2489,7 +2929,9 @@
 
 
       if(!row){
+
         return;
+
       }
 
 
@@ -2544,6 +2986,7 @@
         "registrationTab"
       ).classList.add("active");
 
+
       document.getElementById(
         "orderTab"
       ).classList.remove("active");
@@ -2553,6 +2996,7 @@
         "registrationPanel"
       ).style.display =
         "block";
+
 
       document.getElementById(
         "orderPanel"
@@ -2564,6 +3008,7 @@
         "mealFilterBox"
       ).style.display =
         "block";
+
 
       document.getElementById(
         "participationFilterBox"
@@ -2591,6 +3036,7 @@
         "registrationTab"
       ).classList.remove("active");
 
+
       document.getElementById(
         "orderTab"
       ).classList.add("active");
@@ -2600,6 +3046,7 @@
         "registrationPanel"
       ).style.display =
         "none";
+
 
       document.getElementById(
         "orderPanel"
@@ -2611,6 +3058,7 @@
         "mealFilterBox"
       ).style.display =
         "none";
+
 
       document.getElementById(
         "participationFilterBox"
@@ -2702,6 +3150,7 @@
 
         await signOut(auth);
 
+
         registrations = [];
 
         shirtOrders = [];
@@ -2710,9 +3159,18 @@
 
         currentPlatinum = null;
 
+
+        emailInput.value =
+          "";
+
+        passwordInput.value =
+          "";
+
+
       }catch(error){
 
         console.error(error);
+
 
         showMessage(
           "登出失敗：" +
