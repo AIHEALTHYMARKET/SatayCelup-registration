@@ -115,8 +115,6 @@ body {
 }
 
 
-/* 裝飾圓 */
-
 .hero::before {
 
     content: "";
@@ -312,6 +310,28 @@ h1 {
 
 
 /* ==================================================
+   HERO IMAGE
+================================================== */
+
+.main-photo {
+
+    width: 100%;
+
+    display: block;
+
+    border-radius: 20px;
+
+    object-fit: cover;
+
+    max-height: 480px;
+
+    box-shadow:
+        0 10px 28px
+        rgba(63,100,73,.10);
+}
+
+
+/* ==================================================
    Photo Placeholder
 ================================================== */
 
@@ -376,9 +396,38 @@ h1 {
 }
 
 
-.gallery .photo-placeholder {
+.gallery-item {
 
-    min-height: 170px;
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background: #f4f8f4;
+
+    cursor: pointer;
+}
+
+
+.gallery-item img {
+
+    width: 100%;
+
+    height: 180px;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform .25s ease;
+}
+
+
+.gallery-item:hover img {
+
+    transform: scale(1.04);
 }
 
 
@@ -386,63 +435,33 @@ h1 {
    Video
 ================================================== */
 
-.video-placeholder {
+.video-container {
+
+    position: relative;
+
+    width: 100%;
 
     aspect-ratio: 16 / 9;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
+    overflow: hidden;
 
     border-radius: 20px;
 
-    background:
+    background: #edf5ee;
 
-        linear-gradient(
-            135deg,
-            #eaf7eb,
-            #fff6cf
-        );
-
-    border:
-        2px dashed
-        #cbdccc;
-
-    color: #6e7c73;
-
-    line-height: 1.7;
+    box-shadow:
+        0 10px 28px
+        rgba(63,100,73,.08);
 }
 
 
-.play-icon {
+.video-container iframe {
 
-    width: 66px;
+    width: 100%;
 
-    height: 66px;
+    height: 100%;
 
-    margin:
-        0 auto
-        12px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #fff;
-
-    font-size: 28px;
-
-    box-shadow:
-        0 7px 20px
-        rgba(70,100,70,.12);
+    border: 0;
 }
 
 
@@ -694,6 +713,75 @@ h1 {
 
 
 /* ==================================================
+   Lightbox
+================================================== */
+
+.lightbox {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,.82);
+}
+
+
+.lightbox.active {
+
+    display: flex;
+}
+
+
+.lightbox img {
+
+    max-width: 100%;
+
+    max-height: 90vh;
+
+    object-fit: contain;
+
+    border-radius: 12px;
+}
+
+
+.lightbox-close {
+
+    position: fixed;
+
+    top: 18px;
+
+    right: 20px;
+
+    width: 45px;
+
+    height: 45px;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.92);
+
+    color: #333;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+
+/* ==================================================
    Mobile
 ================================================== */
 
@@ -741,9 +829,9 @@ h1 {
         gap: 9px;
     }
 
-    .gallery .photo-placeholder {
+    .gallery-item img {
 
-        min-height: 130px;
+        height: 135px;
     }
 
 }
@@ -838,16 +926,28 @@ h1 {
     </h2>
 
 
-    <div class="photo-placeholder">
+    <!--
+    ==================================================
+    只需要修改 EVENT_MEDIA 內的網址
+    ==================================================
+    -->
 
-        <div>
 
-            <strong>
-                📷 活動主視覺照片
-            </strong>
+    <div id="mainPhotoArea">
 
-            之後可以放活動宣傳照片、<br>
-            團體照、SatayCelup美食照片等。
+        <!-- 沒有主視覺時顯示 -->
+        <div class="photo-placeholder">
+
+            <div>
+
+                <strong>
+                    📷 活動主視覺照片
+                </strong>
+
+                請在下面 EVENT_MEDIA.heroImage<br>
+                放入你的 ImgBB 圖片網址。
+
+            </div>
 
         </div>
 
@@ -855,67 +955,9 @@ h1 {
 
 
     <div
+        id="gallery"
         class="gallery"
         style="margin-top:12px;">
-
-        <div class="photo-placeholder">
-
-            <div>
-
-                <strong>
-                    🌿 PHOTO 01
-                </strong>
-
-                宣傳照片
-
-            </div>
-
-        </div>
-
-
-        <div class="photo-placeholder">
-
-            <div>
-
-                <strong>
-                    ☀️ PHOTO 02
-                </strong>
-
-                活動照片
-
-            </div>
-
-        </div>
-
-
-        <div class="photo-placeholder">
-
-            <div>
-
-                <strong>
-                    🏸 PHOTO 03
-                </strong>
-
-                運動照片
-
-            </div>
-
-        </div>
-
-
-        <div class="photo-placeholder">
-
-            <div>
-
-                <strong>
-                    🍢 PHOTO 04
-                </strong>
-
-                美食照片
-
-            </div>
-
-        </div>
 
     </div>
 
@@ -938,21 +980,26 @@ h1 {
     </h2>
 
 
-    <div class="video-placeholder">
+    <div id="videoArea">
 
-        <div>
+        <div class="video-placeholder">
 
-            <div class="play-icon">
-                ▶️
+            <div>
+
+                <div class="play-icon">
+                    ▶️
+                </div>
+
+                <strong>
+                    活動宣傳影片
+                </strong>
+
+                <br>
+
+                請在 EVENT_MEDIA.video
+                放入 YouTube 影片網址
+
             </div>
-
-            <strong>
-                活動宣傳影片
-            </strong>
-
-            <br>
-
-            之後可以放 YouTube / 活動宣傳影片
 
         </div>
 
@@ -1159,10 +1206,387 @@ h1 {
 
     一起留下值得回憶的一天 ☀️
 
+    <br><br>
+
+    <a
+        href="privacy.html"
+        style="
+            color:#809187;
+            text-decoration:none;
+        ">
+
+        🔒 隱私權政策
+
+    </a>
+
 </footer>
 
 
 </main>
+
+
+<!-- ==================================================
+     LIGHTBOX
+================================================== -->
+
+<div
+    id="lightbox"
+    class="lightbox">
+
+    <button
+        id="lightboxClose"
+        class="lightbox-close">
+
+        ×
+
+    </button>
+
+
+    <img
+        id="lightboxImage"
+        src=""
+        alt="活動照片">
+
+</div>
+
+
+<script>
+
+/* ==================================================
+   SATAY CELUP MEDIA 設定區
+
+   ★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+   以後只需要修改這裡
+
+================================================== */
+
+const EVENT_MEDIA = {
+
+    /*
+    ================================================
+    ① 活動主視覺
+    ================================================
+
+    把 ImgBB 的「Direct Link」
+    貼到這裡。
+
+    例如：
+
+    heroImage:
+    "https://i.ibb.co/xxxxx/photo.jpg"
+
+    */
+
+    heroImage: "",
+
+
+    /*
+    ================================================
+    ② 活動影片
+    ================================================
+
+    建議使用 YouTube。
+
+    可以貼：
+
+    https://www.youtube.com/watch?v=XXXXXXXX
+
+    或：
+
+    https://youtu.be/XXXXXXXX
+
+    系統會自動轉換。
+
+    */
+
+    video: "",
+
+
+    /*
+    ================================================
+    ③ 活動照片
+    ================================================
+
+    可以一直增加。
+
+    例如：
+
+    photos: [
+        "https://i.ibb.co/xxx/photo1.jpg",
+        "https://i.ibb.co/xxx/photo2.jpg",
+        "https://i.ibb.co/xxx/photo3.jpg"
+    ]
+
+    */
+
+    photos: [
+
+        /*
+        "照片網址1",
+        "照片網址2",
+        "照片網址3",
+        "照片網址4"
+        */
+
+    ]
+
+};
+
+
+/* ==================================================
+   MAIN PHOTO
+================================================== */
+
+const mainPhotoArea =
+    document.getElementById("mainPhotoArea");
+
+
+if (EVENT_MEDIA.heroImage.trim() !== "") {
+
+    mainPhotoArea.innerHTML = `
+
+        <img
+            src="${EVENT_MEDIA.heroImage}"
+            alt="SatayCelup之戰活動主視覺"
+            class="main-photo"
+            loading="eager"
+        >
+
+    `;
+
+}
+
+
+/* ==================================================
+   GALLERY
+================================================== */
+
+const gallery =
+    document.getElementById("gallery");
+
+
+if (EVENT_MEDIA.photos.length > 0) {
+
+    EVENT_MEDIA.photos.forEach(
+        (photo, index) => {
+
+            if (!photo || !photo.trim()) {
+                return;
+            }
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "gallery-item";
+
+
+            item.innerHTML = `
+
+                <img
+                    src="${photo}"
+                    alt="SatayCelup之戰活動照片 ${index + 1}"
+                    loading="lazy"
+                >
+
+            `;
+
+
+            item.addEventListener(
+                "click",
+                () => {
+
+                    openLightbox(photo);
+
+                }
+            );
+
+
+            gallery.appendChild(item);
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+   YOUTUBE VIDEO
+================================================== */
+
+const videoArea =
+    document.getElementById("videoArea");
+
+
+function getYouTubeId(url) {
+
+    if (!url) {
+        return "";
+    }
+
+
+    try {
+
+        const parsed =
+            new URL(url);
+
+
+        if (
+            parsed.hostname.includes(
+                "youtube.com"
+            )
+        ) {
+
+            return parsed.searchParams.get(
+                "v"
+            ) || "";
+
+        }
+
+
+        if (
+            parsed.hostname.includes(
+                "youtu.be"
+            )
+        ) {
+
+            return parsed.pathname
+                .replace("/", "");
+
+        }
+
+
+    } catch (error) {
+
+        return "";
+
+    }
+
+
+    return "";
+
+}
+
+
+const youtubeId =
+    getYouTubeId(
+        EVENT_MEDIA.video
+    );
+
+
+if (youtubeId) {
+
+    videoArea.innerHTML = `
+
+        <div class="video-container">
+
+            <iframe
+                src="https://www.youtube.com/embed/${youtubeId}"
+                title="SatayCelup之戰活動影片"
+                allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                    web-share
+                "
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==================================================
+   LIGHTBOX
+================================================== */
+
+const lightbox =
+    document.getElementById("lightbox");
+
+const lightboxImage =
+    document.getElementById(
+        "lightboxImage"
+    );
+
+const lightboxClose =
+    document.getElementById(
+        "lightboxClose"
+    );
+
+
+function openLightbox(src) {
+
+    lightboxImage.src = src;
+
+    lightbox.classList.add(
+        "active"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function closeLightbox() {
+
+    lightbox.classList.remove(
+        "active"
+    );
+
+    lightboxImage.src = "";
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+lightboxClose.addEventListener(
+    "click",
+    closeLightbox
+);
+
+
+lightbox.addEventListener(
+    "click",
+    (event) => {
+
+        if (
+            event.target === lightbox
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+</script>
 
 
 </body>
