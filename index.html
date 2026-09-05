@@ -926,16 +926,8 @@ h1 {
     </h2>
 
 
-    <!--
-    ==================================================
-    只需要修改 EVENT_MEDIA 內的網址
-    ==================================================
-    -->
-
-
     <div id="mainPhotoArea">
 
-        <!-- 沒有主視覺時顯示 -->
         <div class="photo-placeholder">
 
             <div>
@@ -944,8 +936,7 @@ h1 {
                     📷 活動主視覺照片
                 </strong>
 
-                請在下面 EVENT_MEDIA.heroImage<br>
-                放入你的 ImgBB 圖片網址。
+                請稍候載入活動主視覺……
 
             </div>
 
@@ -996,8 +987,7 @@ h1 {
 
                 <br>
 
-                請在 EVENT_MEDIA.video
-                放入 YouTube 影片網址
+                請稍候載入影片……
 
             </div>
 
@@ -1257,77 +1247,42 @@ h1 {
 
    ★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
-   以後只需要修改這裡
+   已經放入你的照片與影片
 
 ================================================== */
 
 const EVENT_MEDIA = {
 
-    /*
-    ================================================
-    ① 活動主視覺
-    ================================================
-
-    把 ImgBB 的「Direct Link」
-    貼到這裡。
-
-    例如：
+    /* ================================================
+       ① 活動主視覺
+    ================================================ */
 
     heroImage:
-    "https://i.ibb.co/xxxxx/photo.jpg"
-
-    */
-
-    heroImage: "",
+        "https://i.ibb.co/PsjFPP0D/1788549753077.png",
 
 
-    /*
-    ================================================
-    ② 活動影片
-    ================================================
+    /* ================================================
+       ② 活動影片
+       
+       YouTube Shorts
+       Video ID：8kf_CqoZJQM
+    ================================================ */
 
-    建議使用 YouTube。
-
-    可以貼：
-
-    https://www.youtube.com/watch?v=XXXXXXXX
-
-    或：
-
-    https://youtu.be/XXXXXXXX
-
-    系統會自動轉換。
-
-    */
-
-    video: "",
+    video:
+        "https://youtube.com/shorts/8kf_CqoZJQM",
 
 
-    /*
-    ================================================
-    ③ 活動照片
-    ================================================
-
-    可以一直增加。
-
-    例如：
-
-    photos: [
-        "https://i.ibb.co/xxx/photo1.jpg",
-        "https://i.ibb.co/xxx/photo2.jpg",
-        "https://i.ibb.co/xxx/photo3.jpg"
-    ]
-
-    */
+    /* ================================================
+       ③ 活動照片
+    ================================================ */
 
     photos: [
 
-        /*
-        "照片網址1",
-        "照片網址2",
-        "照片網址3",
-        "照片網址4"
-        */
+        "https://i.ibb.co/s9DRt63b/Camera-1040g3qg31v17bsbhis105o9i6dc0jfe3ddl248g.jpg",
+
+        "https://i.ibb.co/606PXfFg/image-0-png.jpg",
+
+        "https://i.ibb.co/W4dDbdn2/IMG-20251228-WA0019.jpg"
 
     ]
 
@@ -1342,7 +1297,10 @@ const mainPhotoArea =
     document.getElementById("mainPhotoArea");
 
 
-if (EVENT_MEDIA.heroImage.trim() !== "") {
+if (
+    EVENT_MEDIA.heroImage &&
+    EVENT_MEDIA.heroImage.trim() !== ""
+) {
 
     mainPhotoArea.innerHTML = `
 
@@ -1371,12 +1329,19 @@ if (EVENT_MEDIA.photos.length > 0) {
     EVENT_MEDIA.photos.forEach(
         (photo, index) => {
 
-            if (!photo || !photo.trim()) {
+            if (
+                !photo ||
+                !photo.trim()
+            ) {
+
                 return;
+
             }
+
 
             const item =
                 document.createElement("div");
+
 
             item.className =
                 "gallery-item";
@@ -1422,7 +1387,9 @@ const videoArea =
 function getYouTubeId(url) {
 
     if (!url) {
+
         return "";
+
     }
 
 
@@ -1431,6 +1398,31 @@ function getYouTubeId(url) {
         const parsed =
             new URL(url);
 
+
+        /*
+        ================================================
+        YouTube Shorts
+        ================================================
+        */
+
+        if (
+            parsed.pathname.startsWith(
+                "/shorts/"
+            )
+        ) {
+
+            return parsed.pathname
+                .split("/shorts/")[1]
+                .split("/")[0];
+
+        }
+
+
+        /*
+        ================================================
+        YouTube一般影片
+        ================================================
+        */
 
         if (
             parsed.hostname.includes(
@@ -1445,6 +1437,12 @@ function getYouTubeId(url) {
         }
 
 
+        /*
+        ================================================
+        youtu.be
+        ================================================
+        */
+
         if (
             parsed.hostname.includes(
                 "youtu.be"
@@ -1452,7 +1450,8 @@ function getYouTubeId(url) {
         ) {
 
             return parsed.pathname
-                .replace("/", "");
+                .replace("/", "")
+                .split("?")[0];
 
         }
 
@@ -1483,7 +1482,7 @@ if (youtubeId) {
 
             <iframe
                 src="https://www.youtube.com/embed/${youtubeId}"
-                title="SatayCelup之戰活動影片"
+                title="SatayCelup之戰活動宣傳影片"
                 allow="
                     accelerometer;
                     autoplay;
@@ -1493,6 +1492,7 @@ if (youtubeId) {
                     picture-in-picture;
                     web-share
                 "
+                referrerpolicy="strict-origin-when-cross-origin"
                 allowfullscreen>
             </iframe>
 
@@ -1510,10 +1510,12 @@ if (youtubeId) {
 const lightbox =
     document.getElementById("lightbox");
 
+
 const lightboxImage =
     document.getElementById(
         "lightboxImage"
     );
+
 
 const lightboxClose =
     document.getElementById(
@@ -1523,7 +1525,8 @@ const lightboxClose =
 
 function openLightbox(src) {
 
-    lightboxImage.src = src;
+    lightboxImage.src =
+        src;
 
     lightbox.classList.add(
         "active"
@@ -1541,7 +1544,8 @@ function closeLightbox() {
         "active"
     );
 
-    lightboxImage.src = "";
+    lightboxImage.src =
+        "";
 
     document.body.style.overflow =
         "";
