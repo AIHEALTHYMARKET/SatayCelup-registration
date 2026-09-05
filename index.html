@@ -311,23 +311,51 @@ h1 {
 
 /* ==================================================
    HERO IMAGE
+   ★ 完整呈現主視覺海報
 ================================================== */
+
+.main-photo-wrapper {
+
+    width: 100%;
+
+    padding: 8px;
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f4f8f2,
+            #fffaf0
+        );
+
+    box-shadow:
+        0 10px 28px
+        rgba(63,100,73,.10);
+
+    cursor: pointer;
+}
+
 
 .main-photo {
 
     width: 100%;
 
+    height: auto;
+
+    max-width: 100%;
+
     display: block;
 
-    border-radius: 20px;
+    margin: 0 auto;
 
-    object-fit: cover;
+    border-radius: 18px;
 
-    max-height: 480px;
+    object-fit: contain;
 
-    box-shadow:
-        0 10px 28px
-        rgba(63,100,73,.10);
+    object-position: center;
+
+    background: #ffffff;
 }
 
 
@@ -462,6 +490,57 @@ h1 {
     height: 100%;
 
     border: 0;
+}
+
+
+/* ==================================================
+   Video Placeholder
+================================================== */
+
+.video-placeholder {
+
+    min-height: 260px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #edf7ef,
+            #fff8df
+        );
+
+    color: #7f8b82;
+
+    line-height: 1.8;
+}
+
+
+.video-placeholder strong {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: #5f7565;
+
+    font-size: 17px;
+}
+
+
+.play-icon {
+
+    font-size: 38px;
+
+    margin-bottom: 5px;
 }
 
 
@@ -749,6 +828,10 @@ h1 {
 
     max-height: 90vh;
 
+    width: auto;
+
+    height: auto;
+
     object-fit: contain;
 
     border-radius: 12px;
@@ -823,6 +906,27 @@ h1 {
 
         border-radius: 22px;
     }
+
+
+    /* 手機主視覺完整呈現 */
+
+    .main-photo-wrapper {
+
+        padding: 5px;
+
+        border-radius: 21px;
+    }
+
+
+    .main-photo {
+
+        width: 100%;
+
+        height: auto;
+
+        border-radius: 16px;
+    }
+
 
     .gallery {
 
@@ -1244,11 +1348,6 @@ h1 {
 
 /* ==================================================
    SATAY CELUP MEDIA 設定區
-
-   ★★★★★★★★★★★★★★★★★★★★★★★★★★★
-
-   已經放入你的照片與影片
-
 ================================================== */
 
 const EVENT_MEDIA = {
@@ -1263,7 +1362,6 @@ const EVENT_MEDIA = {
 
     /* ================================================
        ② 活動影片
-       
        YouTube Shorts
        Video ID：8kf_CqoZJQM
     ================================================ */
@@ -1291,6 +1389,7 @@ const EVENT_MEDIA = {
 
 /* ==================================================
    MAIN PHOTO
+   完整顯示海報，不裁切
 ================================================== */
 
 const mainPhotoArea =
@@ -1304,14 +1403,38 @@ if (
 
     mainPhotoArea.innerHTML = `
 
-        <img
-            src="${EVENT_MEDIA.heroImage}"
-            alt="SatayCelup之戰活動主視覺"
-            class="main-photo"
-            loading="eager"
-        >
+        <div
+            class="main-photo-wrapper"
+            id="mainPhotoWrapper">
+
+            <img
+                src="${EVENT_MEDIA.heroImage}"
+                alt="SatayCelup之戰活動主視覺"
+                class="main-photo"
+                loading="eager"
+            >
+
+        </div>
 
     `;
+
+
+    const mainPhotoWrapper =
+        document.getElementById(
+            "mainPhotoWrapper"
+        );
+
+
+    mainPhotoWrapper.addEventListener(
+        "click",
+        () => {
+
+            openLightbox(
+                EVENT_MEDIA.heroImage
+            );
+
+        }
+    );
 
 }
 
@@ -1399,11 +1522,7 @@ function getYouTubeId(url) {
             new URL(url);
 
 
-        /*
-        ================================================
-        YouTube Shorts
-        ================================================
-        */
+        /* YouTube Shorts */
 
         if (
             parsed.pathname.startsWith(
@@ -1418,11 +1537,7 @@ function getYouTubeId(url) {
         }
 
 
-        /*
-        ================================================
-        YouTube一般影片
-        ================================================
-        */
+        /* YouTube 一般影片 */
 
         if (
             parsed.hostname.includes(
@@ -1437,11 +1552,7 @@ function getYouTubeId(url) {
         }
 
 
-        /*
-        ================================================
-        youtu.be
-        ================================================
-        */
+        /* youtu.be */
 
         if (
             parsed.hostname.includes(
