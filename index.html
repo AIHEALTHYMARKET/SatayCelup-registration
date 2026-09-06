@@ -310,8 +310,8 @@ h1 {
 
 
 /* ==================================================
-   HERO IMAGE
-   ★ 完整呈現主視覺海報
+   MAIN HERO IMAGE
+   完整顯示，不裁切
 ================================================== */
 
 .main-photo-wrapper {
@@ -435,6 +435,10 @@ h1 {
     background: #f4f8f4;
 
     cursor: pointer;
+
+    border:
+        1px solid
+        #e5eee5;
 }
 
 
@@ -456,6 +460,35 @@ h1 {
 .gallery-item:hover img {
 
     transform: scale(1.04);
+}
+
+
+.gallery-error {
+
+    height: 180px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 15px;
+
+    color: #8b968e;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4fbf4,
+            #fff9e8
+        );
 }
 
 
@@ -697,6 +730,21 @@ h1 {
 }
 
 
+.action-card.member {
+
+    background:
+        linear-gradient(
+            135deg,
+            #e9f0ff,
+            #f8fbff
+        );
+
+    border:
+        1px solid
+        #d4e0f5;
+}
+
+
 .action-icon {
 
     font-size: 35px;
@@ -773,6 +821,17 @@ h1 {
 }
 
 
+.member .action-button {
+
+    background:
+        linear-gradient(
+            135deg,
+            #7295d0,
+            #557dbd
+        );
+}
+
+
 /* ==================================================
    Footer
 ================================================== */
@@ -788,6 +847,14 @@ h1 {
     font-size: 12px;
 
     line-height: 1.8;
+}
+
+
+.footer a {
+
+    color: #809187;
+
+    text-decoration: none;
 }
 
 
@@ -908,8 +975,6 @@ h1 {
     }
 
 
-    /* 手機主視覺完整呈現 */
-
     .main-photo-wrapper {
 
         padding: 5px;
@@ -933,9 +998,18 @@ h1 {
         gap: 9px;
     }
 
+
     .gallery-item img {
 
         height: 135px;
+    }
+
+
+    .gallery-error {
+
+        height: 135px;
+
+        font-size: 12px;
     }
 
 }
@@ -1285,6 +1359,43 @@ h1 {
     </div>
 
 
+    <!-- 查詢及修改 -->
+
+    <div class="action-card member">
+
+
+        <div class="action-icon">
+            🔎
+        </div>
+
+
+        <div class="action-title">
+            查詢／修改我的資料
+        </div>
+
+
+        <div class="action-description">
+
+            已經報名或購買衣服的朋友，<br>
+
+            可以登入 Google 後查看自己提交的資料，
+            並修改允許修改的內容。
+
+        </div>
+
+
+        <a
+            href="my-record.html"
+            class="action-button">
+
+            🔎 查詢／修改我的資料
+
+        </a>
+
+
+    </div>
+
+
 </section>
 
 
@@ -1302,12 +1413,7 @@ h1 {
 
     <br><br>
 
-    <a
-        href="privacy.html"
-        style="
-            color:#809187;
-            text-decoration:none;
-        ">
+    <a href="privacy.html">
 
         🔒 隱私權政策
 
@@ -1329,7 +1435,8 @@ h1 {
 
     <button
         id="lightboxClose"
-        class="lightbox-close">
+        class="lightbox-close"
+        aria-label="關閉圖片">
 
         ×
 
@@ -1362,8 +1469,6 @@ const EVENT_MEDIA = {
 
     /* ================================================
        ② 活動影片
-       YouTube Shorts
-       Video ID：8kf_CqoZJQM
     ================================================ */
 
     video:
@@ -1372,6 +1477,7 @@ const EVENT_MEDIA = {
 
     /* ================================================
        ③ 活動照片
+       原本 3 張 + 新增 2 張
     ================================================ */
 
     photos: [
@@ -1380,7 +1486,11 @@ const EVENT_MEDIA = {
 
         "https://i.ibb.co/606PXfFg/image-0-png.jpg",
 
-        "https://i.ibb.co/W4dDbdn2/IMG-20251228-WA0019.jpg"
+        "https://i.ibb.co/W4dDbdn2/IMG-20251228-WA0019.jpg",
+
+        "https://i.ibb.co/CsTg1WYf/file-0000000002b08211b0f462f8acbfa380.png",
+
+        "https://i.ibb.co/4wnfcVCT/sg-11134202-7reqg-m20ukxe34cg05b.avif"
 
     ]
 
@@ -1389,7 +1499,7 @@ const EVENT_MEDIA = {
 
 /* ==================================================
    MAIN PHOTO
-   完整顯示海報，不裁切
+   完整顯示海報
 ================================================== */
 
 const mainPhotoArea =
@@ -1470,15 +1580,46 @@ if (EVENT_MEDIA.photos.length > 0) {
                 "gallery-item";
 
 
-            item.innerHTML = `
+            const image =
+                document.createElement("img");
 
-                <img
-                    src="${photo}"
-                    alt="SatayCelup之戰活動照片 ${index + 1}"
-                    loading="lazy"
-                >
 
-            `;
+            image.src =
+                photo;
+
+
+            image.alt =
+                "SatayCelup之戰活動照片 " +
+                (index + 1);
+
+
+            image.loading =
+                "lazy";
+
+
+            image.addEventListener(
+                "error",
+                () => {
+
+                    item.innerHTML = `
+
+                        <div class="gallery-error">
+
+                            📷<br>
+                            圖片暫時無法顯示<br>
+                            請點擊圖片網址確認格式
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+            item.appendChild(
+                image
+            );
 
 
             item.addEventListener(
@@ -1491,7 +1632,9 @@ if (EVENT_MEDIA.photos.length > 0) {
             );
 
 
-            gallery.appendChild(item);
+            gallery.appendChild(
+                item
+            );
 
         }
     );
