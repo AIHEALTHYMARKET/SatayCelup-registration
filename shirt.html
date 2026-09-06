@@ -46,10 +46,6 @@
       padding-bottom: 50px;
     }
 
-    /* =========================
-       HERO
-    ========================= */
-
     .hero {
       position: relative;
       overflow: hidden;
@@ -120,10 +116,6 @@
       font-weight: 600;
     }
 
-    /* =========================
-       CONTENT
-    ========================= */
-
     .content {
       padding: 20px 16px;
     }
@@ -146,10 +138,6 @@
       margin-bottom: 14px;
       color: #29483f;
     }
-
-    /* =========================
-       SHIRT PREVIEW
-    ========================= */
 
     .shirt-preview {
       border-radius: 20px;
@@ -208,10 +196,6 @@
       color: #e8752e;
     }
 
-    /* =========================
-       LOGIN
-    ========================= */
-
     #loginSection {
       text-align: center;
     }
@@ -263,10 +247,6 @@
       color: #29483f;
     }
 
-    /* =========================
-       FORM
-    ========================= */
-
     #formSection {
       display: none;
     }
@@ -313,10 +293,6 @@
       margin-top: 6px;
     }
 
-    /* =========================
-       RECEIPT
-    ========================= */
-
     .receipt-box {
       border: 2px dashed #b8dccc;
       background: #f9fefb;
@@ -340,9 +316,20 @@
       line-height: 1.6;
     }
 
-    /* =========================
-       SIZE
-    ========================= */
+    .existing-receipt {
+      margin-top: 10px;
+      padding: 11px 13px;
+      background: #eafaf3;
+      border: 1px solid #c7e8d3;
+      border-radius: 12px;
+      color: #2d6953;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .existing-receipt strong {
+      color: #285847;
+    }
 
     .size-grid {
       display: grid;
@@ -382,10 +369,6 @@
       box-shadow: 0 4px 12px rgba(80,150,120,.12);
     }
 
-    /* =========================
-       PLATINUM
-    ========================= */
-
     .platinum-grid {
       display: grid;
       grid-template-columns: repeat(2,1fr);
@@ -424,9 +407,13 @@
       color: #715b1c;
     }
 
-    /* =========================
-       SUBMIT
-    ========================= */
+    /*
+     * 編輯模式下 Platinum 鎖定
+     */
+    .platinum-locked {
+      opacity: .7;
+      cursor: not-allowed !important;
+    }
 
     .submit-btn {
       width: 100%;
@@ -466,10 +453,6 @@
       line-height: 1.7;
       min-height: 20px;
     }
-
-    /* =========================
-       SUCCESS
-    ========================= */
 
     #successSection {
       display: none;
@@ -516,10 +499,6 @@
       color: #a35e27;
     }
 
-    /* =========================
-       BOTTOM
-    ========================= */
-
     .bottom-actions {
       display: flex;
       gap: 10px;
@@ -541,20 +520,12 @@
       font-weight: 700;
     }
 
-    /* =========================
-       FOOTER
-    ========================= */
-
     footer {
       text-align: center;
       padding: 25px 20px 10px;
       color: #8ca39b;
       font-size: 12px;
     }
-
-    /* =========================
-       MOBILE
-    ========================= */
 
     @media (max-width:480px){
 
@@ -596,8 +567,6 @@
 
 <div class="page">
 
-  <!-- HERO -->
-
   <section class="hero">
 
     <div class="eyebrow">
@@ -616,8 +585,6 @@
 
 
   <main class="content">
-
-    <!-- 衣服介紹 -->
 
     <section class="card">
 
@@ -716,13 +683,11 @@
       class="card"
       id="formSection">
 
-      <div class="card-title">
+      <div class="card-title" id="formTitle">
         📝 衣服資料
       </div>
 
       <form id="shirtForm">
-
-        <!-- 中文姓名 -->
 
         <div class="field">
 
@@ -741,8 +706,6 @@
         </div>
 
 
-        <!-- 電話 -->
-
         <div class="field">
 
           <label>
@@ -759,8 +722,6 @@
 
         </div>
 
-
-        <!-- 尺寸 -->
 
         <div class="field">
 
@@ -846,8 +807,6 @@
 
         </div>
 
-
-        <!-- 背面文字 -->
 
         <div class="field">
 
@@ -1017,18 +976,26 @@
 
           </div>
 
+          <div
+            id="platinumLockMessage"
+            class="hint hidden"
+          >
+            🔒 編輯模式：原本的 Platinum 歸屬不可修改。
+          </div>
+
         </div>
 
 
-        <!-- =========================
-             收據
-        ========================= -->
+        <!-- RECEIPT -->
 
         <div class="field">
 
           <label>
             🧾 衣服繳費收據 JPG
-            <span class="required">*</span>
+            <span
+              class="required"
+              id="receiptRequired"
+            >*</span>
           </label>
 
           <div class="receipt-box">
@@ -1037,13 +1004,21 @@
               type="file"
               id="receipt"
               accept=".jpg,.jpeg,image/jpeg"
-              required
             >
 
+            <div
+              id="existingReceipt"
+              class="existing-receipt"
+              style="display:none;"
+            >
+              ✅ <strong>原本的繳費收據已保存</strong><br>
+              如果不需要更換收據，可以直接儲存修改。
+            </div>
+
             <div class="receipt-info">
-              必須上傳 JPG / JPEG 格式。<br>
+              新增訂單時必須上傳 JPG / JPEG。<br>
               收據圖片不可超過 5MB。<br>
-              收據會自動保存至活動 Google Drive。
+              編輯時如不更換收據，會保留原本收據。
             </div>
 
           </div>
@@ -1082,11 +1057,14 @@
         🎉
       </div>
 
-      <div class="success-title">
+      <div class="success-title" id="successTitle">
         衣服登記成功！
       </div>
 
-      <div class="success-text">
+      <div
+        class="success-text"
+        id="successText"
+      >
         衣服資料與繳費收據已成功送出。<br>
         謝謝你支持 SatayCelup之戰 ❤️
       </div>
@@ -1098,6 +1076,15 @@
         👕 繼續幫其他人買衣服
 
       </button>
+
+      <a
+        href="my-record.html"
+        class="action-btn action-primary"
+        id="recordBtn">
+
+        🔎 查看我的資料
+
+      </a>
 
       <a
         href="index.html"
@@ -1157,6 +1144,9 @@
   import {
     collection,
     addDoc,
+    updateDoc,
+    getDoc,
+    doc,
     serverTimestamp
   } from
   "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -1219,6 +1209,25 @@
 
 
   /* =========================================
+     編輯模式
+     ========================================= */
+
+  const urlParams =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const editDocId =
+    urlParams.get("edit");
+
+  const isEditMode =
+    Boolean(editDocId);
+
+
+  let originalShirtData = null;
+
+
+  /* =========================================
      ELEMENTS
      ========================================= */
 
@@ -1272,6 +1281,11 @@
       "continueBtn"
     );
 
+  const recordBtn =
+    document.getElementById(
+      "recordBtn"
+    );
+
   const userName =
     document.getElementById(
       "userName"
@@ -1285,6 +1299,31 @@
   const formMessage =
     document.getElementById(
       "formMessage"
+    );
+
+  const formTitle =
+    document.getElementById(
+      "formTitle"
+    );
+
+  const receiptInput =
+    document.getElementById(
+      "receipt"
+    );
+
+  const existingReceipt =
+    document.getElementById(
+      "existingReceipt"
+    );
+
+  const receiptRequired =
+    document.getElementById(
+      "receiptRequired"
+    );
+
+  const platinumLockMessage =
+    document.getElementById(
+      "platinumLockMessage"
     );
 
 
@@ -1341,7 +1380,7 @@
 
   onAuthStateChanged(
     auth,
-    (user) => {
+    async (user) => {
 
       if (user) {
 
@@ -1369,6 +1408,20 @@
         userEmail.textContent =
           user.email || "";
 
+
+        /*
+         * 如果網址有 ?edit=
+         * 進入編輯模式
+         */
+        if (isEditMode) {
+
+          await loadEditShirtOrder(
+            user
+          );
+
+        }
+
+
       } else {
 
         loginSection.style.display =
@@ -1390,6 +1443,266 @@
 
     }
   );
+
+
+  /* =========================================
+     載入編輯資料
+     ========================================= */
+
+  async function loadEditShirtOrder(
+    user
+  ) {
+
+    try {
+
+      formMessage.textContent =
+        "正在載入你的衣服資料...";
+
+      formMessage.style.color =
+        "#477fc5";
+
+
+      const shirtRef =
+        doc(
+          db,
+          "shirtOrders",
+          editDocId
+        );
+
+
+      const snapshot =
+        await getDoc(
+          shirtRef
+        );
+
+
+      if (!snapshot.exists()) {
+
+        throw new Error(
+          "找不到這筆衣服訂單。"
+        );
+
+      }
+
+
+      const data =
+        snapshot.data();
+
+
+      /*
+       * 安全檢查
+       *
+       * 只有原本建立這筆資料的
+       * Google UID 才可以修改
+       */
+      if (
+        data.uid !== user.uid
+      ) {
+
+        throw new Error(
+          "你沒有權限修改這筆衣服訂單。"
+        );
+
+      }
+
+
+      originalShirtData =
+        data;
+
+
+      /* =====================================
+         填入原本資料
+         ===================================== */
+
+      document.getElementById(
+        "chineseName"
+      ).value =
+        data.chineseName || "";
+
+
+      document.getElementById(
+        "phone"
+      ).value =
+        data.phone || "";
+
+
+      document.getElementById(
+        "shirtBack"
+      ).value =
+        data.shirtText ||
+        data.shirtBack ||
+        "";
+
+
+      /*
+       * 尺寸
+       */
+      if (data.shirtSize) {
+
+        const sizeRadio =
+          document.querySelector(
+            `input[name="shirtSize"][value="${CSS.escape(
+              data.shirtSize
+            )}"]`
+          );
+
+        if (sizeRadio) {
+
+          sizeRadio.checked =
+            true;
+
+        }
+
+      }
+
+
+      /*
+       * Platinum
+       */
+      if (data.platinum) {
+
+        const platinumRadio =
+          document.querySelector(
+            `input[name="platinum"][value="${CSS.escape(
+              data.platinum
+            )}"]`
+          );
+
+        if (platinumRadio) {
+
+          platinumRadio.checked =
+            true;
+
+        }
+
+      }
+
+
+      /* =====================================
+         Platinum 鎖定
+         ===================================== */
+
+      const platinumRadios =
+        document.querySelectorAll(
+          'input[name="platinum"]'
+        );
+
+
+      platinumRadios.forEach(
+        (radio) => {
+
+          radio.disabled = true;
+
+        }
+      );
+
+
+      const platinumLabels =
+        document.querySelectorAll(
+          ".platinum-option label"
+        );
+
+
+      platinumLabels.forEach(
+        (label) => {
+
+          label.classList.add(
+            "platinum-locked"
+          );
+
+        }
+      );
+
+
+      platinumLockMessage.style.display =
+        "block";
+
+
+      /* =====================================
+         收據
+         ===================================== */
+
+      if (
+        data.receiptFileId ||
+        data.receiptFileName ||
+        data.receiptDriveUrl
+      ) {
+
+        existingReceipt.style.display =
+          "block";
+
+        if (
+          data.receiptFileName
+        ) {
+
+          existingReceipt.innerHTML =
+            "✅ <strong>原本的繳費收據已保存</strong><br>" +
+            "目前收據：" +
+            escapeHtml(
+              data.receiptFileName
+            ) +
+            "<br>" +
+            "如不需要更換收據，可以直接儲存修改。";
+
+        }
+
+        receiptRequired.style.display =
+          "none";
+
+      } else {
+
+        existingReceipt.style.display =
+          "none";
+
+        receiptRequired.style.display =
+          "inline";
+
+      }
+
+
+      /* =====================================
+         編輯模式 UI
+         ===================================== */
+
+      formTitle.textContent =
+        "✏️ 修改衣服資料";
+
+
+      submitBtn.textContent =
+        "💾 儲存衣服修改";
+
+
+      formMessage.textContent =
+        "已載入你的衣服資料，可以進行修改。";
+
+
+      formMessage.style.color =
+        "#2d6953";
+
+
+    } catch (error) {
+
+      console.error(
+        "Load shirt edit error:",
+        error
+      );
+
+
+      formMessage.textContent =
+        error.message ||
+        "無法載入衣服資料。";
+
+
+      formMessage.style.color =
+        "#c84b4b";
+
+
+      submitBtn.disabled =
+        true;
+
+    }
+
+  }
 
 
   /* =========================================
@@ -1465,11 +1778,8 @@
 
 
       const receipt =
-        document
-          .getElementById(
-            "receipt"
-          )
-          .files[0];
+        receiptInput.files[0] ||
+        null;
 
 
       /* =====================================
@@ -1532,10 +1842,14 @@
 
 
       /* =====================================
-         收據必填
+         新增模式收據必填
+         編輯模式可以保留舊收據
          ===================================== */
 
-      if (!receipt) {
+      if (
+        !receipt &&
+        !isEditMode
+      ) {
 
         showError(
           "請上傳衣服繳費收據 JPG。"
@@ -1547,46 +1861,46 @@
 
 
       /* =====================================
-         收據格式
+         如果有新收據才檢查格式
          ===================================== */
 
-      const validJpg =
-        receipt.type === "image/jpeg" ||
-        receipt.type === "image/jpg" ||
-        /\.(jpg|jpeg)$/i.test(
-          receipt.name
-        );
+      if (receipt) {
+
+        const validJpg =
+          receipt.type === "image/jpeg" ||
+          receipt.type === "image/jpg" ||
+          /\.(jpg|jpeg)$/i.test(
+            receipt.name
+          );
 
 
-      if (!validJpg) {
+        if (!validJpg) {
 
-        showError(
-          "衣服收據只接受 JPG / JPEG 格式。"
-        );
+          showError(
+            "衣服收據只接受 JPG / JPEG 格式。"
+          );
 
-        return;
+          return;
 
-      }
-
-
-      /* =====================================
-         收據大小
-         ===================================== */
-
-      const MAX_FILE_SIZE =
-        5 * 1024 * 1024;
+        }
 
 
-      if (
-        receipt.size >
-        MAX_FILE_SIZE
-      ) {
+        const MAX_FILE_SIZE =
+          5 * 1024 * 1024;
 
-        showError(
-          "衣服收據圖片不能超過 5MB。"
-        );
 
-        return;
+        if (
+          receipt.size >
+          MAX_FILE_SIZE
+        ) {
+
+          showError(
+            "衣服收據圖片不能超過 5MB。"
+          );
+
+          return;
+
+        }
 
       }
 
@@ -1595,18 +1909,32 @@
         shirtSizeElement.value;
 
 
+      /*
+       * 編輯模式下不相信前端重新選擇的 Platinum。
+       *
+       * 直接使用原本 Firestore 裡面的值。
+       */
       const platinum =
-        platinumElement.value;
+        isEditMode
+          ? originalShirtData.platinum
+          : platinumElement.value;
 
-
-      /* =====================================
-         Platinum UID
-         ===================================== */
 
       const platinumUid =
-        PLATINUM_UIDS[
-          platinum
-        ];
+        isEditMode
+          ? originalShirtData.platinumUid
+          : PLATINUM_UIDS[platinum];
+
+
+      if (!platinum) {
+
+        showError(
+          "Platinum 資料無效。"
+        );
+
+        return;
+
+      }
 
 
       if (!platinumUid) {
@@ -1621,18 +1949,53 @@
 
 
       /* =====================================
+         編輯模式再次確認 UID
+         ===================================== */
+
+      if (
+        isEditMode &&
+        (
+          !originalShirtData ||
+          originalShirtData.uid !== user.uid
+        )
+      ) {
+
+        showError(
+          "你沒有權限修改這筆資料。"
+        );
+
+        return;
+
+      }
+
+
+      /* =====================================
          開始
          ===================================== */
 
       submitBtn.disabled =
         true;
 
+
       submitBtn.textContent =
-        "⏳ 正在處理收據...";
+        receipt
+          ? "⏳ 正在處理新收據..."
+          : (
+              isEditMode
+                ? "⏳ 正在保存修改..."
+                : "⏳ 正在處理..."
+            );
 
 
       formMessage.textContent =
-        "正在將衣服繳費收據保存至 Google Drive，請稍候...";
+        receipt
+          ? "正在將衣服繳費收據保存至 Google Drive，請稍候..."
+          : (
+              isEditMode
+                ? "正在更新你的衣服資料..."
+                : "正在建立衣服訂單..."
+            );
+
 
       formMessage.style.color =
         "#477fc5";
@@ -1640,32 +2003,224 @@
 
       try {
 
+        let driveResult =
+          null;
+
+
         /* ===================================
-           1. 上傳衣服收據
+           如果有新收據 → 上傳
            =================================== */
 
-        const driveResult =
-          await uploadReceiptToDrive(
-            receipt,
-            chineseName
-          );
+        if (receipt) {
+
+          driveResult =
+            await uploadReceiptToDrive(
+              receipt,
+              chineseName
+            );
 
 
-        if (
-          !driveResult ||
-          !driveResult.success
-        ) {
+          if (
+            !driveResult ||
+            !driveResult.success
+          ) {
 
-          throw new Error(
-            driveResult?.error ||
-            "Google Drive 上傳失敗"
-          );
+            throw new Error(
+              driveResult?.error ||
+              "Google Drive 上傳失敗"
+            );
+
+          }
 
         }
 
 
         /* ===================================
-           2. 寫入 Firestore
+           編輯模式
+           =================================== */
+
+        if (isEditMode) {
+
+          submitBtn.textContent =
+            "⏳ 正在保存修改...";
+
+
+          formMessage.textContent =
+            "資料已處理，正在更新衣服訂單...";
+
+
+          const updateData = {
+
+            /*
+             * 這三個資料固定使用原本值
+             */
+            uid:
+              originalShirtData.uid,
+
+            email:
+              originalShirtData.email ||
+              user.email ||
+              "",
+
+            googleName:
+              originalShirtData.googleName ||
+              user.displayName ||
+              "",
+
+
+            /*
+             * 可以修改
+             */
+            chineseName:
+              chineseName,
+
+            phone:
+              phone,
+
+            shirtSize:
+              shirtSize,
+
+            shirtText:
+              shirtText,
+
+
+            /*
+             * Platinum 固定原值
+             */
+            platinum:
+              originalShirtData.platinum,
+
+            platinumUid:
+              originalShirtData.platinumUid
+
+          };
+
+
+          /*
+           * 如果重新上傳收據
+           */
+          if (
+            receipt &&
+            driveResult
+          ) {
+
+            updateData.receiptName =
+              receipt.name;
+
+            updateData.receiptType =
+              receipt.type ||
+              "image/jpeg";
+
+            updateData.receiptSize =
+              receipt.size;
+
+            updateData.receiptFileId =
+              driveResult.fileId ||
+              "";
+
+            updateData.receiptFileName =
+              driveResult.fileName ||
+              "";
+
+            updateData.receiptDriveUrl =
+              driveResult.driveUrl ||
+              "";
+
+          } else {
+
+            /*
+             * 沒有重新上傳
+             * 保留原本收據
+             */
+            updateData.receiptName =
+              originalShirtData.receiptName ||
+              "";
+
+            updateData.receiptType =
+              originalShirtData.receiptType ||
+              "";
+
+            updateData.receiptSize =
+              originalShirtData.receiptSize ||
+              0;
+
+            updateData.receiptFileId =
+              originalShirtData.receiptFileId ||
+              "";
+
+            updateData.receiptFileName =
+              originalShirtData.receiptFileName ||
+              "";
+
+            updateData.receiptDriveUrl =
+              originalShirtData.receiptDriveUrl ||
+              "";
+
+          }
+
+
+          /*
+           * 更新 Firestore
+           */
+          await updateDoc(
+            doc(
+              db,
+              "shirtOrders",
+              editDocId
+            ),
+            updateData
+          );
+
+
+          /*
+           * 完成
+           */
+          successSection.style.display =
+            "block";
+
+          formSection.style.display =
+            "none";
+
+          userInfo.style.display =
+            "none";
+
+          bottomActions.style.display =
+            "none";
+
+
+          document.getElementById(
+            "successTitle"
+          ).textContent =
+            "修改成功！";
+
+
+          document.getElementById(
+            "successText"
+          ).innerHTML =
+            "你的衣服資料已成功更新。<br>" +
+            "原本的繳費收據也已保留。❤️";
+
+
+          continueBtn.textContent =
+            "🔎 返回我的資料";
+
+
+          continueBtn.onclick =
+            () => {
+
+              window.location.href =
+                "my-record.html";
+
+            };
+
+
+          return;
+
+        }
+
+
+        /* ===================================
+           新增模式
            =================================== */
 
         submitBtn.textContent =
@@ -1678,8 +2233,6 @@
 
         const shirtOrderData = {
 
-          /* Google 使用者 */
-
           uid:
             user.uid,
 
@@ -1689,8 +2242,6 @@
           googleName:
             user.displayName || "",
 
-
-          /* 衣服資料 */
 
           chineseName:
             chineseName,
@@ -1705,8 +2256,6 @@
             shirtText,
 
 
-          /* Platinum */
-
           platinum:
             platinum,
 
@@ -1714,28 +2263,28 @@
             platinumUid,
 
 
-          /* 收據 */
-
           receiptName:
             receipt.name,
 
           receiptType:
-            receipt.type,
+            receipt.type ||
+            "image/jpeg",
 
           receiptSize:
             receipt.size,
 
           receiptFileId:
-            driveResult.fileId || "",
+            driveResult.fileId ||
+            "",
 
           receiptFileName:
-            driveResult.fileName || "",
+            driveResult.fileName ||
+            "",
 
           receiptDriveUrl:
-            driveResult.driveUrl || "",
+            driveResult.driveUrl ||
+            "",
 
-
-          /* 建立時間 */
 
           createdAt:
             serverTimestamp()
@@ -1753,7 +2302,7 @@
 
 
         /* ===================================
-           3. 成功
+           成功
            =================================== */
 
         formSection.style.display =
@@ -1798,13 +2347,37 @@
           errorMessage
         );
 
+
       } finally {
 
-        submitBtn.disabled =
-          false;
+        if (!isEditMode) {
 
-        submitBtn.textContent =
-          "👕 送出衣服訂單";
+          submitBtn.disabled =
+            false;
+
+          submitBtn.textContent =
+            "👕 送出衣服訂單";
+
+        } else {
+
+          /*
+           * 編輯成功時會直接 return。
+           * 編輯失敗時恢復按鈕。
+           */
+          if (
+            formSection.style.display !==
+            "none"
+          ) {
+
+            submitBtn.disabled =
+              false;
+
+            submitBtn.textContent =
+              "💾 儲存衣服修改";
+
+          }
+
+        }
 
       }
 
@@ -1820,10 +2393,24 @@
     "click",
     () => {
 
+      /*
+       * 編輯模式不重新建立資料
+       */
+      if (isEditMode) {
+
+        window.location.href =
+          "my-record.html";
+
+        return;
+
+      }
+
+
       shirtForm.reset();
 
       formMessage.textContent = "";
       formMessage.style.color = "";
+
 
       successSection.style.display =
         "none";
@@ -1837,11 +2424,61 @@
       bottomActions.style.display =
         "flex";
 
+
       submitBtn.disabled =
         false;
 
       submitBtn.textContent =
         "👕 送出衣服訂單";
+
+
+      existingReceipt.style.display =
+        "none";
+
+
+      receiptRequired.style.display =
+        "inline";
+
+
+      const platinumRadios =
+        document.querySelectorAll(
+          'input[name="platinum"]'
+        );
+
+
+      platinumRadios.forEach(
+        (radio) => {
+
+          radio.disabled =
+            false;
+
+        }
+      );
+
+
+      const platinumLabels =
+        document.querySelectorAll(
+          ".platinum-option label"
+        );
+
+
+      platinumLabels.forEach(
+        (label) => {
+
+          label.classList.remove(
+            "platinum-locked"
+          );
+
+        }
+      );
+
+
+      platinumLockMessage.style.display =
+        "none";
+
+
+      formTitle.textContent =
+        "📝 衣服資料";
 
 
       const user =
@@ -1864,6 +2501,21 @@
         top: 0,
         behavior: "smooth"
       });
+
+    }
+  );
+
+
+  /* =========================================
+     查看我的資料
+     ========================================= */
+
+  recordBtn.addEventListener(
+    "click",
+    () => {
+
+      window.location.href =
+        "my-record.html";
 
     }
   );
@@ -1910,10 +2562,6 @@
 
         try {
 
-          /* ===============================
-             File → Base64
-             =============================== */
-
           const base64 =
             await fileToBase64(
               file
@@ -1938,10 +2586,6 @@
             ".jpg";
 
 
-          /* ===============================
-             建立 iframe
-             =============================== */
-
           const iframeName =
             "shirtReceiptUploadFrame_" +
             timestamp;
@@ -1964,10 +2608,6 @@
             iframe
           );
 
-
-          /* ===============================
-             建立 POST Form
-             =============================== */
 
           const form =
             document.createElement(
@@ -2021,10 +2661,6 @@
           );
 
 
-          /* ===============================
-             完成控制
-             =============================== */
-
           let finished =
             false;
 
@@ -2042,10 +2678,6 @@
 
             };
 
-
-          /* ===============================
-             120 秒逾時
-             =============================== */
 
           const timer =
             setTimeout(
@@ -2073,10 +2705,6 @@
               120000
             );
 
-
-          /* ===============================
-             接收 Apps Script 回覆
-             =============================== */
 
           const messageHandler =
             (event) => {
@@ -2128,11 +2756,8 @@
           );
 
 
-          /* ===============================
-             送出
-             =============================== */
-
           form.submit();
+
 
         } catch (error) {
 
@@ -2301,7 +2926,42 @@
       false;
 
     submitBtn.textContent =
-      "👕 送出衣服訂單";
+      isEditMode
+        ? "💾 儲存衣服修改"
+        : "👕 送出衣服訂單";
+
+  }
+
+
+  /* =========================================
+     HTML Escape
+     ========================================= */
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(value)
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
 
   }
 
