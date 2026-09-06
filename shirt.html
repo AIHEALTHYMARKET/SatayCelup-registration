@@ -211,6 +211,59 @@
       color: #e8752e;
     }
 
+    /* =========================================
+       PAYMENT INFO
+    ========================================= */
+
+    .payment-box {
+      margin-top: 18px;
+      background: #f9fefb;
+      border: 1.5px solid #cfe7dc;
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .payment-title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 900;
+      color: #2d6953;
+      margin-bottom: 12px;
+    }
+
+    .payment-price {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: #e8752e;
+      margin-bottom: 16px;
+    }
+
+    .payment-info {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 14px 15px;
+      color: #476960;
+      font-size: 14px;
+      line-height: 1.8;
+      border: 1px solid #e0eee8;
+    }
+
+    .payment-info strong {
+      color: #29483f;
+    }
+
+    .payment-image {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      margin: 16px auto 0;
+      border-radius: 14px;
+      border: 1px solid #dcebe5;
+      object-fit: contain;
+    }
+
     #loginSection {
       text-align: center;
     }
@@ -574,6 +627,10 @@
         grid-template-columns: 1fr;
       }
 
+      .payment-box {
+        padding: 15px;
+      }
+
     }
 
   </style>
@@ -630,7 +687,47 @@
       </div>
 
       <div class="price">
-        👕 活動紀念衣服 RM28 / 件
+        👕 活動紀念衣服
+      </div>
+
+
+      <!-- =====================================
+           PAYMENT INFORMATION
+      ====================================== -->
+
+      <div class="payment-box">
+
+        <div class="payment-title">
+          💳 衣服繳費資料
+        </div>
+
+        <div class="payment-price">
+          每件 RM28
+        </div>
+
+        <div class="payment-info">
+
+          <strong>Beneficiary name:</strong>
+          Teo Wei En
+
+          <br>
+
+          <strong>Account number:</strong>
+          8888001239789
+
+          <br>
+
+          <strong>Bank name:</strong>
+          GX Bank Berhad
+
+        </div>
+
+        <img
+          class="payment-image"
+          src="https://i.ibb.co/4nGyf3CR/GXBank-9789.png"
+          alt="GX Bank 繳費資料"
+        >
+
       </div>
 
     </section>
