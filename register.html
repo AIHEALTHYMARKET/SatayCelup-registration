@@ -889,46 +889,90 @@ import {
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
+/* =========================================================
+   基本設定
+========================================================= */
+
 const APPS_SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
 
 
 const PLATINUM_UIDS = {
-  "Sense&Lavenier":"2rNB2dEMwYeDxMPHxJGMq9F7vHU2",
-  "Amos":"ZzWLiS9wR7dOy4lwpW9E3PxmNiE2",
-  "Sunny":"TZHOLfx55dRfomerJJL1ZaxdfMm1",
-  "Robin&Zoey":"NV6OKbVKe7QSX06nKUUEGhoBae32",
-  "RyanLio":"cqW7ZHpWsmdjsc1zJiAL9MhRlIA2",
-  "Wyane&Momo":"Zn6rj5cQ84P6wiPr6QpvFhACXkV2",
-  "Jess":"6iYJHVztThdgj4jpN3pdewzUDbE2",
-  "Keong&Ngah":"Zgil7YpCJsdD4qT5oAmfI0vLBl53",
-  "JayChew":"UALJAeujRXazWubxSTRsFo5OxwI3",
-  "Lynn":"x7Kp4XNKcBV4MzHIG7DBdwnSYWV2",
-  "SzeChew":"hY1QzYljziQsprfbFFowNteqmuH2"
+  "Sense&Lavenier":
+    "2rNB2dEMwYeDxMPHxJGMq9F7vHU2",
+
+  "Amos":
+    "ZzWLiS9wR7dOy4lwpW9E3PxmNiE2",
+
+  "Sunny":
+    "TZHOLfx55dRfomerJJL1ZaxdfMm1",
+
+  "Robin&Zoey":
+    "NV6OKbVKe7QSX06nKUUEGhoBae32",
+
+  "RyanLio":
+    "cqW7ZHpWsmdjsc1zJiAL9MhRlIA2",
+
+  "Wyane&Momo":
+    "Zn6rj5cQ84P6wiPr6QpvFhACXkV2",
+
+  "Jess":
+    "6iYJHVztThdgj4jpN3pdewzUDbE2",
+
+  "Keong&Ngah":
+    "Zgil7YpCJsdD4qT5oAmfI0vLBl53",
+
+  "JayChew":
+    "UALJAeujRXazWubxSTRsFo5OxwI3",
+
+  "Lynn":
+    "x7Kp4XNKcBV4MzHIG7DBdwnSYWV2",
+
+  "SzeChew":
+    "hY1QzYljziQsprfbFFowNteqmuH2"
 };
 
+
+/* =========================================================
+   工具
+========================================================= */
 
 const $ = id => document.getElementById(id);
 
 const params = new URLSearchParams(location.search);
 
-const editDocId = params.get("edit");
+const editId = params.get("edit");
 
-const isEdit = Boolean(editDocId);
+let currentUser = null;
 
-let original = null;
+let editingData = null;
 
-
-const loginCard = $("loginCard");
-const formCard = $("formCard");
-const successCard = $("successCard");
-const form = $("registrationForm");
-const submit = $("submitBtn");
-const msg = $("formMessage");
-const email = $("email");
+let uploadedReceipt = null;
 
 
-/* Google 登入 */
+/* =========================================================
+   HTML Escape
+========================================================= */
+
+function escapeHtml(value) {
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   Google 登入
+   ★ 保留你原本的登入方式
+========================================================= */
 
 $("googleLoginBtn").onclick = async () => {
 
@@ -945,810 +989,1604 @@ $("googleLoginBtn").onclick = async () => {
       prompt:"select_account"
     });
 
-    await signInWithPopup(auth,provider);
+    await signInWithPopup(
+      auth,
+      provider
+    );
 
   } catch(e) {
 
-    console.error("Google Login Error:",e);
+    console.error(
+      "Google Login Error:",
+      e
+    );
 
     $("loginMessage").textContent =
-      "Google 登入失敗：" + e.message;
+      "Google 登入失敗：" +
+      (e.message || e);
 
     $("googleLoginBtn").disabled = false;
-
   }
-
 };
 
 
-/* 球伴組別變更 */
+/* =========================================================
+   Firebase 登入狀態
+========================================================= */
 
-$("partnerGroup").addEventListener("change", () => {
+onAuthStateChanged(
+  auth,
+  async user => {
 
-  const group = $("partnerGroup").value;
+    if (!user) {
 
-  const partner = $("partner");
-  const requiredMark = $("partnerRequiredMark");
+      currentUser = null;
 
-  if(group === "指定搭檔"){
+      return;
+    }
 
-    partner.required = true;
+    currentUser = user;
 
-    requiredMark.classList.remove("hidden");
+    console.log(
+      "Google Login Success:",
+      user.email,
+      user.uid
+    );
 
-    $("partnerHelp").textContent =
-      "已選擇指定搭檔，請務必填寫球伴姓名。";
 
-  }else{
+    /* -----------------------------------------
+       顯示登入 Email
+    ----------------------------------------- */
 
-    partner.required = false;
+    if ($("email")) {
+      $("email").value =
+        user.email || "";
+    }
 
-    requiredMark.classList.add("hidden");
+    if ($("googleEmail")) {
+      $("googleEmail").value =
+        user.email || "";
+    }
 
-    $("partnerHelp").textContent =
-      "自由組隊時，球伴欄位可以不填。";
+
+    if ($("loginMessage")) {
+
+      $("loginMessage").textContent =
+        "Google 登入成功：" +
+        (user.email || "");
+    }
+
+
+    /* -----------------------------------------
+       顯示表單
+    ----------------------------------------- */
+
+    const loginSection =
+      $("loginSection");
+
+    const formSection =
+      $("formSection");
+
+    if (loginSection) {
+      loginSection.style.display =
+        "none";
+    }
+
+    if (formSection) {
+      formSection.style.display =
+        "block";
+    }
+
+
+    /* -----------------------------------------
+       編輯模式
+    ----------------------------------------- */
+
+    if (editId) {
+
+      await loadEdit(user);
+    }
 
   }
-
-});
-
-
-/* 登入狀態 */
-
-onAuthStateChanged(auth,async user => {
-
-  if(!user){
-
-    loginCard.classList.remove("hidden");
-
-    formCard.classList.add("hidden");
-
-    return;
-
-  }
-
-  loginCard.classList.add("hidden");
-
-  formCard.classList.remove("hidden");
-
-  email.value = user.email || "";
-
-  $("userInfo").innerHTML =
-    "✅ 已登入：<strong>" +
-    esc(user.email || "") +
-    "</strong>";
-
-  if(isEdit){
-
-    await loadEdit(user);
-
-  }
-
-});
+);
 
 
-/* 載入修改資料 */
+/* =========================================================
+   編輯資料
+========================================================= */
 
-async function loadEdit(user){
+async function loadEdit(user) {
 
   try {
 
-    msg.textContent =
-      "正在載入你的報名資料...";
+    console.log(
+      "Loading edit record:",
+      editId
+    );
 
-    const recordRef =
-      doc(db,"registrations",editDocId);
 
-    const snapshot =
-      await getDoc(recordRef);
+    const ref =
+      doc(
+        db,
+        "registrations",
+        editId
+      );
 
-    if(!snapshot.exists()){
+    const snap =
+      await getDoc(ref);
 
-      throw new Error(
+
+    if (!snap.exists()) {
+
+      alert(
         "找不到這筆報名資料。"
       );
 
+      return;
     }
 
-    const data = snapshot.data();
 
-    if(data.uid !== user.uid){
+    const data =
+      snap.data();
 
-      throw new Error(
+
+    /* -----------------------------------------
+       權限確認
+    ----------------------------------------- */
+
+    const isAdmin =
+      user.email ===
+      "diabolo.weien@gmail.com";
+
+    const isOwner =
+      data.email ===
+      user.email;
+
+    const isPlatinum =
+      data.platinumUid ===
+      user.uid;
+
+
+    if (
+      !isAdmin &&
+      !isOwner &&
+      !isPlatinum
+    ) {
+
+      alert(
         "你沒有權限修改這筆資料。"
       );
 
+      return;
     }
 
-    original = data;
 
-    $("formTitle").textContent =
-      "✏️ 修改活動報名資料";
+    editingData = data;
 
-    $("editNotice").classList.remove("hidden");
 
-    submit.textContent =
-      "💾 儲存修改";
+    /* -----------------------------------------
+       填入表單
+    ----------------------------------------- */
 
-    $("receiptRequiredMark").classList.add("hidden");
+    fillForm(data);
 
-    $("existingReceipt").classList.remove("hidden");
 
-    $("platinumHelp").classList.remove("hidden");
+    if ($("submitBtn")) {
 
-    $("englishName").value =
-      data.englishName || "";
+      $("submitBtn").textContent =
+        "儲存修改";
+    }
 
-    $("icNumber").value =
-      data.icNumber || "";
 
-    $("chineseName").value =
-      data.chineseName || "";
+    if ($("formTitle")) {
 
-    $("phone").value =
-      data.phone || "";
+      $("formTitle").textContent =
+        "修改活動報名資料";
+    }
 
-    $("shirtSize").value =
-      data.shirtSize || "";
 
-    $("shirtText").value =
-      data.shirtText || "";
+    if ($("editModeMessage")) {
 
-    $("partnerGroup").value =
-      data.partnerGroup || "";
+      $("editModeMessage").style.display =
+        "block";
+    }
 
-    $("partner").value =
-      data.partner || "";
+
+    /* -----------------------------------------
+       原收據
+    ----------------------------------------- */
+
+    if (
+      data.receiptUrl ||
+      data.receiptDriveUrl ||
+      data.receiptFileId
+    ) {
+
+      uploadedReceipt = {
+
+        fileId:
+          data.receiptFileId || "",
+
+        fileName:
+          data.receiptFileName || "",
+
+        driveUrl:
+          data.receiptDriveUrl ||
+          data.receiptUrl ||
+          ""
+
+      };
+
+      if ($("receiptStatus")) {
+
+        $("receiptStatus").textContent =
+          "目前已有收據，如需更換可重新上傳。";
+      }
+    }
+
+  } catch(e) {
+
+    console.error(
+      "Load Edit Error:",
+      e
+    );
+
+    alert(
+      "讀取報名資料失敗：" +
+      (e.message || e)
+    );
+  }
+}
+
+
+/* =========================================================
+   填入表單
+========================================================= */
+
+function fillForm(data) {
+
+  const fields = [
+
+    "icEnglishName",
+    "icNumber",
+    "chineseName",
+    "phone",
+    "meal",
+    "shirtSize",
+    "shirtBackText",
+    "participation",
+    "partnerGroup",
+    "partner",
+    "platinum"
+
+  ];
+
+
+  fields.forEach(
+    key => {
+
+      const el =
+        $(key);
+
+      if (!el) return;
+
+      const value =
+        data[key];
+
+      if (
+        el.tagName ===
+        "SELECT"
+      ) {
+
+        el.value =
+          value || "";
+
+      } else {
+
+        el.value =
+          value || "";
+      }
+    }
+  );
+
+
+  /* -----------------------------------------
+     Email
+  ----------------------------------------- */
+
+  if ($("email")) {
+
+    $("email").value =
+      data.email || "";
+  }
+
+  if ($("googleEmail")) {
+
+    $("googleEmail").value =
+      data.email || "";
+  }
+
+
+  /* -----------------------------------------
+     Radio
+  ----------------------------------------- */
+
+  const radioGroups = [
+
+    "meal",
+    "participation",
+    "partnerGroup"
+
+  ];
+
+
+  radioGroups.forEach(
+    name => {
+
+      if (!data[name]) return;
+
+      const radio =
+        document.querySelector(
+          `input[name="${name}"][value="${CSS.escape(data[name])}"]`
+        );
+
+      if (radio) {
+
+        radio.checked =
+          true;
+      }
+
+    }
+  );
+
+
+  /* -----------------------------------------
+     Shirt size
+  ----------------------------------------- */
+
+  if (data.shirtSize) {
+
+    const radio =
+      document.querySelector(
+        `input[name="shirtSize"][value="${CSS.escape(data.shirtSize)}"]`
+      );
+
+    if (radio) {
+
+      radio.checked =
+        true;
+    }
+  }
+
+
+  /* -----------------------------------------
+     Platinum
+  ----------------------------------------- */
+
+  if (
+    $("platinum") &&
+    data.platinum
+  ) {
 
     $("platinum").value =
-      data.platinum || "";
-
-    $("platinum").disabled = true;
-
-    setRadio("meal",data.meal);
-
-    setRadio(
-      "participation",
-      data.participation
-    );
-
-    $("partnerGroup").dispatchEvent(
-      new Event("change")
-    );
-
-    msg.textContent =
-      "已載入你的資料，可以修改。";
-
-    msg.style.color =
-      "#247a55";
-
-  } catch(e) {
-
-    console.error("Load Edit Error:",e);
-
-    msg.textContent = e.message;
-
-    msg.style.color =
-      "#c84b4b";
-
-    submit.disabled = true;
-
+      data.platinum;
   }
 
 }
 
 
-/* 設定單選按鈕 */
+/* =========================================================
+   Google Drive 收據上傳
+   ★ 這裡是這次真正修正的地方
+========================================================= */
 
-function setRadio(name,value){
+function upload(file, englishName) {
 
-  const radios =
-    document.querySelectorAll(
-      'input[name="' + name + '"]'
-    );
+  return new Promise(
+    (resolve,reject) => {
 
-  radios.forEach(radio => {
+      if (!file) {
 
-    radio.checked =
-      radio.value === value;
+        reject(
+          new Error(
+            "沒有選擇收據圖片"
+          )
+        );
 
+        return;
+      }
+
+
+      /* ---------------------------------------
+         檢查 JPG / JPEG
+      --------------------------------------- */
+
+      const fileName =
+        file.name || "";
+
+      const mimeType =
+        file.type || "";
+
+
+      const isJpg =
+        mimeType === "image/jpeg" ||
+        mimeType === "image/jpg" ||
+        /\.(jpg|jpeg)$/i.test(
+          fileName
+        );
+
+
+      if (!isJpg) {
+
+        reject(
+          new Error(
+            "收據只允許 JPG / JPEG 格式。"
+          )
+        );
+
+        return;
+      }
+
+
+      /* ---------------------------------------
+         5MB
+      --------------------------------------- */
+
+      if (
+        file.size >
+        5 * 1024 * 1024
+      ) {
+
+        reject(
+          new Error(
+            "收據圖片不能超過 5MB。"
+          )
+        );
+
+        return;
+      }
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload = () => {
+
+        try {
+
+          const result =
+            String(
+              reader.result || ""
+            );
+
+
+          const base64 =
+            result.split(",")[1];
+
+
+          if (!base64) {
+
+            reject(
+              new Error(
+                "圖片讀取失敗。"
+              )
+            );
+
+            return;
+          }
+
+
+          /* -----------------------------------
+             建立隱藏 iframe
+          ----------------------------------- */
+
+          const iframe =
+            document.createElement(
+              "iframe"
+            );
+
+          iframe.name =
+            "receiptUploadFrame_" +
+            Date.now();
+
+          iframe.style.display =
+            "none";
+
+          document.body.appendChild(
+            iframe
+          );
+
+
+          /* -----------------------------------
+             建立 form
+          ----------------------------------- */
+
+          const form =
+            document.createElement(
+              "form"
+            );
+
+          form.method =
+            "POST";
+
+          form.action =
+            APPS_SCRIPT_URL;
+
+          form.target =
+            iframe.name;
+
+          form.style.display =
+            "none";
+
+
+          function addInput(
+            name,
+            value
+          ) {
+
+            const input =
+              document.createElement(
+                "input"
+              );
+
+            input.type =
+              "hidden";
+
+            input.name =
+              name;
+
+            input.value =
+              value;
+
+            form.appendChild(
+              input
+            );
+          }
+
+
+          addInput(
+            "type",
+            "registration"
+          );
+
+          addInput(
+            "fileName",
+            fileName
+          );
+
+          addInput(
+            "mimeType",
+            "image/jpeg"
+          );
+
+          addInput(
+            "base64",
+            base64
+          );
+
+          addInput(
+            "englishName",
+            englishName || ""
+          );
+
+
+          document.body.appendChild(
+            form
+          );
+
+
+          let finished =
+            false;
+
+
+          /* -----------------------------------
+             成功
+          ----------------------------------- */
+
+          function finishSuccess(
+            result
+          ) {
+
+            if (finished) return;
+
+            finished =
+              true;
+
+
+            cleanup();
+
+
+            console.log(
+              "Google Drive Upload Success:",
+              result
+            );
+
+
+            resolve({
+
+              success:true,
+
+              fileId:
+                result.fileId || "",
+
+              fileName:
+                result.fileName ||
+                fileName,
+
+              driveUrl:
+                result.driveUrl || ""
+
+            });
+          }
+
+
+          /* -----------------------------------
+             失敗
+          ----------------------------------- */
+
+          function finishError(
+            error
+          ) {
+
+            if (finished) return;
+
+            finished =
+              true;
+
+
+            cleanup();
+
+
+            reject(
+              new Error(
+                error ||
+                "Google Drive 上傳失敗。"
+              )
+            );
+          }
+
+
+          /* -----------------------------------
+             清理
+          ----------------------------------- */
+
+          function cleanup() {
+
+            window.removeEventListener(
+              "message",
+              receiveMessage
+            );
+
+
+            clearTimeout(
+              timeout
+            );
+
+
+            setTimeout(
+              () => {
+
+                try {
+
+                  form.remove();
+
+                } catch(e) {}
+
+
+                try {
+
+                  iframe.remove();
+
+                } catch(e) {}
+
+              },
+              500
+            );
+          }
+
+
+          /* -----------------------------------
+             ★★★
+             修正 Apps Script 回傳格式
+             
+             Apps Script 回傳：
+             
+             {
+               source:
+                 "sataycelup-receipt-upload",
+
+               result:{
+                 success:true,
+                 fileId:"...",
+                 fileName:"...",
+                 driveUrl:"..."
+               }
+             }
+             
+             舊版則可能直接回傳：
+             
+             {
+               success:true,
+               fileId:"..."
+             }
+          ----------------------------------- */
+
+          function receiveMessage(
+            event
+          ) {
+
+            try {
+
+              if (
+                !event ||
+                !event.data
+              ) {
+
+                return;
+              }
+
+
+              const data =
+                event.data;
+
+
+              /* --------------------------------
+                 只接受我們自己的訊息
+              -------------------------------- */
+
+              if (
+                data.source &&
+                data.source !==
+                "sataycelup-receipt-upload"
+              ) {
+
+                return;
+              }
+
+
+              /* --------------------------------
+                 ★ 重要：
+                 新 Apps Script 使用 data.result
+              -------------------------------- */
+
+              let result =
+                data.result;
+
+
+              /* --------------------------------
+                 如果沒有 result，
+                 就使用原本格式
+              -------------------------------- */
+
+              if (
+                !result ||
+                typeof result !==
+                "object"
+              ) {
+
+                result =
+                  data;
+              }
+
+
+              console.log(
+                "Receipt upload response:",
+                result
+              );
+
+
+              /* --------------------------------
+                 Apps Script 明確回傳失敗
+              -------------------------------- */
+
+              if (
+                result.success ===
+                false
+              ) {
+
+                finishError(
+                  result.error ||
+                  "Google Drive 上傳失敗。"
+                );
+
+                return;
+              }
+
+
+              /* --------------------------------
+                 ★ 成功
+              -------------------------------- */
+
+              if (
+                result.success ===
+                  true &&
+                (
+                  result.fileId ||
+                  result.fileName ||
+                  result.driveUrl
+                )
+              ) {
+
+                finishSuccess(
+                  result
+                );
+
+                return;
+              }
+
+
+              /* --------------------------------
+                 某些舊版本沒有 success
+              -------------------------------- */
+
+              if (
+                result.fileId ||
+                result.fileName ||
+                result.driveUrl
+              ) {
+
+                finishSuccess(
+                  result
+                );
+
+                return;
+              }
+
+            } catch(e) {
+
+              console.error(
+                "Upload Response Error:",
+                e
+              );
+
+              finishError(
+                e.message ||
+                "收據上傳回覆解析失敗。"
+              );
+            }
+
+          }
+
+
+          window.addEventListener(
+            "message",
+            receiveMessage
+          );
+
+
+          /* -----------------------------------
+             90秒 timeout
+          ----------------------------------- */
+
+          const timeout =
+            setTimeout(
+              () => {
+
+                if (
+                  finished
+                ) return;
+
+
+                finished =
+                  true;
+
+
+                window.removeEventListener(
+                  "message",
+                  receiveMessage
+                );
+
+
+                try {
+
+                  form.remove();
+
+                } catch(e) {}
+
+
+                try {
+
+                  iframe.remove();
+
+                } catch(e) {}
+
+
+                reject(
+                  new Error(
+                    "Google Drive 上傳逾時。照片可能已上傳，但前端沒有收到回覆。請先檢查 Google Drive，再重新嘗試。"
+                  )
+                );
+
+              },
+              90000
+            );
+
+
+          /* -----------------------------------
+             開始上傳
+          ----------------------------------- */
+
+          form.submit();
+
+
+        } catch(e) {
+
+          reject(e);
+        }
+
+      };
+
+
+      reader.onerror =
+        () => {
+
+          reject(
+            new Error(
+              "無法讀取收據圖片。"
+            )
+          );
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+}
+
+
+/* =========================================================
+   表單提交
+========================================================= */
+
+const form =
+  $("registrationForm");
+
+
+if (form) {
+
+  form.addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      /* ---------------------------------------
+         必須登入
+      --------------------------------------- */
+
+      if (!currentUser) {
+
+        alert(
+          "請先使用 Google 登入。"
+        );
+
+        return;
+      }
+
+
+      const submitBtn =
+        $("submitBtn");
+
+
+      if (submitBtn) {
+
+        submitBtn.disabled =
+          true;
+
+        submitBtn.textContent =
+          "處理中，請稍候...";
+      }
+
+
+      try {
+
+        /* -------------------------------------
+           取得資料
+        ------------------------------------- */
+
+        const email =
+          currentUser.email || "";
+
+
+        const englishName =
+          $("icEnglishName")?.value
+            .trim() || "";
+
+
+        const icNumber =
+          $("icNumber")?.value
+            .trim() || "";
+
+
+        const chineseName =
+          $("chineseName")?.value
+            .trim() || "";
+
+
+        const phone =
+          $("phone")?.value
+            .trim() || "";
+
+
+        const meal =
+          $("meal")?.value ||
+          document.querySelector(
+            'input[name="meal"]:checked'
+          )?.value ||
+          "";
+
+
+        const shirtSize =
+          $("shirtSize")?.value ||
+          document.querySelector(
+            'input[name="shirtSize"]:checked'
+          )?.value ||
+          "";
+
+
+        const shirtBackText =
+          $("shirtBackText")?.value
+            .trim() || "";
+
+
+        const participation =
+          $("participation")?.value ||
+          document.querySelector(
+            'input[name="participation"]:checked'
+          )?.value ||
+          "";
+
+
+        const partnerGroup =
+          $("partnerGroup")?.value ||
+          document.querySelector(
+            'input[name="partnerGroup"]:checked'
+          )?.value ||
+          "";
+
+
+        const partner =
+          $("partner")?.value
+            .trim() || "";
+
+
+        const platinum =
+          $("platinum")?.value ||
+          "";
+
+
+        /* -------------------------------------
+           Platinum UID
+        ------------------------------------- */
+
+        const platinumUid =
+          PLATINUM_UIDS[
+            platinum
+          ] || "";
+
+
+        /* -------------------------------------
+           驗證
+        ------------------------------------- */
+
+        if (!englishName) {
+
+          throw new Error(
+            "請填寫 IC English Name。"
+          );
+        }
+
+
+        if (!icNumber) {
+
+          throw new Error(
+            "請填寫 IC Number。"
+          );
+        }
+
+
+        if (!phone) {
+
+          throw new Error(
+            "請填寫 Phone。"
+          );
+        }
+
+
+        if (!meal) {
+
+          throw new Error(
+            "請選擇葷食或素食。"
+          );
+        }
+
+
+        if (!shirtSize) {
+
+          throw new Error(
+            "請選擇衣服尺寸。"
+          );
+        }
+
+
+        if (!participation) {
+
+          throw new Error(
+            "請選擇參加項目。"
+          );
+        }
+
+
+        if (!partnerGroup) {
+
+          throw new Error(
+            "請選擇搭檔方式。"
+          );
+        }
+
+
+        if (!platinum) {
+
+          throw new Error(
+            "請選擇 Platinum。"
+          );
+        }
+
+
+        if (!platinumUid) {
+
+          throw new Error(
+            "Platinum 資料錯誤，請重新選擇。"
+          );
+        }
+
+
+        /* -------------------------------------
+           收據
+        ------------------------------------- */
+
+        let receiptResult =
+          uploadedReceipt;
+
+
+        const receiptInput =
+          $("receipt");
+
+
+        const receiptFile =
+          receiptInput?.files?.[0] ||
+          null;
+
+
+        /* -------------------------------------
+           如果重新選擇收據
+        ------------------------------------- */
+
+        if (receiptFile) {
+
+          if (submitBtn) {
+
+            submitBtn.textContent =
+              "正在上傳收據...";
+          }
+
+
+          receiptResult =
+            await upload(
+              receiptFile,
+              englishName
+            );
+
+
+          uploadedReceipt =
+            receiptResult;
+        }
+
+
+        /* -------------------------------------
+           新報名必須有收據
+        ------------------------------------- */
+
+        if (
+          !editId &&
+          !receiptResult
+        ) {
+
+          throw new Error(
+            "請先上傳付款收據。"
+          );
+        }
+
+
+        /* -------------------------------------
+           Firestore data
+        ------------------------------------- */
+
+        const registrationData = {
+
+          email:
+            email,
+
+          uid:
+            currentUser.uid,
+
+          icEnglishName:
+            englishName,
+
+          icNumber:
+            icNumber,
+
+          chineseName:
+            chineseName,
+
+          phone:
+            phone,
+
+          meal:
+            meal,
+
+          shirtSize:
+            shirtSize,
+
+          shirtBackText:
+            shirtBackText,
+
+          participation:
+            participation,
+
+          partnerGroup:
+            partnerGroup,
+
+          partner:
+            partner,
+
+          platinum:
+            platinum,
+
+          platinumUid:
+            platinumUid
+
+        };
+
+
+        /* -------------------------------------
+           收據資料
+        ------------------------------------- */
+
+        if (receiptResult) {
+
+          registrationData.receiptFileId =
+            receiptResult.fileId || "";
+
+          registrationData.receiptFileName =
+            receiptResult.fileName || "";
+
+          registrationData.receiptDriveUrl =
+            receiptResult.driveUrl || "";
+
+        }
+
+
+        /* -------------------------------------
+           新增
+        ------------------------------------- */
+
+        if (!editId) {
+
+          registrationData.createdAt =
+            serverTimestamp();
+
+
+          registrationData.updatedAt =
+            serverTimestamp();
+
+
+          const docRef =
+            await addDoc(
+              collection(
+                db,
+                "registrations"
+              ),
+              registrationData
+            );
+
+
+          console.log(
+            "Registration created:",
+            docRef.id
+          );
+
+
+          showSuccess(
+            docRef.id
+          );
+
+
+        }
+
+        /* -------------------------------------
+           修改
+        ------------------------------------- */
+
+        else {
+
+          registrationData.updatedAt =
+            serverTimestamp();
+
+
+          /* -----------------------------------
+             不允許修改的資料
+             
+             編輯時強制保留原本：
+             email
+             uid
+             platinumUid
+          ----------------------------------- */
+
+          registrationData.email =
+            editingData.email;
+
+
+          registrationData.uid =
+            editingData.uid;
+
+
+          registrationData.platinumUid =
+            editingData.platinumUid;
+
+
+          await updateDoc(
+            doc(
+              db,
+              "registrations",
+              editId
+            ),
+            registrationData
+          );
+
+
+          console.log(
+            "Registration updated:",
+            editId
+          );
+
+
+          showSuccess(
+            editId
+          );
+        }
+
+
+      } catch(e) {
+
+        console.error(
+          "Submit Error:",
+          e
+        );
+
+
+        alert(
+          "報名資料提交失敗。\n\n原因：" +
+          (e.message || e)
+        );
+
+
+        if (submitBtn) {
+
+          submitBtn.disabled =
+            false;
+
+          submitBtn.textContent =
+            editId
+              ? "儲存修改"
+              : "提交報名";
+        }
+
+      }
+
+    }
+  );
+}
+
+
+/* =========================================================
+   成功畫面
+========================================================= */
+
+function showSuccess(
+  docId
+) {
+
+  console.log(
+    "Registration Success:",
+    docId
+  );
+
+
+  const formSection =
+    $("formSection");
+
+
+  const successSection =
+    $("successSection");
+
+
+  if (formSection) {
+
+    formSection.style.display =
+      "none";
+  }
+
+
+  if (successSection) {
+
+    successSection.style.display =
+      "block";
+  }
+
+
+  /* -----------------------------------------
+     如果你的成功畫面有 ID 欄位
+  ----------------------------------------- */
+
+  if ($("successId")) {
+
+    $("successId").textContent =
+      docId || "";
+  }
+
+
+  /* -----------------------------------------
+     如果你的成功畫面有訊息
+  ----------------------------------------- */
+
+  if ($("successMessage")) {
+
+    $("successMessage").innerHTML =
+      editId
+        ? "報名資料已成功修改！"
+        : "報名資料已成功提交！";
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
   });
-
 }
 
 
-/* 提交報名 */
+/* =========================================================
+   返回 / 繼續報名
+========================================================= */
 
-form.onsubmit = async e => {
+if ($("continueBtn")) {
 
-  e.preventDefault();
-
-  msg.textContent = "";
-
-  const user = auth.currentUser;
-
-  if(!user){
-
-    return error(
-      "請先使用 Google 登入。"
-    );
-
-  }
-
-  const get = id =>
-    $(id).value.trim();
-
-  const englishName =
-    get("englishName");
-
-  const icNumber =
-    get("icNumber");
-
-  const chineseName =
-    get("chineseName");
-
-  const phone =
-    get("phone");
-
-  const shirtSize =
-    $("shirtSize").value;
-
-  const shirtText =
-    get("shirtText");
-
-  const partnerGroup =
-    $("partnerGroup").value;
-
-  const partner =
-    get("partner");
-
-  const platinum =
-    $("platinum").value;
-
-  const meal =
-    document.querySelector(
-      'input[name="meal"]:checked'
-    )?.value || "";
-
-  const participation =
-    document.querySelector(
-      'input[name="participation"]:checked'
-    )?.value || "";
-
-  const receipt =
-    $("receipt").files[0] || null;
-
-
-  if(
-    !englishName ||
-    !icNumber ||
-    !chineseName ||
-    !phone ||
-    !meal ||
-    !shirtSize ||
-    !shirtText ||
-    !participation ||
-    !partnerGroup ||
-    !platinum
-  ){
-
-    return error(
-      "請完整填寫所有必填資料。"
-    );
-
-  }
-
-
-  if(
-    partnerGroup === "指定搭檔" &&
-    !partner
-  ){
-
-    return error(
-      "選擇「指定搭檔」時，球伴欄位必須填寫。"
-    );
-
-  }
-
-
-  if(!isEdit && !receipt){
-
-    return error(
-      "請上傳繳費收據 JPG。"
-    );
-
-  }
-
-
-  if(receipt){
-
-    if(
-      !(
-        receipt.type === "image/jpeg" ||
-        /\.(jpg|jpeg)$/i.test(receipt.name)
-      )
-    ){
-
-      return error(
-        "收據只接受 JPG / JPEG 格式。"
-      );
-
-    }
-
-    if(receipt.size > 5 * 1024 * 1024){
-
-      return error(
-        "收據圖片不能超過 5MB。"
-      );
-
-    }
-
-  }
-
-
-  submit.disabled = true;
-
-  submit.textContent = isEdit
-    ? "⏳ 正在保存修改..."
-    : "⏳ 收據正在處理，請稍候...";
-
-
-  try {
-
-    let drive = null;
-
-
-    /*
-      只有選擇新收據時才重新上傳。
-      修改模式沒有新收據時，保留原本收據。
-    */
-
-    if(receipt){
-
-      msg.textContent =
-        "🧾 收據正在處理，請不要關閉頁面...";
-
-      drive =
-        await upload(receipt,englishName);
-
-      msg.textContent =
-        "✅ 收據已成功保存，正在提交報名資料...";
-
-    }
-
-
-    const data = {
-
-      uid:user.uid,
-
-      email:user.email || "",
-
-      googleName:user.displayName || "",
-
-      englishName,
-
-      icNumber,
-
-      chineseName,
-
-      phone,
-
-      meal,
-
-      shirtSize,
-
-      shirtText,
-
-      participation,
-
-      partnerGroup,
-
-      partner,
-
-      platinum:isEdit
-        ? original.platinum
-        : platinum,
-
-      platinumUid:isEdit
-        ? original.platinumUid
-        : PLATINUM_UIDS[platinum]
-
-    };
-
-
-    if(drive){
-
-      Object.assign(data,{
-
-        receiptName:receipt.name,
-
-        receiptType:
-          receipt.type || "image/jpeg",
-
-        receiptSize:receipt.size,
-
-        receiptFileId:
-          drive.fileId || "",
-
-        receiptFileName:
-          drive.fileName || "",
-
-        receiptDriveUrl:
-          drive.driveUrl || ""
-
-      });
-
-    }else if(isEdit){
-
-      [
-        "receiptName",
-        "receiptType",
-        "receiptSize",
-        "receiptFileId",
-        "receiptFileName",
-        "receiptDriveUrl"
-      ].forEach(key => {
-
-        data[key] =
-          original[key] || "";
-
-      });
-
-    }
-
-
-    /*
-      重要：
-      只有 Firestore 成功後才顯示報名成功。
-      如果 Firestore 失敗，會顯示真正的錯誤原因。
-    */
-
-    if(isEdit){
-
-      await updateDoc(
-        doc(db,"registrations",editDocId),
-        data
-      );
-
-      alert(
-        "你的報名資料已成功更新！"
-      );
+  $("continueBtn").onclick =
+    () => {
 
       location.href =
-        "my-record.html";
+        "register.html";
+    };
+}
 
-    }else{
 
-      data.createdAt =
-        serverTimestamp();
+if ($("backBtn")) {
 
-      await addDoc(
-        collection(db,"registrations"),
-        data
-      );
+  $("backBtn").onclick =
+    () => {
 
-      formCard.classList.add("hidden");
+      history.back();
+    };
+}
 
-      successCard.classList.remove("hidden");
 
-      form.reset();
+if ($("returnBtn")) {
 
-      email.value =
-        user.email || "";
+  $("returnBtn").onclick =
+    () => {
+
+      history.back();
+    };
+}
+
+
+/* =========================================================
+   Receipt 預覽
+========================================================= */
+
+const receiptInput =
+  $("receipt");
+
+
+if (receiptInput) {
+
+  receiptInput.addEventListener(
+    "change",
+    () => {
+
+      const file =
+        receiptInput.files?.[0];
+
+
+      if (!file) return;
+
+
+      const isJpg =
+        file.type ===
+          "image/jpeg" ||
+        file.type ===
+          "image/jpg" ||
+        /\.(jpg|jpeg)$/i.test(
+          file.name
+        );
+
+
+      if (!isJpg) {
+
+        alert(
+          "只允許 JPG / JPEG 格式。"
+        );
+
+        receiptInput.value =
+          "";
+
+        return;
+      }
+
+
+      if (
+        file.size >
+        5 * 1024 * 1024
+      ) {
+
+        alert(
+          "收據圖片不能超過 5MB。"
+        );
+
+        receiptInput.value =
+          "";
+
+        return;
+      }
+
+
+      if ($("receiptStatus")) {
+
+        $("receiptStatus").textContent =
+          "已選擇收據：" +
+          file.name;
+      }
 
     }
+  );
+}
 
-  } catch(e) {
 
-    console.error("Submit Error:",e);
+/* =========================================================
+   防止重複提交
+========================================================= */
 
-    error(
-      "收據已上傳，但報名資料提交失敗。原因：" +
-      e.message
+window.addEventListener(
+  "beforeunload",
+  () => {
+
+    console.log(
+      "SatayCelup registration page closed."
     );
 
-  } finally {
-
-    submit.disabled = false;
-
-    submit.textContent = isEdit
-      ? "💾 儲存修改"
-      : "🚀 提交活動報名";
-
   }
+);
 
-};
 
-
-/* 成功後繼續幫其他人報名 */
-
-$("continueBtn").onclick = () => {
-
-  successCard.classList.add("hidden");
-
-  formCard.classList.remove("hidden");
-
-  form.reset();
-
-  email.value =
-    auth.currentUser?.email || "";
-
-  $("partnerGroup").dispatchEvent(
-    new Event("change")
-  );
-
-};
-
-
-/* 返回我的資料 */
-
-$("backToRecordBtn").onclick = () => {
-
-  location.href =
-    "my-record.html";
-
-};
-
-
-/* 顯示錯誤 */
-
-function error(text){
-
-  msg.textContent = text;
-
-  msg.style.color =
-    "#c84b4b";
-
-  submit.disabled = false;
-
-  submit.textContent = isEdit
-    ? "💾 儲存修改"
-    : "🚀 提交活動報名";
-
-}
-
-
-/* 上傳收據到 Google Drive */
-
-async function upload(file, englishName) {
-  const APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
-
-  const base64 = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      try {
-        const result = reader.result;
-
-        if (typeof result !== "string" || !result.includes(",")) {
-          reject(new Error("收據檔案讀取失敗。"));
-          return;
-        }
-
-        resolve(result.split(",")[1]);
-      } catch (error) {
-        reject(error);
-      }
-    };
-
-    reader.onerror = () => {
-      reject(new Error("無法讀取收據檔案。"));
-    };
-
-    reader.readAsDataURL(file);
-  });
-
-  const iframeName =
-    "upload_frame_" + Date.now() + "_" + Math.random().toString(36).slice(2);
-
-  const iframe = document.createElement("iframe");
-  iframe.name = iframeName;
-  iframe.id = iframeName;
-  iframe.style.display = "none";
-
-  document.body.appendChild(iframe);
-
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = APPS_SCRIPT_URL;
-  form.target = iframeName;
-  form.enctype = "application/x-www-form-urlencoded";
-  form.style.display = "none";
-
-  const fields = {
-    type: "registration",
-    fileName: `${englishName || "registration"}_${Date.now()}.jpg`,
-    mimeType: file.type || "image/jpeg",
-    base64: base64
-  };
-
-  Object.entries(fields).forEach(([name, value]) => {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  });
-
-  document.body.appendChild(form);
-
-  return new Promise((resolve, reject) => {
-    let completed = false;
-
-    const cleanup = () => {
-      window.removeEventListener("message", receiveMessage);
-
-      if (form.parentNode) {
-        form.parentNode.removeChild(form);
-      }
-
-      if (iframe.parentNode) {
-        iframe.parentNode.removeChild(iframe);
-      }
-    };
-
-    const finishSuccess = (data) => {
-      if (completed) return;
-
-      completed = true;
-      clearTimeout(timeoutId);
-      cleanup();
-
-      resolve({
-        fileId: data.fileId || "",
-        fileName: data.fileName || fields.fileName,
-        driveUrl: data.driveUrl || data.url || ""
-      });
-    };
-
-    const finishError = (message) => {
-      if (completed) return;
-
-      completed = true;
-      clearTimeout(timeoutId);
-      cleanup();
-      reject(new Error(message));
-    };
-
-    const receiveMessage = (event) => {
-      // 只接受來自這個 iframe 的訊息
-      if (event.source !== iframe.contentWindow) {
-        return;
-      }
-
-      let data = event.data;
-
-      // Apps Script 可能回傳 JSON 字串
-      if (typeof data === "string") {
-        try {
-          data = JSON.parse(data);
-        } catch (error) {
-          return;
-        }
-      }
-
-      if (!data || typeof data !== "object") {
-        return;
-      }
-
-      // 忽略不是本次上傳的回覆
-      if (
-        data.type &&
-        data.type !== "registration" &&
-        data.type !== "upload"
-      ) {
-        return;
-      }
-
-      if (data.success === false || data.error) {
-        finishError(data.error || "Google Drive 上傳失敗。");
-        return;
-      }
-
-      // 成功回覆至少應有 fileId、fileName 或 driveUrl 其中一項
-      if (data.fileId || data.fileName || data.driveUrl || data.url) {
-        finishSuccess(data);
-      }
-    };
-
-    window.addEventListener("message", receiveMessage);
-
-    const timeoutId = setTimeout(() => {
-      finishError(
-        "Google Drive 上傳逾時。照片可能已上傳，但前端沒有收到回覆。請先檢查 Google Drive，再重新嘗試。"
-      );
-    }, 90000);
-
-    try {
-      form.submit();
-    } catch (error) {
-      finishError("無法開始上傳收據：" + error.message);
-    }
-  });
-}
-
-
-/* 建立隱藏欄位 */
-
-function addHidden(form,name,value){
-
-  const input =
-    document.createElement("input");
-
-  input.type = "hidden";
-
-  input.name = name;
-
-  input.value = value;
-
-  form.appendChild(input);
-
-}
-
-
-/* 讀取檔案 Base64 */
-
-function base64(file){
-
-  return new Promise((resolve,reject) => {
-
-    const reader =
-      new FileReader();
-
-    reader.onload = () => {
-
-      resolve(
-        String(reader.result).split(",")[1]
-      );
-
-    };
-
-    reader.onerror = () => {
-
-      reject(
-        new Error(
-          "無法讀取收據圖片。"
-        )
-      );
-
-    };
-
-    reader.readAsDataURL(file);
-
-  });
-
-}
-
-
-/* 清理檔案名稱 */
-
-function safe(name){
-
-  return String(name)
-    .replace(/[\\/:*?"<>|#%{}]/g,"_")
-    .replace(/\s+/g,"_")
-    .slice(0,80);
-
-}
-
-
-/* 避免 HTML 注入 */
-
-function esc(value){
-
-  return String(value).replace(
-    /[&<>"']/g,
-    character => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[character])
-  );
-
-}
+console.log(
+  "SatayCelup Registration System Loaded."
+);
 
 </script>
 
