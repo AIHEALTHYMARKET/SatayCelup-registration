@@ -17,7 +17,6 @@
   --border:#dce8df;
   --white:#fff;
   --danger:#c84b4b;
-  --blue:#477fc5;
   --shadow:0 10px 30px rgba(38,53,45,.08)
 }
 
@@ -140,6 +139,13 @@ input[readonly]{
   color:#637068
 }
 
+input:disabled,
+select:disabled{
+  background:#f1f5f3;
+  color:#718078;
+  cursor:not-allowed
+}
+
 .help{
   color:var(--muted);
   font-size:12px;
@@ -195,7 +201,65 @@ input[readonly]{
 
 .price-detail{
   color:var(--muted);
-  font-size:13px
+  font-size:13px;
+  margin-bottom:12px
+}
+
+.bank-info{
+  border-top:1px solid #f1d7b8;
+  padding-top:12px;
+  font-size:13px;
+  line-height:1.9;
+  color:var(--text);
+  word-break:break-word
+}
+
+.bank-info strong{
+  color:#9a6815
+}
+
+.bank-image-box{
+  margin-top:14px;
+  text-align:center
+}
+
+.bank-image-box img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  border-radius:12px;
+  border:1px solid #f0d8bd;
+  background:#fff
+}
+
+.image-title{
+  font-size:13px;
+  font-weight:800;
+  color:var(--green);
+  margin:0 0 9px
+}
+
+.clothing-image-box{
+  margin:0 0 18px;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#fbfefc
+}
+
+.clothing-image-box img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:100%;
+  object-fit:contain;
+  border-radius:10px;
+  background:#fff
+}
+
+.clothing-image-box + .clothing-image-box{
+  margin-top:12px
 }
 
 .upload-box{
@@ -258,7 +322,8 @@ button{
   font-size:14px;
   line-height:1.7;
   text-align:center;
-  min-height:22px
+  min-height:22px;
+  word-break:break-word
 }
 
 .success{
@@ -298,6 +363,17 @@ button{
   word-break:break-word
 }
 
+.edit-notice{
+  background:#edf9f2;
+  border:1px solid #c7e8d3;
+  border-radius:13px;
+  padding:12px 14px;
+  color:var(--green);
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:18px
+}
+
 .divider{
   height:1px;
   background:var(--border);
@@ -310,17 +386,6 @@ button{
   font-size:12px;
   line-height:1.7;
   margin-top:22px
-}
-
-.edit-notice{
-  background:#edf9f2;
-  border:1px solid #c7e8d3;
-  border-radius:13px;
-  padding:12px 14px;
-  color:var(--green);
-  font-size:13px;
-  line-height:1.7;
-  margin-bottom:18px
 }
 
 @media(max-width:560px){
@@ -358,7 +423,7 @@ button{
     <strong>JPG / JPEG 繳費收據</strong>。
   </div>
 
-  <!-- Google 登入區 -->
+  <!-- Google 登入 -->
   <div class="card" id="loginCard">
     <div class="login-box">
       <div style="font-size:42px">🔐</div>
@@ -430,11 +495,15 @@ button{
       </div>
 
       <div class="field">
-        <label>中文姓名 / 匿名</label>
+        <label>
+          中文姓名 / 匿名
+          <span class="required">*</span>
+        </label>
 
         <input
           id="chineseName"
-          placeholder="可不填">
+          required
+          placeholder="請輸入中文姓名或匿名名稱">
       </div>
 
       <div class="field">
@@ -488,6 +557,36 @@ button{
         </div>
       </div>
 
+      <!-- 衣服設計圖 -->
+      <div class="field">
+        <label>👕 衣服設計圖</label>
+
+        <div class="clothing-image-box">
+          <div class="image-title">
+            衣服設計
+          </div>
+
+          <img
+            src="https://i.ibb.co/CsTg1WYf/file-0000000002b08211b0f462f8acbfa380.png"
+            alt="SatayCelup之戰衣服設計圖">
+        </div>
+      </div>
+
+      <!-- 衣服尺寸參考圖 -->
+      <div class="field">
+        <label>📏 衣服尺寸參考圖</label>
+
+        <div class="clothing-image-box">
+          <div class="image-title">
+            尺寸參考
+          </div>
+
+          <img
+            src="https://i.ibb.co/4wnfcVCT/sg-11134202-7reqg-m20ukxe34cg05b.avif"
+            alt="SatayCelup之戰衣服尺寸參考圖">
+        </div>
+      </div>
+
       <div class="field">
         <label>
           👕 衣服尺寸
@@ -496,7 +595,6 @@ button{
 
         <select id="shirtSize" required>
           <option value="">請選擇尺寸</option>
-          <option>XS</option>
           <option>S</option>
           <option>M</option>
           <option>L</option>
@@ -507,14 +605,18 @@ button{
       </div>
 
       <div class="field">
-        <label>👕 衣服背面文字</label>
+        <label>
+          👕 衣服背面文字
+          <span class="required">*</span>
+        </label>
 
         <input
           id="shirtText"
-          placeholder="可不填">
+          required
+          placeholder="請輸入英文名字或暱稱">
 
         <div class="help">
-          如：英文名字、暱稱等
+          此欄位為必填，例如：WEI EN、MOMO。
         </div>
       </div>
 
@@ -566,20 +668,38 @@ button{
         </div>
       </div>
 
+      <!-- 球伴組別 -->
       <div class="field">
-        <label>👥 球伴組別</label>
+        <label>
+          👥 球伴組別
+          <span class="required">*</span>
+        </label>
 
-        <input
-          id="partnerGroup"
-          placeholder="可不填">
+        <select id="partnerGroup" required>
+          <option value="">請選擇球伴組別</option>
+          <option value="指定搭檔">指定搭檔</option>
+          <option value="自由組隊">自由組隊</option>
+        </select>
+
+        <div class="help">
+          指定搭檔需要填寫球伴；自由組隊則可以不填。
+        </div>
       </div>
 
+      <!-- 球伴 -->
       <div class="field">
-        <label>🤝 球伴</label>
+        <label id="partnerLabel">
+          🤝 球伴
+          <span class="required hidden" id="partnerRequiredMark">*</span>
+        </label>
 
         <input
           id="partner"
-          placeholder="可不填">
+          placeholder="請輸入球伴姓名">
+
+        <div class="help" id="partnerHelp">
+          選擇「指定搭檔」時，此欄位必須填寫。
+        </div>
       </div>
 
       <div class="field">
@@ -610,13 +730,37 @@ button{
         </div>
       </div>
 
+      <!-- 費用及繳費資料 -->
       <div class="price-box">
-        <div class="price-main">RM168</div>
+
+        <div class="price-main">
+          RM168
+        </div>
+
         <div class="price-detail">
           SatayCelup之戰活動報名費
         </div>
+
+        <div class="bank-info">
+          <strong>💳 繳費帳號資料</strong><br>
+          Beneficiary name: Teo Wei En<br>
+          Account number: 8888001239789<br>
+          Bank name: GX Bank Berhad
+        </div>
+
+        <div class="bank-image-box">
+          <div class="image-title">
+            GX Bank 繳費資料
+          </div>
+
+          <img
+            src="https://i.ibb.co/4nGyf3CR/GXBank-9789.png"
+            alt="GX Bank 繳費帳號圖片">
+        </div>
+
       </div>
 
+      <!-- 收據 -->
       <div class="field">
         <label>
           🧾 繳費收據 JPG
@@ -817,6 +961,38 @@ $("googleLoginBtn").onclick = async () => {
 };
 
 
+/* 球伴組別變更 */
+
+$("partnerGroup").addEventListener("change", () => {
+
+  const group = $("partnerGroup").value;
+
+  const partner = $("partner");
+  const requiredMark = $("partnerRequiredMark");
+
+  if(group === "指定搭檔"){
+
+    partner.required = true;
+
+    requiredMark.classList.remove("hidden");
+
+    $("partnerHelp").textContent =
+      "已選擇指定搭檔，請務必填寫球伴姓名。";
+
+  }else{
+
+    partner.required = false;
+
+    requiredMark.classList.add("hidden");
+
+    $("partnerHelp").textContent =
+      "自由組隊時，球伴欄位可以不填。";
+
+  }
+
+});
+
+
 /* 登入狀態 */
 
 onAuthStateChanged(auth,async user => {
@@ -824,12 +1000,15 @@ onAuthStateChanged(auth,async user => {
   if(!user){
 
     loginCard.classList.remove("hidden");
+
     formCard.classList.add("hidden");
 
     return;
+
   }
 
   loginCard.classList.add("hidden");
+
   formCard.classList.remove("hidden");
 
   email.value = user.email || "";
@@ -933,6 +1112,10 @@ async function loadEdit(user){
       data.participation
     );
 
+    $("partnerGroup").dispatchEvent(
+      new Event("change")
+    );
+
     msg.textContent =
       "已載入你的資料，可以修改。";
 
@@ -1014,7 +1197,7 @@ form.onsubmit = async e => {
     get("shirtText");
 
   const partnerGroup =
-    get("partnerGroup");
+    $("partnerGroup").value;
 
   const partner =
     get("partner");
@@ -1039,15 +1222,30 @@ form.onsubmit = async e => {
   if(
     !englishName ||
     !icNumber ||
+    !chineseName ||
     !phone ||
     !meal ||
     !shirtSize ||
+    !shirtText ||
     !participation ||
+    !partnerGroup ||
     !platinum
   ){
 
     return error(
       "請完整填寫所有必填資料。"
+    );
+
+  }
+
+
+  if(
+    partnerGroup === "指定搭檔" &&
+    !partner
+  ){
+
+    return error(
+      "選擇「指定搭檔」時，球伴欄位必須填寫。"
     );
 
   }
@@ -1092,7 +1290,7 @@ form.onsubmit = async e => {
 
   submit.textContent = isEdit
     ? "⏳ 正在保存修改..."
-    : "⏳ 正在處理收據...";
+    : "⏳ 收據正在處理，請稍候...";
 
 
   try {
@@ -1101,14 +1299,20 @@ form.onsubmit = async e => {
 
 
     /*
-      只有有選擇新收據時才重新上傳。
-      如果修改時沒有新收據，就保留原本收據資料。
+      只有選擇新收據時才重新上傳。
+      修改模式沒有新收據時，保留原本收據。
     */
 
     if(receipt){
 
+      msg.textContent =
+        "🧾 收據正在處理，請不要關閉頁面...";
+
       drive =
         await upload(receipt,englishName);
+
+      msg.textContent =
+        "✅ 收據已成功保存，正在提交報名資料...";
 
     }
 
@@ -1118,6 +1322,8 @@ form.onsubmit = async e => {
       uid:user.uid,
 
       email:user.email || "",
+
+      googleName:user.displayName || "",
 
       englishName,
 
@@ -1191,6 +1397,12 @@ form.onsubmit = async e => {
     }
 
 
+    /*
+      重要：
+      只有 Firestore 成功後才顯示報名成功。
+      如果 Firestore 失敗，會顯示真正的錯誤原因。
+    */
+
     if(isEdit){
 
       await updateDoc(
@@ -1231,7 +1443,8 @@ form.onsubmit = async e => {
     console.error("Submit Error:",e);
 
     error(
-      "報名失敗：" + e.message
+      "收據已上傳，但報名資料提交失敗。原因：" +
+      e.message
     );
 
   } finally {
@@ -1259,6 +1472,10 @@ $("continueBtn").onclick = () => {
 
   email.value =
     auth.currentUser?.email || "";
+
+  $("partnerGroup").dispatchEvent(
+    new Event("change")
+  );
 
 };
 
@@ -1383,6 +1600,11 @@ function upload(file,name){
         if(!done){
 
           done = true;
+
+          removeEventListener(
+            "message",
+            handler
+          );
 
           clean();
 
