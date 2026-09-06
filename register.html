@@ -1,1379 +1,1284 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SatayCelup之戰｜活動報名</title>
 
-  <meta charset="UTF-8">
+<style>
+:root{
+  --mint:#dff5e8;
+  --green:#247a55;
+  --orange:#f28b45;
+  --yellow:#fff3bd;
+  --cream:#fffaf0;
+  --text:#26352d;
+  --muted:#718078;
+  --border:#dce8df;
+  --white:#fff;
+  --danger:#c84b4b;
+  --shadow:0 10px 30px rgba(38,53,45,.08)
+}
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+*{
+  box-sizing:border-box
+}
 
-  <title>SatayCelup之戰｜活動報名</title>
+body{
+  margin:0;
+  background:linear-gradient(
+    180deg,
+    var(--mint),
+    #f8fff9 42%,
+    var(--cream)
+  );
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,
+  "Segoe UI","Noto Sans TC",sans-serif
+}
 
-  <style>
+.container{
+  width:min(720px,calc(100% - 20px));
+  margin:auto;
+  padding:25px 0 45px
+}
 
-    * {
-      box-sizing: border-box;
-    }
+.hero{
+  text-align:center;
+  margin-bottom:20px
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Noto Sans TC",
-        Arial,
-        sans-serif;
+.hero-icon{
+  width:76px;
+  height:76px;
+  margin:auto auto 12px;
+  border-radius:24px;
+  background:#fff;
+  box-shadow:var(--shadow);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px
+}
 
-      background:
-        linear-gradient(
-          135deg,
-          #f7f7f7,
-          #eeeeee
-        );
+h1{
+  margin:0;
+  font-size:30px
+}
 
-      color: #222;
-    }
+.subtitle{
+  margin-top:8px;
+  color:var(--muted)
+}
 
-    .container {
-      width: 100%;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 25px 15px 50px;
-    }
+.notice{
+  background:var(--yellow);
+  border:1px solid #f0df91;
+  border-radius:16px;
+  padding:15px 17px;
+  margin:20px 0;
+  line-height:1.7;
+  font-size:14px
+}
 
-    .card {
-      background: #fff;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow:
-        0 8px 30px rgba(0,0,0,0.08);
-    }
+.notice strong{
+  color:#9a6815
+}
 
-    h1 {
-      text-align: center;
-      margin: 5px 0 8px;
-      font-size: 30px;
-      font-weight: 800;
-    }
+.card{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px
+}
 
-    .subtitle {
-      text-align: center;
-      color: #777;
-      margin-bottom: 25px;
-    }
+.section-title{
+  font-size:19px;
+  font-weight:800;
+  margin-bottom:17px
+}
 
-    .section {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-    }
+.field{
+  margin-bottom:17px
+}
 
-    .section-title {
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 18px;
-    }
+label{
+  display:block;
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:7px
+}
 
-    label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 7px;
-    }
+.required{
+  color:var(--danger)
+}
 
-    .required {
-      color: #d00;
-      margin-left: 3px;
-    }
+input,
+select{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 13px;
+  font-size:15px;
+  color:var(--text);
+  background:#fff;
+  outline:none;
+  font-family:inherit
+}
 
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d5d5d5;
-      border-radius: 10px;
-      font-size: 16px;
-      background: #fff;
-      outline: none;
-    }
+input:focus,
+select:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(36,122,85,.1)
+}
 
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #222;
-    }
+input[readonly]{
+  background:#f4f7f5;
+  color:#637068
+}
 
-    textarea {
-      resize: vertical;
-      min-height: 90px;
-    }
+input:disabled,
+select:disabled{
+  background:#f1f5f3;
+  color:#718078;
+  cursor:not-allowed
+}
 
-    .form-group {
-      margin-bottom: 18px;
-    }
+.help{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  margin-top:6px
+}
 
-    .radio-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+.radio-group{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px
+}
 
-    .radio-option {
-      flex: 1;
-      min-width: 120px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 12px;
-      cursor: pointer;
-      text-align: center;
-    }
+.radio-option{
+  position:relative
+}
 
-    .radio-option input {
-      width: auto;
-      margin-right: 5px;
-    }
+.radio-option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none
+}
 
-    .info-box {
-      background: #f7f7f7;
-      border-radius: 12px;
-      padding: 15px;
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
+.radio-option label{
+  cursor:pointer;
+  padding:12px 8px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#fff;
+  text-align:center;
+  font-weight:600
+}
 
-    .price {
-      font-size: 26px;
-      font-weight: 900;
-      color: #c58a00;
-    }
+.radio-option input:checked + label{
+  background:var(--mint);
+  border-color:var(--green);
+  color:var(--green)
+}
 
-    .receipt-box {
-      border: 2px dashed #ccc;
-      border-radius: 14px;
-      padding: 20px;
-      text-align: center;
-      background: #fafafa;
-    }
+.price-box{
+  background:#fff8ee;
+  border:1px solid #f5d6b6;
+  border-radius:15px;
+  padding:14px 16px;
+  margin-bottom:18px
+}
 
-    .receipt-preview {
-      display: none;
-      max-width: 100%;
-      max-height: 300px;
-      margin: 15px auto 0;
-      border-radius: 10px;
-    }
+.price-main{
+  font-size:23px;
+  font-weight:800;
+  color:var(--orange)
+}
 
-    .old-receipt {
-      margin-top: 12px;
-      padding: 12px;
-      background: #f4f4f4;
-      border-radius: 10px;
-      font-size: 14px;
-    }
+.price-detail{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:12px
+}
 
-    button {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 18px;
-      font-weight: 800;
-      cursor: pointer;
-      margin-top: 10px;
-    }
+.bank-info{
+  border-top:1px solid #f1d7b8;
+  padding-top:12px;
+  font-size:13px;
+  line-height:1.9;
+  color:var(--text);
+  word-break:break-word
+}
 
-    .submit-btn {
-      background: #111;
-      color: white;
-    }
+.bank-info strong{
+  color:#9a6815
+}
 
-    .submit-btn:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
+.bank-image-box{
+  margin-top:14px;
+  text-align:center
+}
 
-    .back-btn {
-      background: #eee;
-      color: #333;
-    }
+.bank-image-box img{
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  border-radius:12px;
+  border:1px solid #f0d8bd;
+  background:#fff
+}
 
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 15px;
-      margin-top: 15px;
-      background: #f5f5f5;
-      border-radius: 10px;
-    }
+.image-title{
+  font-size:13px;
+  font-weight:800;
+  color:var(--green);
+  margin:0 0 9px
+}
 
-    .message {
-      display: none;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 15px;
-      line-height: 1.6;
-    }
+.clothing-image-box{
+  margin:0 0 18px;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#fbfefc
+}
 
-    .success {
-      background: #e9f8ed;
-      color: #146b2e;
-    }
+.clothing-image-box img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:100%;
+  object-fit:contain;
+  border-radius:10px;
+  background:#fff
+}
 
-    .error {
-      background: #fff0f0;
-      color: #a40000;
-    }
+.clothing-image-box + .clothing-image-box{
+  margin-top:12px
+}
 
-    .hint {
-      font-size: 13px;
-      color: #777;
-      margin-top: 5px;
-      line-height: 1.5;
-    }
+.upload-box{
+  border:2px dashed #c9ddd1;
+  border-radius:15px;
+  padding:16px;
+  background:#fbfefc
+}
 
-    .login-box {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+input[type=file]{
+  padding:10px
+}
 
-    .google-btn {
-      background: #fff;
-      border: 1px solid #ccc;
-      color: #222;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+.login-box{
+  text-align:center;
+  padding:25px 15px
+}
 
-    .user-box {
-      display: none;
-      background: #f5f5f5;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
+.login-box p{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:14px
+}
 
-    .hidden {
-      display: none !important;
-    }
+button{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:14px 18px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  font-family:inherit
+}
 
-    .edit-notice {
-      display: none;
-      background: #fff6d9;
-      border: 1px solid #ead28a;
-      color: #6e5600;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
+.btn-primary{
+  background:var(--green);
+  color:#fff
+}
 
-    @media (max-width: 600px) {
+.btn-primary:disabled{
+  opacity:.55;
+  cursor:not-allowed
+}
 
-      .container {
-        padding: 15px 10px 35px;
-      }
+.btn-google{
+  background:#fff;
+  color:var(--text);
+  border:1px solid var(--border)
+}
 
-      .card {
-        padding: 20px 16px;
-        border-radius: 16px;
-      }
+.btn-secondary{
+  margin-top:10px;
+  background:#f1f5f3;
+  color:var(--text)
+}
 
-      h1 {
-        font-size: 26px;
-      }
+.message{
+  margin-top:13px;
+  font-size:14px;
+  line-height:1.7;
+  text-align:center;
+  min-height:22px;
+  word-break:break-word
+}
 
-    }
+.success{
+  background:#edf9f2;
+  border:1px solid #c7e8d3;
+  border-radius:17px;
+  padding:24px 18px;
+  text-align:center
+}
 
-  </style>
+.success-icon{
+  font-size:48px
+}
 
+.success h2{
+  margin:0 0 8px;
+  color:var(--green)
+}
+
+.success p{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:14px
+}
+
+.hidden{
+  display:none!important
+}
+
+.user-info{
+  background:#f4f9f6;
+  border-radius:13px;
+  padding:12px 14px;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:18px;
+  word-break:break-word
+}
+
+.edit-notice{
+  background:#edf9f2;
+  border:1px solid #c7e8d3;
+  border-radius:13px;
+  padding:12px 14px;
+  color:var(--green);
+  font-size:13px;
+  line-height:1.7;
+  margin-bottom:18px
+}
+
+.divider{
+  height:1px;
+  background:var(--border);
+  margin:20px 0
+}
+
+.footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  margin-top:22px
+}
+
+@media(max-width:560px){
+  .card{
+    padding:17px;
+    border-radius:18px
+  }
+
+  h1{
+    font-size:26px
+  }
+
+  .radio-group{
+    grid-template-columns:repeat(2,1fr)
+  }
+}
+</style>
 </head>
-
 
 <body>
 
 <div class="container">
 
-  <div class="card">
-
+  <div class="hero">
+    <div class="hero-icon">🍢</div>
     <h1>SatayCelup之戰</h1>
+    <div class="subtitle">活動報名系統</div>
+  </div>
 
-    <div class="subtitle">
-      活動報名資料
-    </div>
+  <div class="notice">
+    <strong>📢 報名資訊</strong><br>
+    報名費：<strong>RM168</strong><br>
+    繳費日期：<strong>2026.09.05 – 2026.09.25</strong><br>
+    完成付款後，請務必上傳
+    <strong>JPG / JPEG 繳費收據</strong>。
+  </div>
 
-
-    <!-- 登入 -->
-
-    <div
-      id="loginBox"
-      class="login-box"
-    >
+  <!-- Google 登入 -->
+  <div class="card" id="loginCard">
+    <div class="login-box">
+      <div style="font-size:42px">🔐</div>
+      <h2>請先登入</h2>
 
       <p>
-        請先使用 Google 帳號登入，
-        再填寫活動報名資料。
+        使用 Google 帳號登入後即可開始報名。<br>
+        登入後，系統會自動帶入你的 Google Email。
       </p>
 
       <button
         type="button"
-        class="google-btn"
-        id="googleLoginBtn"
-      >
-        使用 Google 登入
+        class="btn-google"
+        id="googleLoginBtn">
+        🔵 使用 Google 登入
       </button>
 
+      <div id="loginMessage" class="message"></div>
+    </div>
+  </div>
+
+  <!-- 報名表格 -->
+  <div class="card hidden" id="formCard">
+
+    <div class="section-title" id="formTitle">
+      📝 活動報名資料
     </div>
 
-
-    <!-- 登入後 -->
-
-    <div
-      id="userBox"
-      class="user-box"
-    >
-
-      <div>
-        <strong>目前登入帳號：</strong>
-      </div>
-
-      <div id="userEmail"></div>
-
+    <div id="editNotice" class="edit-notice hidden">
+      ✏️ 目前是修改模式。<br>
+      你可以修改活動報名資料；原本的繳費收據會保留，
+      如需更換才重新上傳即可。
     </div>
 
+    <div class="user-info" id="userInfo"></div>
 
-    <!-- 修改模式提示 -->
+    <form id="registrationForm">
 
-    <div
-      id="editNotice"
-      class="edit-notice"
-    >
-
-      <strong>目前正在修改報名資料</strong>
-
-      <br>
-
-      你可以修改允許修改的資料。
-      Platinum 所屬資料將維持原本設定。
-
-    </div>
-
-
-    <form
-      id="registrationForm"
-      class="hidden"
-    >
-
-
-      <!-- 活動資訊 -->
-
-      <div class="info-box">
-
-        <strong>活動費用：</strong>
-
-        <span class="price">
-          RM168
-        </span>
-
-        <br>
-
-        <strong>繳費日期：</strong>
-        2026.09.05 ～ 2026.09.25
-
-        <br>
-
-        <strong>請注意：</strong>
-        完成付款後，請上傳 JPG / JPEG 收據。
-
+      <div class="field">
+        <label>Google Email</label>
+        <input
+          type="email"
+          id="email"
+          readonly>
       </div>
 
+      <div class="field">
+        <label>
+          IC English Name
+          <span class="required">*</span>
+        </label>
 
-      <!-- 基本資料 -->
-
-      <div class="section">
-
-        <div class="section-title">
-          ① 基本資料
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            IC 英文姓名
-            <span class="required">*</span>
-          </label>
-
-          <input
-            type="text"
-            id="englishName"
-            required
-            placeholder="例如：TEO WEI EN"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            IC Number
-            <span class="required">*</span>
-          </label>
-
-          <input
-            type="text"
-            id="icNumber"
-            required
-            placeholder="請輸入 IC Number"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            中文姓名
-          </label>
-
-          <input
-            type="text"
-            id="chineseName"
-            placeholder="如不方便提供，可填寫匿名"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            聯絡電話
-            <span class="required">*</span>
-          </label>
-
-          <input
-            type="tel"
-            id="phone"
-            required
-            placeholder="例如：0123456789"
-          >
-
-        </div>
-
+        <input
+          id="englishName"
+          required
+          placeholder="請輸入 IC 英文姓名">
       </div>
 
+      <div class="field">
+        <label>
+          IC Number
+          <span class="required">*</span>
+        </label>
 
-      <!-- 餐點 -->
-
-      <div class="section">
-
-        <div class="section-title">
-          ② 餐點
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            用餐選擇
-            <span class="required">*</span>
-          </label>
-
-          <select
-            id="meal"
-            required
-          >
-
-            <option value="">
-              請選擇
-            </option>
-
-            <option value="正常">
-              正常
-            </option>
-
-            <option value="素食">
-              素食
-            </option>
-
-          </select>
-
-        </div>
-
+        <input
+          id="icNumber"
+          required
+          placeholder="例如：900101-01-1234">
       </div>
 
+      <div class="field">
+        <label>
+          中文姓名 / 匿名
+          <span class="required">*</span>
+        </label>
 
-      <!-- 衣服 -->
-
-      <div class="section">
-
-        <div class="section-title">
-          ③ 衣服資料
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            Shirt Size
-            <span class="required">*</span>
-          </label>
-
-          <select
-            id="shirtSize"
-            required
-          >
-
-            <option value="">
-              請選擇
-            </option>
-
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="2XL">2XL</option>
-            <option value="3XL">3XL</option>
-            <option value="4XL">4XL</option>
-            <option value="5XL">5XL</option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            衣服印字
-            <span class="required">*</span>
-          </label>
-
-          <input
-            type="text"
-            id="shirtText"
-            required
-            placeholder="請輸入衣服上要印的名字"
-          >
-
-        </div>
-
+        <input
+          id="chineseName"
+          required
+          placeholder="請輸入中文姓名或匿名名稱">
       </div>
 
+      <div class="field">
+        <label>
+          電話
+          <span class="required">*</span>
+        </label>
 
-      <!-- 參加資料 -->
+        <input
+          type="tel"
+          id="phone"
+          required
+          placeholder="請輸入聯絡電話">
+      </div>
 
-      <div class="section">
+      <div class="divider"></div>
 
-        <div class="section-title">
-          ④ 活動參加資料
-        </div>
+      <div class="field">
+        <label>
+          🍽️ 飲食
+          <span class="required">*</span>
+        </label>
 
+        <div class="radio-group">
 
-        <div class="form-group">
+          <div class="radio-option">
+            <input
+              type="radio"
+              name="meal"
+              id="mealMeat"
+              value="葷"
+              required>
 
-          <label>
-            是否參加
-            <span class="required">*</span>
-          </label>
+            <label for="mealMeat">
+              🥩 葷食
+            </label>
+          </div>
 
-          <select
-            id="participation"
-            required
-          >
+          <div class="radio-option">
+            <input
+              type="radio"
+              name="meal"
+              id="mealVeg"
+              value="素">
 
-            <option value="">
-              請選擇
-            </option>
-
-            <option value="參加">
-              參加
-            </option>
-
-            <option value="不參加">
-              不參加
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            搭檔類型
-            <span class="required">*</span>
-          </label>
-
-          <select
-            id="partnerGroup"
-            required
-          >
-
-            <option value="">
-              請選擇
-            </option>
-
-            <option value="指定搭檔">
-              指定搭檔
-            </option>
-
-            <option value="不指定搭檔">
-              不指定搭檔
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div
-          class="form-group"
-          id="partnerGroupBox"
-        >
-
-          <label>
-            指定搭檔姓名
-          </label>
-
-          <input
-            type="text"
-            id="partner"
-            placeholder="請輸入搭檔姓名"
-          >
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            Platinum
-            <span class="required">*</span>
-          </label>
-
-          <select
-            id="platinum"
-            required
-          >
-
-            <option value="">
-              請選擇
-            </option>
-
-            <option value="Sense&Lavenier">
-              Sense&Lavenier
-            </option>
-
-            <option value="Amos">
-              Amos
-            </option>
-
-            <option value="Sunny">
-              Sunny
-            </option>
-
-            <option value="Robin&Zoey">
-              Robin&Zoey
-            </option>
-
-            <option value="RyanLio">
-              RyanLio
-            </option>
-
-            <option value="Wyane&Momo">
-              Wyane&Momo
-            </option>
-
-            <option value="Jess">
-              Jess
-            </option>
-
-            <option value="Keong&Ngah">
-              Keong&Ngah
-            </option>
-
-            <option value="JayChew">
-              JayChew
-            </option>
-
-            <option value="Lynn">
-              Lynn
-            </option>
-
-            <option value="SzeChew">
-              SzeChew
-            </option>
-
-          </select>
-
-          <div class="hint">
-            Platinum 所屬資料將與你的報名資料綁定。
+            <label for="mealVeg">
+              🥬 素食
+            </label>
           </div>
 
         </div>
+      </div>
+
+      <!-- 衣服設計圖 -->
+      <div class="field">
+        <label>👕 衣服設計圖</label>
+
+        <div class="clothing-image-box">
+          <div class="image-title">
+            衣服設計
+          </div>
+
+          <img
+            src="https://i.ibb.co/CsTg1WYf/file-0000000002b08211b0f462f8acbfa380.png"
+            alt="SatayCelup之戰衣服設計圖">
+        </div>
+      </div>
+
+      <!-- 衣服尺寸參考圖 -->
+      <div class="field">
+        <label>📏 衣服尺寸參考圖</label>
+
+        <div class="clothing-image-box">
+          <div class="image-title">
+            尺寸參考
+          </div>
+
+          <img
+            src="https://i.ibb.co/4wnfcVCT/sg-11134202-7reqg-m20ukxe34cg05b.avif"
+            alt="SatayCelup之戰衣服尺寸參考圖">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>
+          👕 衣服尺寸
+          <span class="required">*</span>
+        </label>
+
+        <select id="shirtSize" required>
+          <option value="">請選擇尺寸</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+          <option>XXXL</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>
+          👕 衣服背面文字
+          <span class="required">*</span>
+        </label>
+
+        <input
+          id="shirtText"
+          required
+          placeholder="請輸入英文名字或暱稱">
+
+        <div class="help">
+          此欄位為必填，例如：WEI EN、MOMO。
+        </div>
+      </div>
+
+      <div class="field">
+        <label>
+          🏸 參與項目
+          <span class="required">*</span>
+        </label>
+
+        <div class="radio-group">
+
+          <div class="radio-option">
+            <input
+              type="radio"
+              name="participation"
+              id="badminton"
+              value="羽球"
+              required>
+
+            <label for="badminton">
+              🏸 羽球
+            </label>
+          </div>
+
+          <div class="radio-option">
+            <input
+              type="radio"
+              name="participation"
+              id="pickleball"
+              value="pickleball">
+
+            <label for="pickleball">
+              🟡 Pickleball
+            </label>
+          </div>
+
+          <div class="radio-option">
+            <input
+              type="radio"
+              name="participation"
+              id="spectator"
+              value="觀眾">
+
+            <label for="spectator">
+              👀 觀眾
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 球伴組別 -->
+      <div class="field">
+        <label>
+          👥 球伴組別
+          <span class="required">*</span>
+        </label>
+
+        <select id="partnerGroup" required>
+          <option value="">請選擇球伴組別</option>
+          <option value="指定搭檔">指定搭檔</option>
+          <option value="自由組隊">自由組隊</option>
+        </select>
+
+        <div class="help">
+          指定搭檔需要填寫球伴；自由組隊則可以不填。
+        </div>
+      </div>
+
+      <!-- 球伴 -->
+      <div class="field">
+        <label id="partnerLabel">
+          🤝 球伴
+          <span class="required hidden" id="partnerRequiredMark">*</span>
+        </label>
+
+        <input
+          id="partner"
+          placeholder="請輸入球伴姓名">
+
+        <div class="help" id="partnerHelp">
+          選擇「指定搭檔」時，此欄位必須填寫。
+        </div>
+      </div>
+
+      <div class="field">
+        <label>
+          💎 Platinum
+          <span class="required">*</span>
+        </label>
+
+        <select id="platinum" required>
+          <option value="">請選擇你的 Platinum</option>
+          <option>Sense&Lavenier</option>
+          <option>Amos</option>
+          <option>Sunny</option>
+          <option>Robin&Zoey</option>
+          <option>RyanLio</option>
+          <option>Wyane&Momo</option>
+          <option>Jess</option>
+          <option>Keong&Ngah</option>
+          <option>JayChew</option>
+          <option>Lynn</option>
+          <option>SzeChew</option>
+        </select>
+
+        <div
+          id="platinumHelp"
+          class="help hidden">
+          修改模式不能更換原本的 Platinum。
+        </div>
+      </div>
+
+      <!-- 費用及繳費資料 -->
+      <div class="price-box">
+
+        <div class="price-main">
+          RM168
+        </div>
+
+        <div class="price-detail">
+          SatayCelup之戰活動報名費
+        </div>
+
+        <div class="bank-info">
+          <strong>💳 繳費帳號資料</strong><br>
+          Beneficiary name: Teo Wei En<br>
+          Account number: 8888001239789<br>
+          Bank name: GX Bank Berhad
+        </div>
+
+        <div class="bank-image-box">
+          <div class="image-title">
+            GX Bank 繳費資料
+          </div>
+
+          <img
+            src="https://i.ibb.co/4nGyf3CR/GXBank-9789.png"
+            alt="GX Bank 繳費帳號圖片">
+        </div>
 
       </div>
 
-
       <!-- 收據 -->
+      <div class="field">
+        <label>
+          🧾 繳費收據 JPG
+          <span
+            class="required"
+            id="receiptRequiredMark">*</span>
+        </label>
 
-      <div class="section">
-
-        <div class="section-title">
-          ⑤ 付款收據
-        </div>
-
-
-        <div class="receipt-box">
-
-          <label>
-            上傳付款收據
-            <span class="required">*</span>
-          </label>
+        <div class="upload-box">
 
           <input
             type="file"
             id="receipt"
-            accept=".jpg,.jpeg,image/jpeg"
-          >
-
-          <div class="hint">
-            只接受 JPG / JPEG，檔案最大 5MB。
-          </div>
-
-          <img
-            id="receiptPreview"
-            class="receipt-preview"
-            alt="收據預覽"
-          >
+            accept=".jpg,.jpeg,image/jpeg">
 
           <div
-            id="oldReceipt"
-            class="old-receipt hidden"
-          ></div>
+            id="existingReceipt"
+            class="help hidden"
+            style="
+              padding:10px;
+              background:#edf9f2;
+              border:1px solid #c7e8d3;
+              border-radius:10px;
+              color:#247a55
+            ">
+            ✅ 原本的繳費收據已保存。<br>
+            如不需要更換收據，可以直接儲存修改。
+          </div>
+
+          <div class="help">
+            新增報名必須上傳 JPG / JPEG；
+            修改時可以保留原收據。圖片不可超過 5MB。
+          </div>
 
         </div>
-
       </div>
-
-
-      <!-- 按鈕 -->
 
       <button
         type="submit"
-        id="submitBtn"
-        class="submit-btn"
-      >
-        提交報名資料
+        class="btn-primary"
+        id="submitBtn">
+        🚀 提交活動報名
       </button>
-
-
-      <button
-        type="button"
-        id="backBtn"
-        class="back-btn"
-        onclick="history.back()"
-      >
-        返回
-      </button>
-
 
       <div
-        id="loading"
-        class="loading"
-      >
-        正在處理，請不要關閉此頁面……<br>
-        <small>
-          如果有上傳收據，系統正在將收據安全上傳至 Google Drive。
-        </small>
+        id="formMessage"
+        class="message">
       </div>
 
-
-      <div
-        id="message"
-        class="message"
-      ></div>
-
-
     </form>
+  </div>
 
+  <!-- 成功區 -->
+  <div class="card hidden" id="successCard">
+
+    <div class="success">
+      <div class="success-icon">🎉</div>
+
+      <h2>報名成功！</h2>
+
+      <p>
+        你的活動報名資料已成功提交。<br>
+        繳費收據也已成功保存。
+      </p>
+
+      <button
+        class="btn-primary"
+        id="continueBtn">
+        ➕ 繼續幫其他人報名
+      </button>
+
+      <button
+        class="btn-secondary"
+        id="backToRecordBtn">
+        返回我的資料
+      </button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    SatayCelup之戰<br>
+    活動報名系統
+  </div>
+
+  <div style="text-align:center;margin:30px 0 40px">
+    <a
+      href="index.html"
+      style="
+        display:inline-block;
+        padding:14px 28px;
+        border-radius:14px;
+        background:#f3f4f6;
+        color:#333;
+        text-decoration:none;
+        font-size:16px;
+        font-weight:700;
+        border:1px solid #ddd
+      ">
+      ← 返回活動頁
+    </a>
   </div>
 
 </div>
 
-
-
-<!-- Firebase -->
-
 <script type="module">
 
-  import {
-    initializeApp
+import {auth,db}
+from "./js/firebase-config.js";
+
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  getDoc,
+  doc,
+  serverTimestamp
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+const APPS_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
+
+
+const PLATINUM_UIDS = {
+  "Sense&Lavenier":"2rNB2dEMwYeDxMPHxJGMq9F7vHU2",
+  "Amos":"ZzWLiS9wR7dOy4lwpW9E3PxmNiE2",
+  "Sunny":"TZHOLfx55dRfomerJJL1ZaxdfMm1",
+  "Robin&Zoey":"NV6OKbVKe7QSX06nKUUEGhoBae32",
+  "RyanLio":"cqW7ZHpWsmdjsc1zJiAL9MhRlIA2",
+  "Wyane&Momo":"Zn6rj5cQ84P6wiPr6QpvFhACXkV2",
+  "Jess":"6iYJHVztThdgj4jpN3pdewzUDbE2",
+  "Keong&Ngah":"Zgil7YpCJsdD4qT5oAmfI0vLBl53",
+  "JayChew":"UALJAeujRXazWubxSTRsFo5OxwI3",
+  "Lynn":"x7Kp4XNKcBV4MzHIG7DBdwnSYWV2",
+  "SzeChew":"hY1QzYljziQsprfbFFowNteqmuH2"
+};
+
+
+const $ = id => document.getElementById(id);
+
+const params = new URLSearchParams(location.search);
+
+const editDocId = params.get("edit");
+
+const isEdit = Boolean(editDocId);
+
+let original = null;
+
+
+const loginCard = $("loginCard");
+const formCard = $("formCard");
+const successCard = $("successCard");
+const form = $("registrationForm");
+const submit = $("submitBtn");
+const msg = $("formMessage");
+const email = $("email");
+
+
+/* Google 登入 */
+
+$("googleLoginBtn").onclick = async () => {
+
+  try {
+
+    $("googleLoginBtn").disabled = true;
+
+    $("loginMessage").textContent =
+      "正在開啟 Google 登入...";
+
+    const provider = new GoogleAuthProvider();
+
+    provider.setCustomParameters({
+      prompt:"select_account"
+    });
+
+    await signInWithPopup(auth,provider);
+
+  } catch(e) {
+
+    console.error("Google Login Error:",e);
+
+    $("loginMessage").textContent =
+      "Google 登入失敗：" + e.message;
+
+    $("googleLoginBtn").disabled = false;
+
   }
-  from
-  "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+};
 
 
-  import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    onAuthStateChanged
+/* 球伴組別變更 */
+
+$("partnerGroup").addEventListener("change", () => {
+
+  const group = $("partnerGroup").value;
+
+  const partner = $("partner");
+  const requiredMark = $("partnerRequiredMark");
+
+  if(group === "指定搭檔"){
+
+    partner.required = true;
+
+    requiredMark.classList.remove("hidden");
+
+    $("partnerHelp").textContent =
+      "已選擇指定搭檔，請務必填寫球伴姓名。";
+
+  }else{
+
+    partner.required = false;
+
+    requiredMark.classList.add("hidden");
+
+    $("partnerHelp").textContent =
+      "自由組隊時，球伴欄位可以不填。";
+
   }
-  from
-  "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+});
 
 
-  import {
-    getFirestore,
-    collection,
-    addDoc,
-    updateDoc,
-    doc,
-    getDoc,
-    serverTimestamp
+/* 登入狀態 */
+
+onAuthStateChanged(auth,async user => {
+
+  if(!user){
+
+    loginCard.classList.remove("hidden");
+
+    formCard.classList.add("hidden");
+
+    return;
+
   }
-  from
-  "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
+  loginCard.classList.add("hidden");
 
-  import {
-    firebaseConfig
+  formCard.classList.remove("hidden");
+
+  email.value = user.email || "";
+
+  $("userInfo").innerHTML =
+    "✅ 已登入：<strong>" +
+    esc(user.email || "") +
+    "</strong>";
+
+  if(isEdit){
+
+    await loadEdit(user);
+
   }
-  from "./js/firebase-config.js";
+
+});
 
 
-  const app =
-    initializeApp(firebaseConfig);
+/* 載入修改資料 */
 
+async function loadEdit(user){
 
-  const auth =
-    getAuth(app);
+  try {
 
+    msg.textContent =
+      "正在載入你的報名資料...";
 
-  const db =
-    getFirestore(app);
+    const recordRef =
+      doc(db,"registrations",editDocId);
 
+    const snapshot =
+      await getDoc(recordRef);
 
-  const provider =
-    new GoogleAuthProvider();
+    if(!snapshot.exists()){
 
+      throw new Error(
+        "找不到這筆報名資料。"
+      );
 
-  /*
-   * Google Apps Script Web App
-   */
+    }
 
-  const APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
+    const data = snapshot.data();
 
+    if(data.uid !== user.uid){
 
-  /*
-   * 11 位 Platinum UID
-   */
+      throw new Error(
+        "你沒有權限修改這筆資料。"
+      );
 
-  const PLATINUM_UIDS = {
+    }
 
-    "Sense&Lavenier":
-      "2rNB2dEMwYeDxMPHxJGMq9F7vHU2",
+    original = data;
 
-    "Amos":
-      "ZzWLiS9wR7dOy4lwpW9E3PxmNiE2",
+    $("formTitle").textContent =
+      "✏️ 修改活動報名資料";
 
-    "Sunny":
-      "TZHOLfx55dRfomerJJL1ZaxdfMm1",
+    $("editNotice").classList.remove("hidden");
 
-    "Robin&Zoey":
-      "NV6OKbVKe7QSX06nKUUEGhoBae32",
+    submit.textContent =
+      "💾 儲存修改";
 
-    "RyanLio":
-      "cqW7ZHpWsmdjsc1zJiAL9MhRlIA2",
+    $("receiptRequiredMark").classList.add("hidden");
 
-    "Wyane&Momo":
-      "Zn6rj5cQ84P6wiPr6QpvFhACXkV2",
+    $("existingReceipt").classList.remove("hidden");
 
-    "Jess":
-      "6iYJHVztThdgj4jpN3pdewzUDbE2",
+    $("platinumHelp").classList.remove("hidden");
 
-    "Keong&Ngah":
-      "Zgil7YpCJsdD4qT5oAmfI0vLBl53",
+    $("englishName").value =
+      data.englishName || "";
 
-    "JayChew":
-      "UALJAeujRXazWubxSTRsFo5OxwI3",
+    $("icNumber").value =
+      data.icNumber || "";
 
-    "Lynn":
-      "x7Kp4XNKcBV4MzHIG7DBdwnSYWV2",
+    $("chineseName").value =
+      data.chineseName || "";
 
-    "SzeChew":
-      "hY1QzYljziQsprfbFFowNteqmuH2"
+    $("phone").value =
+      data.phone || "";
 
-  };
+    $("shirtSize").value =
+      data.shirtSize || "";
 
+    $("shirtText").value =
+      data.shirtText || "";
 
-  const ADMIN_EMAIL =
-    "diabolo.weien@gmail.com";
+    $("partnerGroup").value =
+      data.partnerGroup || "";
 
+    $("partner").value =
+      data.partner || "";
 
-  /*
-   * 編輯模式
-   *
-   * URL：
-   *
-   * register.html?edit=DOCUMENT_ID
-   */
+    $("platinum").value =
+      data.platinum || "";
 
-  const urlParams =
-    new URLSearchParams(
-      window.location.search
+    $("platinum").disabled = true;
+
+    setRadio("meal",data.meal);
+
+    setRadio(
+      "participation",
+      data.participation
     );
 
-
-  const editId =
-    urlParams.get("edit");
-
-
-  let currentUser =
-    null;
-
-
-  let editData =
-    null;
-
-
-  const loginBox =
-    document.getElementById(
-      "loginBox"
+    $("partnerGroup").dispatchEvent(
+      new Event("change")
     );
 
+    msg.textContent =
+      "已載入你的資料，可以修改。";
 
-  const userBox =
-    document.getElementById(
-      "userBox"
+    msg.style.color =
+      "#247a55";
+
+  } catch(e) {
+
+    console.error("Load Edit Error:",e);
+
+    msg.textContent = e.message;
+
+    msg.style.color =
+      "#c84b4b";
+
+    submit.disabled = true;
+
+  }
+
+}
+
+
+/* 設定單選按鈕 */
+
+function setRadio(name,value){
+
+  const radios =
+    document.querySelectorAll(
+      'input[name="' + name + '"]'
     );
 
+  radios.forEach(radio => {
 
-  const userEmail =
-    document.getElementById(
-      "userEmail"
+    radio.checked =
+      radio.value === value;
+
+  });
+
+}
+
+
+/* 提交報名 */
+
+form.onsubmit = async e => {
+
+  e.preventDefault();
+
+  msg.textContent = "";
+
+  const user = auth.currentUser;
+
+  if(!user){
+
+    return error(
+      "請先使用 Google 登入。"
     );
 
+  }
 
-  const form =
-    document.getElementById(
-      "registrationForm"
-    );
+  const get = id =>
+    $(id).value.trim();
 
+  const englishName =
+    get("englishName");
 
-  const googleLoginBtn =
-    document.getElementById(
-      "googleLoginBtn"
-    );
+  const icNumber =
+    get("icNumber");
 
+  const chineseName =
+    get("chineseName");
 
-  const submitBtn =
-    document.getElementById(
-      "submitBtn"
-    );
+  const phone =
+    get("phone");
 
+  const shirtSize =
+    $("shirtSize").value;
 
-  const loading =
-    document.getElementById(
-      "loading"
-    );
-
-
-  const message =
-    document.getElementById(
-      "message"
-    );
-
-
-  const editNotice =
-    document.getElementById(
-      "editNotice"
-    );
-
-
-  const platinumSelect =
-    document.getElementById(
-      "platinum"
-    );
-
-
-  const receiptInput =
-    document.getElementById(
-      "receipt"
-    );
-
-
-  const receiptPreview =
-    document.getElementById(
-      "receiptPreview"
-    );
-
-
-  const oldReceipt =
-    document.getElementById(
-      "oldReceipt"
-    );
-
+  const shirtText =
+    get("shirtText");
 
   const partnerGroup =
-    document.getElementById(
-      "partnerGroup"
+    $("partnerGroup").value;
+
+  const partner =
+    get("partner");
+
+  const platinum =
+    $("platinum").value;
+
+  const meal =
+    document.querySelector(
+      'input[name="meal"]:checked'
+    )?.value || "";
+
+  const participation =
+    document.querySelector(
+      'input[name="participation"]:checked'
+    )?.value || "";
+
+  const receipt =
+    $("receipt").files[0] || null;
+
+
+  if(
+    !englishName ||
+    !icNumber ||
+    !chineseName ||
+    !phone ||
+    !meal ||
+    !shirtSize ||
+    !shirtText ||
+    !participation ||
+    !partnerGroup ||
+    !platinum
+  ){
+
+    return error(
+      "請完整填寫所有必填資料。"
     );
-
-
-  const partnerGroupBox =
-    document.getElementById(
-      "partnerGroupBox"
-    );
-
-
-  /*
-   * 顯示訊息
-   */
-
-  function showMessage(
-    text,
-    type
-  ) {
-
-    message.textContent =
-      text;
-
-    message.className =
-      "message " +
-      type;
-
-    message.style.display =
-      "block";
 
   }
 
 
-  /*
-   * Google 登入
-   */
+  if(
+    partnerGroup === "指定搭檔" &&
+    !partner
+  ){
 
-  googleLoginBtn.addEventListener(
-    "click",
-    async () => {
+    return error(
+      "選擇「指定搭檔」時，球伴欄位必須填寫。"
+    );
 
-      try {
-
-        googleLoginBtn.disabled =
-          true;
-
-        googleLoginBtn.textContent =
-          "登入中……";
+  }
 
 
-        await signInWithPopup(
-          auth,
-          provider
-        );
+  if(!isEdit && !receipt){
+
+    return error(
+      "請上傳繳費收據 JPG。"
+    );
+
+  }
 
 
-      } catch (error) {
+  if(receipt){
 
-        console.error(error);
+    if(
+      !(
+        receipt.type === "image/jpeg" ||
+        /\.(jpg|jpeg)$/i.test(receipt.name)
+      )
+    ){
 
-
-        showMessage(
-          "Google 登入失敗：" +
-          (error.message || error),
-          "error"
-        );
-
-
-      } finally {
-
-        googleLoginBtn.disabled =
-          false;
-
-        googleLoginBtn.textContent =
-          "使用 Google 登入";
-
-      }
-
-    }
-  );
-
-
-  /*
-   * Auth 狀態
-   */
-
-  onAuthStateChanged(
-    auth,
-    async (user) => {
-
-      if (!user) {
-
-        currentUser =
-          null;
-
-        loginBox.style.display =
-          "block";
-
-        userBox.style.display =
-          "none";
-
-        form.classList.add(
-          "hidden"
-        );
-
-        return;
-
-      }
-
-
-      currentUser =
-        user;
-
-
-      loginBox.style.display =
-        "none";
-
-
-      userBox.style.display =
-        "block";
-
-
-      userEmail.textContent =
-        user.email || "";
-
-
-      form.classList.remove(
-        "hidden"
+      return error(
+        "收據只接受 JPG / JPEG 格式。"
       );
 
-
-      /*
-       * 如果是修改模式
-       */
-
-      if (editId) {
-
-        await loadEditData();
-
-      }
-
     }
-  );
 
+    if(receipt.size > 5 * 1024 * 1024){
 
-  /*
-   * 載入修改資料
-   */
-
-  async function loadEditData() {
-
-    try {
-
-      loading.style.display =
-        "block";
-
-      loading.textContent =
-        "正在讀取原本的報名資料……";
-
-
-      const ref =
-        doc(
-          db,
-          "registrations",
-          editId
-        );
-
-
-      const snapshot =
-        await getDoc(ref);
-
-
-      if (!snapshot.exists()) {
-
-        throw new Error(
-          "找不到這筆報名資料。"
-        );
-
-      }
-
-
-      editData =
-        snapshot.data();
-
-
-      /*
-       * 確認是否為本人
-       */
-
-      if (
-        editData.uid &&
-        editData.uid !== currentUser.uid
-      ) {
-
-        throw new Error(
-          "你沒有權限修改這筆報名資料。"
-        );
-
-      }
-
-
-      /*
-       * 填入資料
-       */
-
-      document.getElementById(
-        "englishName"
-      ).value =
-        editData.englishName || "";
-
-
-      document.getElementById(
-        "icNumber"
-      ).value =
-        editData.icNumber || "";
-
-
-      document.getElementById(
-        "chineseName"
-      ).value =
-        editData.chineseName || "";
-
-
-      document.getElementById(
-        "phone"
-      ).value =
-        editData.phone || "";
-
-
-      document.getElementById(
-        "meal"
-      ).value =
-        editData.meal || "";
-
-
-      document.getElementById(
-        "shirtSize"
-      ).value =
-        editData.shirtSize || "";
-
-
-      document.getElementById(
-        "shirtText"
-      ).value =
-        editData.shirtText || "";
-
-
-      document.getElementById(
-        "participation"
-      ).value =
-        editData.participation || "";
-
-
-      document.getElementById(
-        "partnerGroup"
-      ).value =
-        editData.partnerGroup || "";
-
-
-      document.getElementById(
-        "partner"
-      ).value =
-        editData.partner || "";
-
-
-      platinumSelect.value =
-        editData.platinum || "";
-
-
-      /*
-       * 修改模式：
-       * Platinum 不允許修改
-       */
-
-      platinumSelect.disabled =
-        true;
-
-
-      /*
-       * 顯示原收據
-       */
-
-      if (
-        editData.receipt &&
-        (
-          editData.receipt.driveUrl ||
-          editData.receipt.url
-        )
-      ) {
-
-        oldReceipt.classList.remove(
-          "hidden"
-        );
-
-
-        const receiptUrl =
-          editData.receipt.driveUrl ||
-          editData.receipt.url;
-
-
-        oldReceipt.innerHTML =
-          `
-            原付款收據已存在。<br>
-            如果不需要更換收據，可以直接保留原收據。
-            <br><br>
-            <a
-              href="${receiptUrl}"
-              target="_blank"
-              rel="noopener"
-            >
-              查看原收據
-            </a>
-          `;
-
-      }
-
-
-      editNotice.style.display =
-        "block";
-
-
-      submitBtn.textContent =
-        "更新報名資料";
-
-
-      loading.style.display =
-        "none";
-
-
-    } catch (error) {
-
-      console.error(error);
-
-
-      loading.style.display =
-        "none";
-
-
-      showMessage(
-        error.message ||
-        "讀取報名資料失敗。",
-        "error"
-      );
-
-
-      form.classList.add(
-        "hidden"
+      return error(
+        "收據圖片不能超過 5MB。"
       );
 
     }
@@ -1381,1384 +1286,471 @@
   }
 
 
-  /*
-   * Platinum 選擇後
-   */
+  submit.disabled = true;
 
-  platinumSelect.addEventListener(
-    "change",
-    () => {
-
-      const name =
-        platinumSelect.value;
+  submit.textContent = isEdit
+    ? "⏳ 正在保存修改..."
+    : "⏳ 收據正在處理，請稍候...";
 
 
-      if (
-        name &&
-        !PLATINUM_UIDS[name]
-      ) {
+  try {
 
-        showMessage(
-          "Platinum 資料錯誤。",
-          "error"
-        );
-
-      }
-
-    }
-  );
+    let drive = null;
 
 
-  /*
-   * 搭檔欄位
-   */
+    /*
+      只有選擇新收據時才重新上傳。
+      修改模式沒有新收據時，保留原本收據。
+    */
 
-  function updatePartnerField() {
+    if(receipt){
 
-    if (
-      partnerGroup.value ===
-      "指定搭檔"
-    ) {
+      msg.textContent =
+        "🧾 收據正在處理，請不要關閉頁面...";
 
-      partnerGroupBox.style.display =
-        "block";
+      drive =
+        await upload(receipt,englishName);
 
-      document.getElementById(
-        "partner"
-      ).required =
-        true;
-
-    } else {
-
-      partnerGroupBox.style.display =
-        "none";
-
-      document.getElementById(
-        "partner"
-      ).required =
-        false;
-
-      document.getElementById(
-        "partner"
-      ).value =
-        "";
+      msg.textContent =
+        "✅ 收據已成功保存，正在提交報名資料...";
 
     }
 
-  }
 
+    const data = {
 
-  partnerGroup.addEventListener(
-    "change",
-    updatePartnerField
-  );
+      uid:user.uid,
 
+      email:user.email || "",
 
-  updatePartnerField();
+      googleName:user.displayName || "",
 
+      englishName,
 
-  /*
-   * 收據預覽
-   */
+      icNumber,
 
-  receiptInput.addEventListener(
-    "change",
-    () => {
+      chineseName,
 
-      const file =
-        receiptInput.files[0];
+      phone,
 
+      meal,
 
-      receiptPreview.style.display =
-        "none";
+      shirtSize,
 
+      shirtText,
 
-      if (!file) {
-        return;
-      }
+      participation,
 
+      partnerGroup,
 
-      if (
-        file.type !==
-          "image/jpeg" &&
-        file.type !==
-          "image/jpg"
-      ) {
+      partner,
 
-        receiptInput.value =
-          "";
+      platinum:isEdit
+        ? original.platinum
+        : platinum,
 
-        showMessage(
-          "收據只接受 JPG / JPEG 格式。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      if (
-        file.size >
-        5 * 1024 * 1024
-      ) {
-
-        receiptInput.value =
-          "";
-
-        showMessage(
-          "收據檔案不能超過 5MB。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        function(event) {
-
-          receiptPreview.src =
-            event.target.result;
-
-          receiptPreview.style.display =
-            "block";
-
-        };
-
-
-      reader.readAsDataURL(
-        file
-      );
-
-    }
-  );
-
-
-  /*
-   * =====================================================
-   * Google Drive 收據上傳
-   * =====================================================
-   *
-   * ★ 這裡是本次最重要的修正
-   *
-   * Apps Script 回傳格式：
-   *
-   * {
-   *   source:
-   *     "sataycelup-receipt-upload",
-   *
-   *   result: {
-   *     success: true,
-   *     fileId: "...",
-   *     fileName: "...",
-   *     driveUrl: "..."
-   *   }
-   * }
-   *
-   * 所以前端必須讀：
-   *
-   * data.result
-   *
-   * 而不是：
-   *
-   * data
-   *
-   */
-
-  async function upload(
-    file,
-    englishName
-  ) {
-
-    /*
-     * 將圖片轉成 Base64
-     */
-
-    const base64 =
-      await new Promise(
-        (resolve, reject) => {
-
-          const reader =
-            new FileReader();
-
-
-          reader.onload =
-            () => {
-
-              try {
-
-                const result =
-                  reader.result;
-
-
-                if (
-                  typeof result !==
-                    "string" ||
-                  !result.includes(",")
-                ) {
-
-                  reject(
-                    new Error(
-                      "收據檔案讀取失敗。"
-                    )
-                  );
-
-                  return;
-
-                }
-
-
-                resolve(
-                  result.split(",")[1]
-                );
-
-
-              } catch (error) {
-
-                reject(error);
-
-              }
-
-            };
-
-
-          reader.onerror =
-            () => {
-
-              reject(
-                new Error(
-                  "無法讀取收據檔案。"
-                )
-              );
-
-            };
-
-
-          reader.readAsDataURL(
-            file
-          );
-
-        }
-      );
-
-
-    /*
-     * 建立隱藏 iframe
-     */
-
-    const iframeName =
-      "upload_frame_" +
-      Date.now() +
-      "_" +
-      Math.random()
-        .toString(36)
-        .slice(2);
-
-
-    const iframe =
-      document.createElement(
-        "iframe"
-      );
-
-
-    iframe.name =
-      iframeName;
-
-    iframe.id =
-      iframeName;
-
-    iframe.style.display =
-      "none";
-
-
-    document.body.appendChild(
-      iframe
-    );
-
-
-    /*
-     * 建立 POST Form
-     */
-
-    const uploadForm =
-      document.createElement(
-        "form"
-      );
-
-
-    uploadForm.method =
-      "POST";
-
-
-    uploadForm.action =
-      APPS_SCRIPT_URL;
-
-
-    uploadForm.target =
-      iframeName;
-
-
-    uploadForm.enctype =
-      "application/x-www-form-urlencoded";
-
-
-    uploadForm.style.display =
-      "none";
-
-
-    /*
-     * 上傳資料
-     */
-
-    const fields = {
-
-      type:
-        "registration",
-
-      fileName:
-        `${englishName || "registration"}_${Date.now()}.jpg`,
-
-      mimeType:
-        file.type || "image/jpeg",
-
-      base64:
-        base64
+      platinumUid:isEdit
+        ? original.platinumUid
+        : PLATINUM_UIDS[platinum]
 
     };
 
 
-    Object.entries(fields)
-      .forEach(
-        ([name, value]) => {
+    if(drive){
 
-          const input =
-            document.createElement(
-              "input"
-            );
+      Object.assign(data,{
+
+        receiptName:receipt.name,
+
+        receiptType:
+          receipt.type || "image/jpeg",
+
+        receiptSize:receipt.size,
+
+        receiptFileId:
+          drive.fileId || "",
+
+        receiptFileName:
+          drive.fileName || "",
+
+        receiptDriveUrl:
+          drive.driveUrl || ""
+
+      });
+
+    }else if(isEdit){
+
+      [
+        "receiptName",
+        "receiptType",
+        "receiptSize",
+        "receiptFileId",
+        "receiptFileName",
+        "receiptDriveUrl"
+      ].forEach(key => {
+
+        data[key] =
+          original[key] || "";
+
+      });
+
+    }
 
 
-          input.type =
-            "hidden";
+    /*
+      重要：
+      只有 Firestore 成功後才顯示報名成功。
+      如果 Firestore 失敗，會顯示真正的錯誤原因。
+    */
 
+    if(isEdit){
 
-          input.name =
-            name;
-
-
-          input.value =
-            value;
-
-
-          uploadForm.appendChild(
-            input
-          );
-
-        }
+      await updateDoc(
+        doc(db,"registrations",editDocId),
+        data
       );
 
+      alert(
+        "你的報名資料已成功更新！"
+      );
 
-    document.body.appendChild(
-      uploadForm
+      location.href =
+        "my-record.html";
+
+    }else{
+
+      data.createdAt =
+        serverTimestamp();
+
+      await addDoc(
+        collection(db,"registrations"),
+        data
+      );
+
+      formCard.classList.add("hidden");
+
+      successCard.classList.remove("hidden");
+
+      form.reset();
+
+      email.value =
+        user.email || "";
+
+    }
+
+  } catch(e) {
+
+    console.error("Submit Error:",e);
+
+    error(
+      "收據已上傳，但報名資料提交失敗。原因：" +
+      e.message
     );
 
+  } finally {
 
-    return new Promise(
-      (resolve, reject) => {
+    submit.disabled = false;
 
-        let completed =
-          false;
-
-
-        let timeoutId;
-
-
-        /*
-         * 清理 iframe / form / listener
-         */
-
-        const cleanup =
-          () => {
-
-            window.removeEventListener(
-              "message",
-              receiveMessage
-            );
-
-
-            if (
-              uploadForm.parentNode
-            ) {
-
-              uploadForm.parentNode
-                .removeChild(
-                  uploadForm
-                );
-
-            }
-
-
-            if (
-              iframe.parentNode
-            ) {
-
-              iframe.parentNode
-                .removeChild(
-                  iframe
-                );
-
-            }
-
-          };
-
-
-        /*
-         * 成功
-         */
-
-        const finishSuccess =
-          (data) => {
-
-            if (completed) {
-              return;
-            }
-
-
-            completed =
-              true;
-
-
-            clearTimeout(
-              timeoutId
-            );
-
-
-            cleanup();
-
-
-            resolve({
-
-              fileId:
-                data.fileId ||
-                "",
-
-              fileName:
-                data.fileName ||
-                fields.fileName,
-
-              driveUrl:
-                data.driveUrl ||
-                data.url ||
-                ""
-
-            });
-
-          };
-
-
-        /*
-         * 失敗
-         */
-
-        const finishError =
-          (errorMessage) => {
-
-            if (completed) {
-              return;
-            }
-
-
-            completed =
-              true;
-
-
-            clearTimeout(
-              timeoutId
-            );
-
-
-            cleanup();
-
-
-            reject(
-              new Error(
-                errorMessage
-              )
-            );
-
-          };
-
-
-        /*
-         * 接收 Apps Script 回覆
-         */
-
-        const receiveMessage =
-          (event) => {
-
-            /*
-             * 只接受我們這個 iframe 的訊息
-             */
-
-            if (
-              event.source !==
-              iframe.contentWindow
-            ) {
-
-              return;
-
-            }
-
-
-            let data =
-              event.data;
-
-
-            /*
-             * 如果 event.data 是字串
-             */
-
-            if (
-              typeof data ===
-              "string"
-            ) {
-
-              try {
-
-                data =
-                  JSON.parse(data);
-
-              } catch (error) {
-
-                return;
-
-              }
-
-            }
-
-
-            if (
-              !data ||
-              typeof data !==
-                "object"
-            ) {
-
-              return;
-
-            }
-
-
-            /*
-             * 確認來源
-             */
-
-            if (
-              data.source !==
-              "sataycelup-receipt-upload"
-            ) {
-
-              return;
-
-            }
-
-
-            /*
-             * ★★★★★
-             *
-             * 關鍵修正
-             *
-             * Apps Script 的真正結果
-             * 放在 data.result
-             *
-             */
-
-            const result =
-              data.result;
-
-
-            if (
-              !result ||
-              typeof result !==
-                "object"
-            ) {
-
-              finishError(
-                "Google Drive 回傳資料格式錯誤。"
-              );
-
-              return;
-
-            }
-
-
-            /*
-             * Apps Script 明確回報失敗
-             */
-
-            if (
-              result.success ===
-              false
-            ) {
-
-              finishError(
-                result.error ||
-                "Google Drive 上傳失敗。"
-              );
-
-              return;
-
-            }
-
-
-            /*
-             * 成功
-             */
-
-            if (
-              result.success ===
-                true &&
-              (
-                result.fileId ||
-                result.fileName ||
-                result.driveUrl
-              )
-            ) {
-
-              finishSuccess(
-                result
-              );
-
-            }
-
-          };
-
-
-        window.addEventListener(
-          "message",
-          receiveMessage
-        );
-
-
-        /*
-         * 90 秒 timeout
-         */
-
-        timeoutId =
-          setTimeout(
-            () => {
-
-              finishError(
-                "Google Drive 上傳逾時。照片可能已經成功上傳，但前端沒有收到回覆。請先檢查 Google Drive，再重新嘗試。"
-              );
-
-            },
-            90000
-          );
-
-
-        /*
-         * 開始上傳
-         */
-
-        try {
-
-          uploadForm.submit();
-
-        } catch (error) {
-
-          finishError(
-            "無法開始上傳收據：" +
-            error.message
-          );
-
-        }
-
-      }
-    );
+    submit.textContent = isEdit
+      ? "💾 儲存修改"
+      : "🚀 提交活動報名";
 
   }
 
+};
 
-  /*
-   * =====================================================
-   * 表單提交
-   * =====================================================
-   */
 
-  form.addEventListener(
-    "submit",
-    async (event) => {
+/* 成功後繼續幫其他人報名 */
 
-      event.preventDefault();
+$("continueBtn").onclick = () => {
 
+  successCard.classList.add("hidden");
 
-      /*
-       * 防止重複提交
-       */
+  formCard.classList.remove("hidden");
 
-      if (
-        submitBtn.disabled
-      ) {
+  form.reset();
 
-        return;
+  email.value =
+    auth.currentUser?.email || "";
 
-      }
-
-
-      /*
-       * 確認登入
-       */
-
-      if (!currentUser) {
-
-        showMessage(
-          "請先使用 Google 登入。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * 取得資料
-       */
-
-      const englishName =
-        document.getElementById(
-          "englishName"
-        ).value.trim();
-
-
-      const icNumber =
-        document.getElementById(
-          "icNumber"
-        ).value.trim();
-
-
-      const chineseName =
-        document.getElementById(
-          "chineseName"
-        ).value.trim();
-
-
-      const phone =
-        document.getElementById(
-          "phone"
-        ).value.trim();
-
-
-      const meal =
-        document.getElementById(
-          "meal"
-        ).value;
-
-
-      const shirtSize =
-        document.getElementById(
-          "shirtSize"
-        ).value;
-
-
-      const shirtText =
-        document.getElementById(
-          "shirtText"
-        ).value.trim();
-
-
-      const participation =
-        document.getElementById(
-          "participation"
-        ).value;
-
-
-      const partnerGroupValue =
-        document.getElementById(
-          "partnerGroup"
-        ).value;
-
-
-      const partner =
-        document.getElementById(
-          "partner"
-        ).value.trim();
-
-
-      const platinum =
-        document.getElementById(
-          "platinum"
-        ).value;
-
-
-      const receipt =
-        receiptInput.files[0];
-
-
-      /*
-       * 基本驗證
-       */
-
-      if (
-        !englishName ||
-        !icNumber ||
-        !phone ||
-        !meal ||
-        !shirtSize ||
-        !shirtText ||
-        !participation ||
-        !partnerGroupValue ||
-        !platinum
-      ) {
-
-        showMessage(
-          "請完整填寫所有必填資料。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * 指定搭檔時必須填寫搭檔
-       */
-
-      if (
-        partnerGroupValue ===
-          "指定搭檔" &&
-        !partner
-      ) {
-
-        showMessage(
-          "請填寫指定搭檔姓名。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * 新報名必須上傳收據
-       */
-
-      if (
-        !editId &&
-        !receipt
-      ) {
-
-        showMessage(
-          "請上傳付款收據。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * 如果有收據，檢查格式
-       */
-
-      if (receipt) {
-
-        if (
-          receipt.type !==
-            "image/jpeg" &&
-          receipt.type !==
-            "image/jpg"
-        ) {
-
-          showMessage(
-            "收據只接受 JPG / JPEG 格式。",
-            "error"
-          );
-
-          return;
-
-        }
-
-
-        if (
-          receipt.size >
-          5 * 1024 * 1024
-        ) {
-
-          showMessage(
-            "收據檔案不能超過 5MB。",
-            "error"
-          );
-
-          return;
-
-        }
-
-      }
-
-
-      /*
-       * Platinum UID
-       */
-
-      const platinumUid =
-        PLATINUM_UIDS[
-          platinum
-        ];
-
-
-      if (!platinumUid) {
-
-        showMessage(
-          "Platinum 資料錯誤，請重新選擇。",
-          "error"
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * 修改模式：
-       * 必須保留原本 Platinum
-       */
-
-      if (editId) {
-
-        if (
-          editData &&
-          editData.platinumUid &&
-          editData.platinumUid !==
-            platinumUid
-        ) {
-
-          showMessage(
-            "Platinum 所屬資料不能被修改。",
-            "error"
-          );
-
-          return;
-
-        }
-
-      }
-
-
-      /*
-       * 開始
-       */
-
-      submitBtn.disabled =
-        true;
-
-
-      loading.style.display =
-        "block";
-
-
-      message.style.display =
-        "none";
-
-
-      try {
-
-        /*
-         * 收據資料
-         */
-
-        let receiptData =
-          null;
-
-
-        /*
-         * 如果有新收據
-         */
-
-        if (receipt) {
-
-          loading.innerHTML =
-            `
-              正在上傳付款收據……<br>
-              <small>
-                請不要關閉此頁面。
-              </small>
-            `;
-
-
-          /*
-           * ★ 等待 Google Drive
-           *
-           * 這裡現在會正確取得
-           * data.result
-           */
-
-          const driveResult =
-            await upload(
-              receipt,
-              englishName
-            );
-
-
-          /*
-           * 確認 Drive 回傳
-           */
-
-          if (
-            !driveResult ||
-            !driveResult.fileId
-          ) {
-
-            throw new Error(
-              "收據已處理，但沒有取得 Google Drive 檔案 ID。"
-            );
-
-          }
-
-
-          receiptData = {
-
-            fileId:
-              driveResult.fileId,
-
-            fileName:
-              driveResult.fileName,
-
-            driveUrl:
-              driveResult.driveUrl,
-
-            uploadedAt:
-              new Date().toISOString()
-
-          };
-
-        }
-
-
-        /*
-         * 建立 Firestore 資料
-         */
-
-        loading.innerHTML =
-          `
-            Google Drive 收據上傳完成。<br>
-            正在儲存報名資料……
-          `;
-
-
-        const data = {
-
-          englishName:
-            englishName,
-
-          icNumber:
-            icNumber,
-
-          chineseName:
-            chineseName,
-
-          phone:
-            phone,
-
-          meal:
-            meal,
-
-          shirtSize:
-            shirtSize,
-
-          shirtText:
-            shirtText,
-
-          participation:
-            participation,
-
-          partnerGroup:
-            partnerGroupValue,
-
-          partner:
-            partnerGroupValue ===
-              "指定搭檔"
-              ? partner
-              : "",
-
-          /*
-           * Platinum 名稱
-           */
-
-          platinum:
-            platinum,
-
-          /*
-           * Platinum UID
-           */
-
-          platinumUid:
-            platinumUid,
-
-          /*
-           * 登入者
-           */
-
-          email:
-            currentUser.email,
-
-          uid:
-            currentUser.uid,
-
-          updatedAt:
-            serverTimestamp()
-
-        };
-
-
-        /*
-         * 新報名
-         */
-
-        if (!editId) {
-
-          /*
-           * 新報名才建立 createdAt
-           */
-
-          data.createdAt =
-            serverTimestamp();
-
-
-          /*
-           * 收據
-           */
-
-          if (receiptData) {
-
-            data.receipt =
-              receiptData;
-
-          }
-
-
-          /*
-           * Firestore
-           */
-
-          const docRef =
-            await addDoc(
-              collection(
-                db,
-                "registrations"
-              ),
-              data
-            );
-
-
-          loading.style.display =
-            "none";
-
-
-          showMessage(
-            "🎉 報名成功！你的報名資料已成功提交。",
-            "success"
-          );
-
-
-          /*
-           * 清空表單
-           */
-
-          form.reset();
-
-
-          receiptPreview.style.display =
-            "none";
-
-
-          /*
-           * 成功後暫時鎖定
-           */
-
-          submitBtn.textContent =
-            "報名已完成";
-
-
-          /*
-           * 2 秒後可以返回
-           */
-
-          setTimeout(
-            () => {
-
-              window.location.href =
-                "my-record.html";
-
-            },
-            2500
-          );
-
-
-        } else {
-
-          /*
-           * 修改模式
-           *
-           * 不重新寫入 Platinum
-           * 保留原始 Platinum UID
-           */
-
-          data.platinum =
-            editData.platinum;
-
-          data.platinumUid =
-            editData.platinumUid;
-
-
-          /*
-           * 如果沒有重新上傳收據
-           * 保留原收據
-           */
-
-          if (receiptData) {
-
-            data.receipt =
-              receiptData;
-
-          } else if (
-            editData.receipt
-          ) {
-
-            data.receipt =
-              editData.receipt;
-
-          }
-
-
-          /*
-           * 更新 Firestore
-           */
-
-          await updateDoc(
-            doc(
-              db,
-              "registrations",
-              editId
-            ),
-            data
-          );
-
-
-          loading.style.display =
-            "none";
-
-
-          showMessage(
-            "✅ 報名資料已成功更新！",
-            "success"
-          );
-
-
-          submitBtn.textContent =
-            "更新完成";
-
-
-          /*
-           * 2.5 秒後回到查詢頁
-           */
-
-          setTimeout(
-            () => {
-
-              window.location.href =
-                "my-record.html";
-
-            },
-            2500
-          );
-
-        }
-
-
-      } catch (error) {
-
-        console.error(
-          "Submit error:",
-          error
-        );
-
-
-        loading.style.display =
-          "none";
-
-
-        /*
-         * 顯示比較容易理解的錯誤
-         */
-
-        let errorMessage =
-          error.message ||
-          "提交失敗。";
-
-
-        /*
-         * Firebase 權限錯誤
-         */
-
-        if (
-          error.code ===
-          "permission-denied"
-        ) {
-
-          errorMessage =
-            "Firestore 權限不足。請確認你的 Google 帳號、Platinum 所屬資料及 Firestore Rules。";
-
-        }
-
-
-        /*
-         * Google Drive timeout
-         */
-
-        if (
-          errorMessage.includes(
-            "Google Drive 上傳逾時"
-          )
-        ) {
-
-          errorMessage =
-            "Google Drive 收據上傳逾時。請先檢查 Google Drive 是否已經出現收據，再決定是否重新提交，以避免重複上傳。";
-
-        }
-
-
-        showMessage(
-          "提交失敗：" +
-          errorMessage,
-          "error"
-        );
-
-
-        submitBtn.disabled =
-          false;
-
-
-        submitBtn.textContent =
-          editId
-            ? "更新報名資料"
-            : "提交報名資料";
-
-      }
-
-    }
+  $("partnerGroup").dispatchEvent(
+    new Event("change")
   );
+
+};
+
+
+/* 返回我的資料 */
+
+$("backToRecordBtn").onclick = () => {
+
+  location.href =
+    "my-record.html";
+
+};
+
+
+/* 顯示錯誤 */
+
+function error(text){
+
+  msg.textContent = text;
+
+  msg.style.color =
+    "#c84b4b";
+
+  submit.disabled = false;
+
+  submit.textContent = isEdit
+    ? "💾 儲存修改"
+    : "🚀 提交活動報名";
+
+}
+
+
+/* 上傳收據到 Google Drive */
+
+async function upload(file, englishName) {
+  const APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
+
+  const base64 = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      try {
+        const result = reader.result;
+
+        if (typeof result !== "string" || !result.includes(",")) {
+          reject(new Error("收據檔案讀取失敗。"));
+          return;
+        }
+
+        resolve(result.split(",")[1]);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    reader.onerror = () => {
+      reject(new Error("無法讀取收據檔案。"));
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  const iframeName =
+    "upload_frame_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+
+  const iframe = document.createElement("iframe");
+  iframe.name = iframeName;
+  iframe.id = iframeName;
+  iframe.style.display = "none";
+
+  document.body.appendChild(iframe);
+
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = APPS_SCRIPT_URL;
+  form.target = iframeName;
+  form.enctype = "application/x-www-form-urlencoded";
+  form.style.display = "none";
+
+  const fields = {
+    type: "registration",
+    fileName: `${englishName || "registration"}_${Date.now()}.jpg`,
+    mimeType: file.type || "image/jpeg",
+    base64: base64
+  };
+
+  Object.entries(fields).forEach(([name, value]) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  });
+
+  document.body.appendChild(form);
+
+  return new Promise((resolve, reject) => {
+    let completed = false;
+
+    const cleanup = () => {
+      window.removeEventListener("message", receiveMessage);
+
+      if (form.parentNode) {
+        form.parentNode.removeChild(form);
+      }
+
+      if (iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
+      }
+    };
+
+    const finishSuccess = (data) => {
+      if (completed) return;
+
+      completed = true;
+      clearTimeout(timeoutId);
+      cleanup();
+
+      resolve({
+        fileId: data.fileId || "",
+        fileName: data.fileName || fields.fileName,
+        driveUrl: data.driveUrl || data.url || ""
+      });
+    };
+
+    const finishError = (message) => {
+      if (completed) return;
+
+      completed = true;
+      clearTimeout(timeoutId);
+      cleanup();
+      reject(new Error(message));
+    };
+
+    const receiveMessage = (event) => {
+      // 只接受來自這個 iframe 的訊息
+      if (event.source !== iframe.contentWindow) {
+        return;
+      }
+
+      let data = event.data;
+
+      // Apps Script 可能回傳 JSON 字串
+      if (typeof data === "string") {
+        try {
+          data = JSON.parse(data);
+        } catch (error) {
+          return;
+        }
+      }
+
+      if (!data || typeof data !== "object") {
+        return;
+      }
+
+      // 忽略不是本次上傳的回覆
+      if (
+        data.type &&
+        data.type !== "registration" &&
+        data.type !== "upload"
+      ) {
+        return;
+      }
+
+      if (data.success === false || data.error) {
+        finishError(data.error || "Google Drive 上傳失敗。");
+        return;
+      }
+
+      // 成功回覆至少應有 fileId、fileName 或 driveUrl 其中一項
+      if (data.fileId || data.fileName || data.driveUrl || data.url) {
+        finishSuccess(data);
+      }
+    };
+
+    window.addEventListener("message", receiveMessage);
+
+    const timeoutId = setTimeout(() => {
+      finishError(
+        "Google Drive 上傳逾時。照片可能已上傳，但前端沒有收到回覆。請先檢查 Google Drive，再重新嘗試。"
+      );
+    }, 90000);
+
+    try {
+      form.submit();
+    } catch (error) {
+      finishError("無法開始上傳收據：" + error.message);
+    }
+  });
+}
+
+
+/* 建立隱藏欄位 */
+
+function addHidden(form,name,value){
+
+  const input =
+    document.createElement("input");
+
+  input.type = "hidden";
+
+  input.name = name;
+
+  input.value = value;
+
+  form.appendChild(input);
+
+}
+
+
+/* 讀取檔案 Base64 */
+
+function base64(file){
+
+  return new Promise((resolve,reject) => {
+
+    const reader =
+      new FileReader();
+
+    reader.onload = () => {
+
+      resolve(
+        String(reader.result).split(",")[1]
+      );
+
+    };
+
+    reader.onerror = () => {
+
+      reject(
+        new Error(
+          "無法讀取收據圖片。"
+        )
+      );
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
+
+
+/* 清理檔案名稱 */
+
+function safe(name){
+
+  return String(name)
+    .replace(/[\\/:*?"<>|#%{}]/g,"_")
+    .replace(/\s+/g,"_")
+    .slice(0,80);
+
+}
+
+
+/* 避免 HTML 注入 */
+
+function esc(value){
+
+  return String(value).replace(
+    /[&<>"']/g,
+    character => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[character])
+  );
+
+}
 
 </script>
 
 </body>
-
 </html>
