@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+<title>查詢／修改我的資料｜SatayCelup之戰</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
+
+    color: #34443a;
+
+    background:
+
+        radial-gradient(
+            circle at 5% 8%,
+            #fff4bd 0,
+            transparent 22%
+        ),
+
+        radial-gradient(
+            circle at 95% 10%,
+            #dff5e5 0,
+            transparent 25%
+        ),
+
+        linear-gradient(
+            180deg,
+            #f8fff9 0%,
+            #fffaf0 100%
+        );
+}
+
+.container {
+
+    width: 100%;
+
+    max-width: 760px;
+
+    margin: auto;
+
+    padding:
+        18px
+        15px
+        60px;
+}
+
+.card {
+
+    margin-top: 18px;
+
+    padding: 26px 20px;
+
+    border-radius: 25px;
+
+    background: rgba(255,255,255,.94);
+
+    border: 1px solid rgba(100,150,110,.12);
+
+    box-shadow:
+        0 10px 30px
+        rgba(63,100,73,.08);
+}
+
+.header {
+
+    text-align: center;
+
+    padding:
+        35px
+        20px;
+}
+
+.badge {
+
+    display: inline-block;
+
+    padding:
+        8px
+        16px;
+
+    border-radius: 30px;
+
+    background: #e7f5dc;
+
+    color: #4d8059;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+}
+
+h1 {
+
+    margin:
+        18px
+        0
+        8px;
+
+    color: #315d42;
+
+    font-size:
+        clamp(28px, 8vw, 44px);
+
+    line-height: 1.2;
+}
+
+.subtitle {
+
+    color: #78847d;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+.status {
+
+    margin-top: 18px;
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    background: #f7fbf7;
+
+    color: #66736b;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+.status.success {
+
+    background: #eaf7e9;
+
+    color: #47734f;
+}
+
+.status.error {
+
+    background: #fff0ed;
+
+    color: #a04f43;
+}
+
+.section-title {
+
+    margin:
+        0
+        0
+        18px;
+
+    color: #426b4d;
+
+    font-size: 21px;
+
+    font-weight: 900;
+}
+
+.record {
+
+    margin-top: 15px;
+
+    padding: 18px;
+
+    border-radius: 19px;
+
+    background: #f7fbf7;
+
+    border: 1px solid #e3eee3;
+}
+
+.record.shirt {
+
+    background: #fffaf0;
+
+    border-color: #f0dfaa;
+}
+
+.record-title {
+
+    margin-bottom: 15px;
+
+    color: #45634d;
+
+    font-size: 18px;
+
+    font-weight: 900;
+}
+
+.record-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    padding:
+        9px
+        0;
+
+    border-bottom: 1px solid #e5eee5;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+.record-row:last-child {
+
+    border-bottom: 0;
+
+    padding-bottom: 0;
+}
+
+.record-label {
+
+    flex: 0 0 38%;
+
+    color: #8b968e;
+}
+
+.record-value {
+
+    flex: 1;
+
+    color: #45634d;
+
+    font-weight: 700;
+
+    text-align: right;
+
+    word-break: break-word;
+}
+
+.empty {
+
+    padding: 25px 15px;
+
+    border-radius: 17px;
+
+    background: #f7fbf7;
+
+    color: #7e8982;
+
+    text-align: center;
+
+    line-height: 1.8;
+
+    font-size: 14px;
+}
+
+.button {
+
+    display: block;
+
+    width: 100%;
+
+    margin-top: 12px;
+
+    padding: 14px;
+
+    border: 0;
+
+    border-radius: 14px;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #67a875,
+            #4b915e
+        );
+}
+
+.button.secondary {
+
+    color: #45634d;
+
+    background: #edf5ed;
+
+    border: 1px solid #d6e7d6;
+}
+
+.button.danger {
+
+    background:
+        linear-gradient(
+            135deg,
+            #d98778,
+            #c96c5d
+        );
+}
+
+.loading {
+
+    text-align: center;
+
+    color: #7e8982;
+
+    padding: 20px;
+}
+
+.footer {
+
+    margin-top: 30px;
+
+    text-align: center;
+
+    color: #96a19a;
+
+    font-size: 12px;
+
+    line-height: 1.8;
+}
+
+.footer a {
+
+    color: #809187;
+
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+
+    .container {
+
+        padding:
+            10px
+            9px
+            40px;
+    }
+
+    .card {
+
+        padding:
+            22px
+            15px;
+    }
+
+    .header {
+
+        padding:
+            30px
+            15px;
+    }
+
+    .record-row {
+
+        display: block;
+    }
+
+    .record-label {
+
+        display: block;
+
+        margin-bottom: 3px;
+    }
+
+    .record-value {
+
+        display: block;
+
+        text-align: left;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<main class="container">
+
+
+<section class="card header">
+
+    <div class="badge">
+        🍢 SATAY CELUP 2026
+    </div>
+
+    <h1>
+        查詢／修改我的資料
+    </h1>
+
+    <div class="subtitle">
+
+        登入 Google 後，查看你之前提交的活動報名及衣服購買資料。
+
+        <br>
+
+        每個帳號只能查看自己的資料。
+
+    </div>
+
+</section>
+
+
+<section class="card">
+
+    <h2 class="section-title">
+        🔐 Google 登入
+    </h2>
+
+    <button
+        id="loginButton"
+        class="button">
+
+        使用 Google 登入
+
+    </button>
+
+    <button
+        id="logoutButton"
+        class="button secondary"
+        style="display:none;">
+
+        登出目前帳號
+
+    </button>
+
+    <div
+        id="loginStatus"
+        class="status">
+
+        尚未登入。
+
+    </div>
+
+</section>
+
+
+<section
+    id="recordsSection"
+    class="card"
+    style="display:none;">
+
+    <h2 class="section-title">
+        📋 我的資料
+    </h2>
+
+    <div
+        id="recordsArea"
+        class="loading">
+
+        正在讀取資料……
+
+    </div>
+
+</section>
+
+
+<section class="card">
+
+    <a
+        href="index.html"
+        class="button secondary">
+
+        ← 返回活動頁
+
+    </a>
+
+</section>
+
+
+<footer class="footer">
+
+    🍢 SatayCelup之戰 2026
+
+    <br>
+
+    一起留下值得回憶的一天 ☀️
+
+    <br><br>
+
+    <a href="privacy.html">
+        🔒 隱私權政策
+    </a>
+
+</footer>
+
+
+</main>
+
+
+<script type="module">
+
+import {
+    auth,
+    db
+} from "./js/firebase-config.js";
+
+import {
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+    collection,
+    query,
+    where,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+const loginButton =
+    document.getElementById("loginButton");
+
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+
+const loginStatus =
+    document.getElementById("loginStatus");
+
+
+const recordsSection =
+    document.getElementById("recordsSection");
+
+
+const recordsArea =
+    document.getElementById("recordsArea");
+
+
+const provider =
+    new GoogleAuthProvider();
+
+
+/* ==================================================
+   登入
+================================================== */
+
+loginButton.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            loginButton.disabled = true;
+
+            loginButton.textContent =
+                "正在登入……";
+
+            await signInWithPopup(
+                auth,
+                provider
+            );
+
+        } catch (error) {
+
+            console.error(error);
+
+            loginStatus.className =
+                "status error";
+
+            loginStatus.textContent =
+                "登入失敗：" +
+                (error.message || "請稍後再試。");
+
+        } finally {
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "使用 Google 登入";
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   登出
+================================================== */
+
+logoutButton.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            await signOut(auth);
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("登出失敗，請稍後再試。");
+
+        }
+
+    }
+);
+
+
+/* ==================================================
+   格式化日期
+================================================== */
+
+function formatDate(value) {
+
+    if (!value) {
+
+        return "—";
+
+    }
+
+    if (
+        typeof value.toDate === "function"
+    ) {
+
+        return value
+            .toDate()
+            .toLocaleString("zh-Hant-MY");
+
+    }
+
+    return String(value);
+
+}
+
+
+/* ==================================================
+   顯示欄位
+================================================== */
+
+function createRow(
+    label,
+    value
+) {
+
+    const row =
+        document.createElement("div");
+
+    row.className =
+        "record-row";
+
+
+    const labelElement =
+        document.createElement("div");
+
+    labelElement.className =
+        "record-label";
+
+    labelElement.textContent =
+        label;
+
+
+    const valueElement =
+        document.createElement("div");
+
+    valueElement.className =
+        "record-value";
+
+    valueElement.textContent =
+        value || "—";
+
+
+    row.appendChild(
+        labelElement
+    );
+
+    row.appendChild(
+        valueElement
+    );
+
+    return row;
+
+}
+
+
+/* ==================================================
+   讀取活動報名資料
+================================================== */
+
+async function loadRegistrationRecords(
+    user
+) {
+
+    const result = [];
+
+    const registrationQuery =
+        query(
+            collection(
+                db,
+                "registrations"
+            ),
+            where(
+                "uid",
+                "==",
+                user.uid
+            )
+        );
+
+
+    const snapshot =
+        await getDocs(
+            registrationQuery
+        );
+
+
+    snapshot.forEach(
+        (docSnapshot) => {
+
+            result.push({
+                id: docSnapshot.id,
+                data: docSnapshot.data()
+            });
+
+        }
+    );
+
+
+    return result;
+
+}
+
+
+/* ==================================================
+   讀取衣服購買資料
+================================================== */
+
+async function loadShirtRecords(
+    user
+) {
+
+    const result = [];
+
+    const shirtQuery =
+        query(
+            collection(
+                db,
+                "shirtOrders"
+            ),
+            where(
+                "uid",
+                "==",
+                user.uid
+            )
+        );
+
+
+    const snapshot =
+        await getDocs(
+            shirtQuery
+        );
+
+
+    snapshot.forEach(
+        (docSnapshot) => {
+
+            result.push({
+                id: docSnapshot.id,
+                data: docSnapshot.data()
+            });
+
+        }
+    );
+
+
+    return result;
+
+}
+
+
+/* ==================================================
+   顯示活動報名資料
+================================================== */
+
+function renderRegistrationRecord(
+    record
+) {
+
+    const data =
+        record.data;
+
+
+    const box =
+        document.createElement("div");
+
+    box.className =
+        "record";
+
+
+    const title =
+        document.createElement("div");
+
+    title.className =
+        "record-title";
+
+    title.textContent =
+        "🍢 活動報名資料";
+
+
+    box.appendChild(
+        title
+    );
+
+
+    box.appendChild(
+        createRow(
+            "中文姓名",
+            data.chineseName
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "聯絡電話",
+            data.phone
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "Email",
+            data.email
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "Google 帳號名稱",
+            data.googleName
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "所屬 Platinum",
+            data.platinum
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "活動報名狀態",
+            data.status || "已提交"
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "提交時間",
+            formatDate(
+                data.createdAt
+            )
+        )
+    );
+
+
+    const editButton =
+        document.createElement("a");
+
+    editButton.className =
+        "button";
+
+    editButton.href =
+        "register.html?edit=" +
+        encodeURIComponent(
+            record.id
+        );
+
+    editButton.textContent =
+        "✏️ 修改活動報名資料";
+
+
+    box.appendChild(
+        editButton
+    );
+
+
+    return box;
+
+}
+
+
+/* ==================================================
+   顯示衣服購買資料
+================================================== */
+
+function renderShirtRecord(
+    record
+) {
+
+    const data =
+        record.data;
+
+
+    const box =
+        document.createElement("div");
+
+    box.className =
+        "record shirt";
+
+
+    const title =
+        document.createElement("div");
+
+    title.className =
+        "record-title";
+
+    title.textContent =
+        "👕 活動衣服購買資料";
+
+
+    box.appendChild(
+        title
+    );
+
+
+    box.appendChild(
+        createRow(
+            "中文姓名",
+            data.chineseName
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "聯絡電話",
+            data.phone
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "衣服尺寸",
+            data.shirtSize
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "衣服背面文字",
+            data.shirtText ||
+            data.shirtBack
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "所屬 Platinum",
+            data.platinum
+        )
+    );
+
+
+    box.appendChild(
+        createRow(
+            "提交時間",
+            formatDate(
+                data.createdAt
+            )
+        )
+    );
+
+
+    const editButton =
+        document.createElement("a");
+
+    editButton.className =
+        "button";
+
+    editButton.href =
+        "shirt.html?edit=" +
+        encodeURIComponent(
+            record.id
+        );
+
+    editButton.textContent =
+        "✏️ 修改衣服購買資料";
+
+
+    box.appendChild(
+        editButton
+    );
+
+
+    return box;
+
+}
+
+
+/* ==================================================
+   載入全部資料
+================================================== */
+
+async function loadAllRecords(
+    user
+) {
+
+    recordsArea.innerHTML = "";
+
+    recordsArea.className =
+        "loading";
+
+    recordsArea.textContent =
+        "正在讀取你的資料……";
+
+
+    try {
+
+        const [
+            registrationRecords,
+            shirtRecords
+        ] = await Promise.all([
+            loadRegistrationRecords(user),
+            loadShirtRecords(user)
+        ]);
+
+
+        recordsArea.innerHTML = "";
+
+        recordsArea.className = "";
+
+
+        if (
+            registrationRecords.length === 0 &&
+            shirtRecords.length === 0
+        ) {
+
+            const empty =
+                document.createElement("div");
+
+            empty.className =
+                "empty";
+
+            empty.innerHTML = `
+
+                目前找不到你的報名或購買資料。
+
+                <br>
+
+                如果你剛完成提交，請稍候再重新整理。
+
+            `;
+
+            recordsArea.appendChild(
+                empty
+            );
+
+            return;
+
+        }
+
+
+        registrationRecords.forEach(
+            (record) => {
+
+                recordsArea.appendChild(
+                    renderRegistrationRecord(
+                        record
+                    )
+                );
+
+            }
+        );
+
+
+        shirtRecords.forEach(
+            (record) => {
+
+                recordsArea.appendChild(
+                    renderShirtRecord(
+                        record
+                    )
+                );
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        recordsArea.className =
+            "status error";
+
+        recordsArea.textContent =
+            "讀取資料失敗：" +
+            (error.message || "請稍後再試。");
+
+    }
+
+}
+
+
+/* ==================================================
+   Firebase 登入狀態
+================================================== */
+
+onAuthStateChanged(
+    auth,
+    async (user) => {
+
+        if (user) {
+
+            loginButton.style.display =
+                "none";
+
+            logoutButton.style.display =
+                "block";
+
+            recordsSection.style.display =
+                "block";
+
+
+            loginStatus.className =
+                "status success";
+
+            loginStatus.textContent =
+                "已登入：" +
+                (user.email || "Google 帳號");
+
+
+            await loadAllRecords(
+                user
+            );
+
+        } else {
+
+            loginButton.style.display =
+                "block";
+
+            logoutButton.style.display =
+                "none";
+
+            recordsSection.style.display =
+                "none";
+
+
+            loginStatus.className =
+                "status";
+
+            loginStatus.textContent =
+                "尚未登入。";
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
