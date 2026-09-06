@@ -867,17 +867,17 @@ button{
 </div>
 
 <script type="module">
-
-import {auth,db}
+/* =========================================================
+   Firebase
+========================================================= */
+import { auth, db }
 from "./js/firebase-config.js";
-
 import {
   GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
 import {
   collection,
   addDoc,
@@ -887,1246 +887,1200 @@ import {
   serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
+/* =========================================================
+   Google Apps Script
+========================================================= */
 const APPS_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
-
-
+  "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
+/* =========================================================
+   Platinum UID
+========================================================= */
 const PLATINUM_UIDS = {
-  "Sense&Lavenier":"2rNB2dEMwYeDxMPHxJGMq9F7vHU2",
-  "Amos":"ZzWLiS9wR7dOy4lwpW9E3PxmNiE2",
-  "Sunny":"TZHOLfx55dRfomerJJL1ZaxdfMm1",
-  "Robin&Zoey":"NV6OKbVKe7QSX06nKUUEGhoBae32",
-  "RyanLio":"cqW7ZHpWsmdjsc1zJiAL9MhRlIA2",
-  "Wyane&Momo":"Zn6rj5cQ84P6wiPr6QpvFhACXkV2",
-  "Jess":"6iYJHVztThdgj4jpN3pdewzUDbE2",
-  "Keong&Ngah":"Zgil7YpCJsdD4qT5oAmfI0vLBl53",
-  "JayChew":"UALJAeujRXazWubxSTRsFo5OxwI3",
-  "Lynn":"x7Kp4XNKcBV4MzHIG7DBdwnSYWV2",
-  "SzeChew":"hY1QzYljziQsprfbFFowNteqmuH2"
+  "Sense&Lavenier":
+    "2rNB2dEMwYeDxMPHxJGMq9F7vHU2",
+  "Amos":
+    "ZzWLiS9wR7dOy4lwpW9E3PxmNiE2",
+  "Sunny":
+    "TZHOLfx55dRfomerJJL1ZaxdfMm1",
+  "Robin&Zoey":
+    "NV6OKbVKe7QSX06nKUUEGhoBae32",
+  "RyanLio":
+    "cqW7ZHpWsmdjsc1zJiAL9MhRlIA2",
+  "Wyane&Momo":
+    "Zn6rj5cQ84P6wiPr6QpvFhACXkV2",
+  "Jess":
+    "6iYJHVztThdgj4jpN3pdewzUDbE2",
+  "Keong&Ngah":
+    "Zgil7YpCJsdD4qT5oAmfI0vLBl53",
+  "JayChew":
+    "UALJAeujRXazWubxSTRsFo5OxwI3",
+  "Lynn":
+    "x7Kp4XNKcBV4MzHIG7DBdwnSYWV2",
+  "SzeChew":
+    "hY1QzYljziQsprfbFFowNteqmuH2"
 };
-
-
+/* =========================================================
+   Helper
+========================================================= */
 const $ = id => document.getElementById(id);
-
-const params = new URLSearchParams(location.search);
-
-const editDocId = params.get("edit");
-
-const isEdit = Boolean(editDocId);
-
+const params =
+  new URLSearchParams(window.location.search);
+const editDocId =
+  params.get("edit");
+const isEdit =
+  Boolean(editDocId);
 let original = null;
-
-
-const loginCard = $("loginCard");
-const formCard = $("formCard");
-const successCard = $("successCard");
-const form = $("registrationForm");
-const submit = $("submitBtn");
-const msg = $("formMessage");
-const email = $("email");
-
-
-/* Google 登入 */
-
-$("googleLoginBtn").onclick = async () => {
-
-  try {
-
-    $("googleLoginBtn").disabled = true;
-
-    $("loginMessage").textContent =
-      "正在開啟 Google 登入...";
-
-    const provider = new GoogleAuthProvider();
-
-    provider.setCustomParameters({
-      prompt:"select_account"
-    });
-
-    await signInWithPopup(auth,provider);
-
-  } catch(e) {
-
-    console.error("Google Login Error:",e);
-
-    $("loginMessage").textContent =
-      "Google 登入失敗：" + e.message;
-
-    $("googleLoginBtn").disabled = false;
-
+/* =========================================================
+   DOM
+========================================================= */
+const loginCard =
+  $("loginCard");
+const formCard =
+  $("formCard");
+const successCard =
+  $("successCard");
+const form =
+  $("registrationForm");
+const submit =
+  $("submitBtn");
+const msg =
+  $("formMessage");
+const email =
+  $("email");
+/* =========================================================
+   Google Login
+========================================================= */
+$("googleLoginBtn").addEventListener(
+  "click",
+  async () => {
+    const button =
+      $("googleLoginBtn");
+    try {
+      button.disabled = true;
+      $("loginMessage").textContent =
+        "正在開啟 Google 登入...";
+      const provider =
+        new GoogleAuthProvider();
+      provider.setCustomParameters({
+        prompt: "select_account"
+      });
+      await signInWithPopup(
+        auth,
+        provider
+      );
+    } catch (error) {
+      console.error(
+        "Google Login Error:",
+        error
+      );
+      $("loginMessage").textContent =
+        "Google 登入失敗：" +
+        getErrorMessage(error);
+      button.disabled = false;
+    }
   }
-
-};
-
-
-/* 球伴組別變更 */
-
-$("partnerGroup").addEventListener("change", () => {
-
-  const group = $("partnerGroup").value;
-
-  const partner = $("partner");
-  const requiredMark = $("partnerRequiredMark");
-
-  if(group === "指定搭檔"){
-
+);
+/* =========================================================
+   Partner Group
+========================================================= */
+$("partnerGroup").addEventListener(
+  "change",
+  updatePartnerRequirement
+);
+function updatePartnerRequirement() {
+  const group =
+    $("partnerGroup").value;
+  const partner =
+    $("partner");
+  const requiredMark =
+    $("partnerRequiredMark");
+  if (group === "指定搭檔") {
     partner.required = true;
-
-    requiredMark.classList.remove("hidden");
-
+    requiredMark.classList.remove(
+      "hidden"
+    );
     $("partnerHelp").textContent =
       "已選擇指定搭檔，請務必填寫球伴姓名。";
-
-  }else{
-
+  } else {
     partner.required = false;
-
-    requiredMark.classList.add("hidden");
-
+    requiredMark.classList.add(
+      "hidden"
+    );
     $("partnerHelp").textContent =
       "自由組隊時，球伴欄位可以不填。";
-
   }
-
-});
-
-
-/* 登入狀態 */
-
-onAuthStateChanged(auth,async user => {
-
-  if(!user){
-
-    loginCard.classList.remove("hidden");
-
-    formCard.classList.add("hidden");
-
-    return;
-
+}
+/* =========================================================
+   Firebase Auth State
+========================================================= */
+onAuthStateChanged(
+  auth,
+  async user => {
+    try {
+      if (!user) {
+        loginCard.classList.remove(
+          "hidden"
+        );
+        formCard.classList.add(
+          "hidden"
+        );
+        successCard.classList.add(
+          "hidden"
+        );
+        return;
+      }
+      loginCard.classList.add(
+        "hidden"
+      );
+      formCard.classList.remove(
+        "hidden"
+      );
+      email.value =
+        user.email || "";
+      $("userInfo").innerHTML =
+        "✅ 已登入：<strong>" +
+        esc(user.email || "") +
+        "</strong>";
+      if (isEdit) {
+        await loadEdit(user);
+      } else {
+        msg.textContent = "";
+      }
+    } catch (error) {
+      console.error(
+        "Auth State Error:",
+        error
+      );
+      errorMessage(
+        getErrorMessage(error)
+      );
+    }
   }
-
-  loginCard.classList.add("hidden");
-
-  formCard.classList.remove("hidden");
-
-  email.value = user.email || "";
-
-  $("userInfo").innerHTML =
-    "✅ 已登入：<strong>" +
-    esc(user.email || "") +
-    "</strong>";
-
-  if(isEdit){
-
-    await loadEdit(user);
-
-  }
-
-});
-
-
-/* 載入修改資料 */
-
-async function loadEdit(user){
-
+);
+/* =========================================================
+   Load Edit Record
+========================================================= */
+async function loadEdit(user) {
   try {
-
     msg.textContent =
       "正在載入你的報名資料...";
-
+    msg.style.color =
+      "#718078";
     const recordRef =
-      doc(db,"registrations",editDocId);
-
+      doc(
+        db,
+        "registrations",
+        editDocId
+      );
     const snapshot =
       await getDoc(recordRef);
-
-    if(!snapshot.exists()){
-
+    if (!snapshot.exists()) {
       throw new Error(
         "找不到這筆報名資料。"
       );
-
     }
-
-    const data = snapshot.data();
-
-    if(data.uid !== user.uid){
-
+    const data =
+      snapshot.data();
+    if (data.uid !== user.uid) {
       throw new Error(
         "你沒有權限修改這筆資料。"
       );
-
     }
-
-    original = data;
-
+    original =
+      data;
+    /* 標題 */
     $("formTitle").textContent =
       "✏️ 修改活動報名資料";
-
-    $("editNotice").classList.remove("hidden");
-
+    $("editNotice").classList.remove(
+      "hidden"
+    );
     submit.textContent =
       "💾 儲存修改";
-
-    $("receiptRequiredMark").classList.add("hidden");
-
-    $("existingReceipt").classList.remove("hidden");
-
-    $("platinumHelp").classList.remove("hidden");
-
+    /* 收據不是必填 */
+    $("receiptRequiredMark")
+      .classList.add("hidden");
+    $("existingReceipt")
+      .classList.remove("hidden");
+    /* Platinum 不可更改 */
+    $("platinumHelp")
+      .classList.remove("hidden");
+    $("platinum").disabled =
+      true;
+    /* 填入資料 */
     $("englishName").value =
       data.englishName || "";
-
     $("icNumber").value =
       data.icNumber || "";
-
     $("chineseName").value =
       data.chineseName || "";
-
     $("phone").value =
       data.phone || "";
-
     $("shirtSize").value =
       data.shirtSize || "";
-
     $("shirtText").value =
       data.shirtText || "";
-
     $("partnerGroup").value =
       data.partnerGroup || "";
-
     $("partner").value =
       data.partner || "";
-
     $("platinum").value =
       data.platinum || "";
-
-    $("platinum").disabled = true;
-
-    setRadio("meal",data.meal);
-
+    setRadio(
+      "meal",
+      data.meal
+    );
     setRadio(
       "participation",
       data.participation
     );
-
-    $("partnerGroup").dispatchEvent(
-      new Event("change")
-    );
-
+    updatePartnerRequirement();
     msg.textContent =
       "已載入你的資料，可以修改。";
-
     msg.style.color =
       "#247a55";
-
-  } catch(e) {
-
-    console.error("Load Edit Error:",e);
-
-    msg.textContent = e.message;
-
+  } catch (error) {
+    console.error(
+      "Load Edit Error:",
+      error
+    );
+    errorMessage(
+      "載入資料失敗：" +
+      getErrorMessage(error)
+    );
+    submit.disabled =
+      true;
+  }
+}
+/* =========================================================
+   Radio
+========================================================= */
+function setRadio(
+  name,
+  value
+) {
+  document
+    .querySelectorAll(
+      'input[name="' +
+      name +
+      '"]'
+    )
+    .forEach(
+      radio => {
+        radio.checked =
+          radio.value === value;
+      }
+    );
+}
+/* =========================================================
+   Form Submit
+========================================================= */
+form.addEventListener(
+  "submit",
+  async event => {
+    event.preventDefault();
+    msg.textContent =
+      "";
     msg.style.color =
-      "#c84b4b";
-
-    submit.disabled = true;
-
-  }
-
-}
-
-
-/* 設定單選按鈕 */
-
-function setRadio(name,value){
-
-  const radios =
-    document.querySelectorAll(
-      'input[name="' + name + '"]'
-    );
-
-  radios.forEach(radio => {
-
-    radio.checked =
-      radio.value === value;
-
-  });
-
-}
-
-
-/* 提交報名 */
-
-form.onsubmit = async e => {
-
-  e.preventDefault();
-
-  msg.textContent = "";
-
-  const user = auth.currentUser;
-
-  if(!user){
-
-    return error(
-      "請先使用 Google 登入。"
-    );
-
-  }
-
-  const get = id =>
-    $(id).value.trim();
-
-  const englishName =
-    get("englishName");
-
-  const icNumber =
-    get("icNumber");
-
-  const chineseName =
-    get("chineseName");
-
-  const phone =
-    get("phone");
-
-  const shirtSize =
-    $("shirtSize").value;
-
-  const shirtText =
-    get("shirtText");
-
-  const partnerGroup =
-    $("partnerGroup").value;
-
-  const partner =
-    get("partner");
-
-  const platinum =
-    $("platinum").value;
-
-  const meal =
-    document.querySelector(
-      'input[name="meal"]:checked'
-    )?.value || "";
-
-  const participation =
-    document.querySelector(
-      'input[name="participation"]:checked'
-    )?.value || "";
-
-  const receipt =
-    $("receipt").files[0] || null;
-
-
-  if(
-    !englishName ||
-    !icNumber ||
-    !chineseName ||
-    !phone ||
-    !meal ||
-    !shirtSize ||
-    !shirtText ||
-    !participation ||
-    !partnerGroup ||
-    !platinum
-  ){
-
-    return error(
-      "請完整填寫所有必填資料。"
-    );
-
-  }
-
-
-  if(
-    partnerGroup === "指定搭檔" &&
-    !partner
-  ){
-
-    return error(
-      "選擇「指定搭檔」時，球伴欄位必須填寫。"
-    );
-
-  }
-
-
-  if(!isEdit && !receipt){
-
-    return error(
-      "請上傳繳費收據 JPG。"
-    );
-
-  }
-
-
-  if(receipt){
-
-    if(
-      !(
+      "#718078";
+    const user =
+      auth.currentUser;
+    if (!user) {
+      errorMessage(
+        "請先使用 Google 登入。"
+      );
+      return;
+    }
+    /* ================================================
+       取得表格資料
+    ================================================ */
+    const englishName =
+      getValue("englishName");
+    const icNumber =
+      getValue("icNumber");
+    const chineseName =
+      getValue("chineseName");
+    const phone =
+      getValue("phone");
+    const shirtSize =
+      $("shirtSize").value;
+    const shirtText =
+      getValue("shirtText");
+    const partnerGroup =
+      $("partnerGroup").value;
+    const partner =
+      getValue("partner");
+    /*
+      修改模式 Platinum disabled，
+      所以直接從 original 取得。
+    */
+    const platinum =
+      isEdit
+        ? (original?.platinum || "")
+        : $("platinum").value;
+    const meal =
+      document.querySelector(
+        'input[name="meal"]:checked'
+      )?.value || "";
+    const participation =
+      document.querySelector(
+        'input[name="participation"]:checked'
+      )?.value || "";
+    const receipt =
+      $("receipt").files?.[0] || null;
+    /* ================================================
+       基本驗證
+    ================================================ */
+    if (
+      !englishName ||
+      !icNumber ||
+      !chineseName ||
+      !phone ||
+      !meal ||
+      !shirtSize ||
+      !shirtText ||
+      !participation ||
+      !partnerGroup ||
+      !platinum
+    ) {
+      errorMessage(
+        "請完整填寫所有必填資料。"
+      );
+      return;
+    }
+    /* ================================================
+       指定搭檔
+    ================================================ */
+    if (
+      partnerGroup === "指定搭檔" &&
+      !partner
+    ) {
+      errorMessage(
+        "選擇「指定搭檔」時，球伴欄位必須填寫。"
+      );
+      $("partner").focus();
+      return;
+    }
+    /* ================================================
+       收據
+    ================================================ */
+    if (
+      !isEdit &&
+      !receipt
+    ) {
+      errorMessage(
+        "請上傳繳費收據 JPG。"
+      );
+      return;
+    }
+    if (receipt) {
+      const isJpeg =
         receipt.type === "image/jpeg" ||
-        /\.(jpg|jpeg)$/i.test(receipt.name)
-      )
-    ){
-
-      return error(
-        "收據只接受 JPG / JPEG 格式。"
-      );
-
+        /\.(jpg|jpeg)$/i.test(
+          receipt.name
+        );
+      if (!isJpeg) {
+        errorMessage(
+          "收據只接受 JPG / JPEG 格式。"
+        );
+        return;
+      }
+      if (
+        receipt.size >
+        5 * 1024 * 1024
+      ) {
+        errorMessage(
+          "收據圖片不能超過 5MB。"
+        );
+        return;
+      }
     }
-
-    if(receipt.size > 5 * 1024 * 1024){
-
-      return error(
-        "收據圖片不能超過 5MB。"
-      );
-
-    }
-
-  }
-
-
-  submit.disabled = true;
-
-  submit.textContent = isEdit
-    ? "⏳ 正在保存修改..."
-    : "⏳ 收據正在處理，請稍候...";
-
-
-  try {
-
-    let drive = null;
-
-
-    /*
-      只有選擇新收據時才重新上傳。
-      修改模式沒有新收據時，保留原本收據。
-    */
-
-    if(receipt){
-
-      msg.textContent =
-        "🧾 收據正在處理，請不要關閉頁面...";
-
-      drive =
-        await upload(receipt,englishName);
-
-      msg.textContent =
-        "✅ 收據已成功保存，正在提交報名資料...";
-
-    }
-
-
-    const data = {
-
-      uid:user.uid,
-
-      email:user.email || "",
-
-      googleName:user.displayName || "",
-
-      englishName,
-
-      icNumber,
-
-      chineseName,
-
-      phone,
-
-      meal,
-
-      shirtSize,
-
-      shirtText,
-
-      participation,
-
-      partnerGroup,
-
-      partner,
-
-      platinum:isEdit
-        ? original.platinum
-        : platinum,
-
-      platinumUid:isEdit
-        ? original.platinumUid
-        : PLATINUM_UIDS[platinum]
-
-    };
-
-
-    if(drive){
-
-      Object.assign(data,{
-
-        receiptName:receipt.name,
-
-        receiptType:
-          receipt.type || "image/jpeg",
-
-        receiptSize:receipt.size,
-
-        receiptFileId:
-          drive.fileId || "",
-
-        receiptFileName:
-          drive.fileName || "",
-
-        receiptDriveUrl:
-          drive.driveUrl || ""
-
-      });
-
-    }else if(isEdit){
-
-      [
-        "receiptName",
-        "receiptType",
-        "receiptSize",
-        "receiptFileId",
-        "receiptFileName",
-        "receiptDriveUrl"
-      ].forEach(key => {
-
-        data[key] =
-          original[key] || "";
-
-      });
-
-    }
-
-
-    /*
-      重要：
-      只有 Firestore 成功後才顯示報名成功。
-      如果 Firestore 失敗，會顯示真正的錯誤原因。
-    */
-
-    if(isEdit){
-
-      await updateDoc(
-        doc(db,"registrations",editDocId),
-        data
-      );
-
-      alert(
-        "你的報名資料已成功更新！"
-      );
-
-      location.href =
-        "my-record.html";
-
-    }else{
-
+    /* ================================================
+       防止重複提交
+    ================================================ */
+    submit.disabled =
+      true;
+    submit.textContent =
+      isEdit
+        ? "⏳ 正在保存修改..."
+        : "⏳ 正在處理報名...";
+    try {
+      let drive =
+        null;
+      /* ==============================================
+         上傳收據
+      ============================================== */
+      if (receipt) {
+        msg.textContent =
+          "🧾 正在上傳繳費收據，請不要關閉頁面...";
+        msg.style.color =
+          "#9a6815";
+        drive =
+          await uploadReceipt(
+            receipt,
+            englishName
+          );
+        console.log(
+          "Drive Upload Result:",
+          drive
+        );
+        if (
+          !drive ||
+          !drive.success
+        ) {
+          throw new Error(
+            "繳費收據上傳失敗。"
+          );
+        }
+        msg.textContent =
+          "✅ 收據已成功保存，正在提交報名資料...";
+        msg.style.color =
+          "#247a55";
+      }
+      /* ==============================================
+         Firestore Data
+      ============================================== */
+      const data = {
+        uid:
+          user.uid,
+        email:
+          user.email || "",
+        googleName:
+          user.displayName || "",
+        englishName,
+        icNumber,
+        chineseName,
+        phone,
+        meal,
+        shirtSize,
+        shirtText,
+        participation,
+        partnerGroup,
+        partner,
+        platinum,
+        platinumUid:
+          isEdit
+            ? (
+                original?.platinumUid ||
+                PLATINUM_UIDS[platinum] ||
+                ""
+              )
+            : (
+                PLATINUM_UIDS[platinum] ||
+                ""
+              )
+      };
+      /* ==============================================
+         收據資料
+      ============================================== */
+      if (drive) {
+        data.receiptName =
+          receipt.name;
+        data.receiptType =
+          receipt.type ||
+          "image/jpeg";
+        data.receiptSize =
+          receipt.size;
+        data.receiptFileId =
+          drive.fileId || "";
+        data.receiptFileName =
+          drive.fileName || "";
+        data.receiptDriveUrl =
+          drive.driveUrl || "";
+      } else if (isEdit) {
+        data.receiptName =
+          original?.receiptName || "";
+        data.receiptType =
+          original?.receiptType || "";
+        data.receiptSize =
+          original?.receiptSize || 0;
+        data.receiptFileId =
+          original?.receiptFileId || "";
+        data.receiptFileName =
+          original?.receiptFileName || "";
+        data.receiptDriveUrl =
+          original?.receiptDriveUrl || "";
+      }
+      /* ==============================================
+         EDIT
+      ============================================== */
+      if (isEdit) {
+        await updateDoc(
+          doc(
+            db,
+            "registrations",
+            editDocId
+          ),
+          data
+        );
+        alert(
+          "你的報名資料已成功更新！"
+        );
+        window.location.href =
+          "my-record.html";
+        return;
+      }
+      /* ==============================================
+         NEW REGISTRATION
+      ============================================== */
       data.createdAt =
         serverTimestamp();
-
-      await addDoc(
-        collection(db,"registrations"),
-        data
+      const docRef =
+        await addDoc(
+          collection(
+            db,
+            "registrations"
+          ),
+          data
+        );
+      console.log(
+        "Firestore Registration Created:",
+        docRef.id
       );
-
-      formCard.classList.add("hidden");
-
-      successCard.classList.remove("hidden");
-
+      /* ==============================================
+         成功
+      ============================================== */
+      formCard.classList.add(
+        "hidden"
+      );
+      successCard.classList.remove(
+        "hidden"
+      );
       form.reset();
-
       email.value =
         user.email || "";
-
-    }
-
-  } catch(e) {
-
-    console.error("Submit Error:",e);
-
-    error(
-      "收據已上傳，但報名資料提交失敗。原因：" +
-      e.message
-    );
-
-  } finally {
-
-    submit.disabled = false;
-
-    submit.textContent = isEdit
-      ? "💾 儲存修改"
-      : "🚀 提交活動報名";
-
-  }
-
-};
-
-
-/* 成功後繼續幫其他人報名 */
-
-$("continueBtn").onclick = () => {
-
-  successCard.classList.add("hidden");
-
-  formCard.classList.remove("hidden");
-
-  form.reset();
-
-  email.value =
-    auth.currentUser?.email || "";
-
-  $("partnerGroup").dispatchEvent(
-    new Event("change")
-  );
-
-};
-
-
-/* 返回我的資料 */
-
-$("backToRecordBtn").onclick = () => {
-
-  location.href =
-    "my-record.html";
-
-};
-
-
-/* 顯示錯誤 */
-
-function error(text){
-
-  msg.textContent = text;
-
-  msg.style.color =
-    "#c84b4b";
-
-  submit.disabled = false;
-
-  submit.textContent = isEdit
-    ? "💾 儲存修改"
-    : "🚀 提交活動報名";
-
-}
-
-
-/* 上傳收據到 Google Drive */
-
-async function upload(file, englishName) {
-
-  const APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
-
-
-  /* =====================================================
-     1. 將圖片轉成 Base64
-  ===================================================== */
-
-  const base64 = await new Promise((resolve, reject) => {
-
-    const reader = new FileReader();
-
-    reader.onload = () => {
-
-      try {
-
-        const result = reader.result;
-
-        if (
-          typeof result !== "string" ||
-          !result.includes(",")
-        ) {
-
-          reject(
-            new Error(
-              "收據檔案讀取失敗。"
-            )
-          );
-
-          return;
-        }
-
-        resolve(
-          result.split(",")[1]
-        );
-
-      } catch (error) {
-
-        reject(error);
-
-      }
-
-    };
-
-    reader.onerror = () => {
-
-      reject(
-        new Error(
-          "無法讀取收據檔案。"
-        )
+      updatePartnerRequirement();
+      msg.textContent =
+        "";
+    } catch (error) {
+      console.error(
+        "Registration Submit Error:",
+        error
       );
-
-    };
-
-    reader.readAsDataURL(file);
-
-  });
-
-
-  /* =====================================================
-     2. 建立 iframe
-  ===================================================== */
-
+      errorMessage(
+        getSubmitErrorMessage(error)
+      );
+    } finally {
+      submit.disabled =
+        false;
+      submit.textContent =
+        isEdit
+          ? "💾 儲存修改"
+          : "🚀 提交活動報名";
+    }
+  }
+);
+/* =========================================================
+   Continue Registration
+========================================================= */
+$("continueBtn").addEventListener(
+  "click",
+  () => {
+    successCard.classList.add(
+      "hidden"
+    );
+    formCard.classList.remove(
+      "hidden"
+    );
+    form.reset();
+    email.value =
+      auth.currentUser?.email || "";
+    /*
+      新增下一個人的資料時，
+      Platinum 可以重新選擇。
+    */
+    $("platinum").disabled =
+      false;
+    $("platinumHelp")
+      .classList.add("hidden");
+    $("editNotice")
+      .classList.add("hidden");
+    $("receiptRequiredMark")
+      .classList.remove("hidden");
+    $("existingReceipt")
+      .classList.add("hidden");
+    $("formTitle").textContent =
+      "📝 活動報名資料";
+    updatePartnerRequirement();
+  }
+);
+/* =========================================================
+   Back To Record
+========================================================= */
+$("backToRecordBtn").addEventListener(
+  "click",
+  () => {
+    window.location.href =
+      "my-record.html";
+  }
+);
+/* =========================================================
+   Upload Receipt
+========================================================= */
+async function uploadReceipt(
+  file,
+  englishName
+) {
+  console.log(
+    "========== 開始上傳收據 =========="
+  );
+  /* ================================================
+     1. Base64
+  ================================================ */
+  const base64Data =
+    await fileToBase64(file);
+  if (!base64Data) {
+    throw new Error(
+      "收據圖片讀取失敗。"
+    );
+  }
+  console.log(
+    "Base64 已建立，長度：",
+    base64Data.length
+  );
+  /* ================================================
+     2. iframe
+  ================================================ */
   const iframeName =
-    "upload_frame_" +
+    "receipt_upload_" +
     Date.now() +
     "_" +
     Math.random()
       .toString(36)
-      .slice(2);
-
-
+      .substring(2, 10);
   const iframe =
-    document.createElement("iframe");
-
+    document.createElement(
+      "iframe"
+    );
   iframe.name =
     iframeName;
-
   iframe.id =
     iframeName;
-
   iframe.style.display =
     "none";
-
-
   document.body.appendChild(
     iframe
   );
-
-
-  /* =====================================================
-     3. 建立 POST Form
-  ===================================================== */
-
+  /* ================================================
+     3. POST Form
+  ================================================ */
   const uploadForm =
-    document.createElement("form");
-
+    document.createElement(
+      "form"
+    );
   uploadForm.method =
     "POST";
-
   uploadForm.action =
     APPS_SCRIPT_URL;
-
   uploadForm.target =
     iframeName;
-
   uploadForm.enctype =
     "application/x-www-form-urlencoded";
-
   uploadForm.style.display =
     "none";
-
-
-  const fields = {
-
-    type:
-      "registration",
-
-    fileName:
-      `${englishName || "registration"}_${Date.now()}.jpg`,
-
-    mimeType:
-      file.type || "image/jpeg",
-
-    base64:
-      base64
-
-  };
-
-
-  Object.entries(fields).forEach(
-    ([name, value]) => {
-
-      const input =
-        document.createElement("input");
-
-      input.type =
-        "hidden";
-
-      input.name =
-        name;
-
-      input.value =
-        value;
-
-      uploadForm.appendChild(
-        input
-      );
-
-    }
+  const fileName =
+    safeFileName(
+      englishName || "registration"
+    ) +
+    "_" +
+    Date.now() +
+    ".jpg";
+  addHidden(
+    uploadForm,
+    "type",
+    "registration"
   );
-
-
+  addHidden(
+    uploadForm,
+    "fileName",
+    fileName
+  );
+  addHidden(
+    uploadForm,
+    "mimeType",
+    file.type || "image/jpeg"
+  );
+  addHidden(
+    uploadForm,
+    "base64",
+    base64Data
+  );
   document.body.appendChild(
     uploadForm
   );
-
-
-  /* =====================================================
-     4. 等待 Google Apps Script 回覆
-  ===================================================== */
-
+  /* ================================================
+     4. 等待 Apps Script
+  ================================================ */
   return new Promise(
     (resolve, reject) => {
-
-      let completed =
+      let finished =
         false;
-
-      let timeoutId;
-
-
-      /* -----------------------------------------------
-         清理
-      ------------------------------------------------ */
-
-      const cleanup = () => {
-
-        window.removeEventListener(
-          "message",
-          receiveMessage
-        );
-
-
-        if (
-          uploadForm.parentNode
-        ) {
-
-          uploadForm.parentNode.removeChild(
-            uploadForm
+      let timeoutId =
+        null;
+      const cleanup =
+        () => {
+          window.removeEventListener(
+            "message",
+            receiveMessage
           );
-
-        }
-
-
-        if (
-          iframe.parentNode
-        ) {
-
-          iframe.parentNode.removeChild(
-            iframe
+          if (
+            uploadForm.parentNode
+          ) {
+            uploadForm.parentNode.removeChild(
+              uploadForm
+            );
+          }
+          if (
+            iframe.parentNode
+          ) {
+            iframe.parentNode.removeChild(
+              iframe
+            );
+          }
+        };
+      const success =
+        result => {
+          if (finished) {
+            return;
+          }
+          finished =
+            true;
+          clearTimeout(
+            timeoutId
           );
-
-        }
-
-      };
-
-
-      /* -----------------------------------------------
-         上傳成功
-      ------------------------------------------------ */
-
-      const finishSuccess = (
-        data
-      ) => {
-
-        if (completed) {
-          return;
-        }
-
-        completed =
-          true;
-
-        clearTimeout(
-          timeoutId
-        );
-
-        cleanup();
-
-
-        console.log(
-          "✅ Google Drive 收據上傳成功",
-          data
-        );
-
-
-        resolve({
-
-          fileId:
-            data.fileId || "",
-
-          fileName:
-            data.fileName ||
-            fields.fileName,
-
-          driveUrl:
-            data.driveUrl ||
-            data.url ||
-            ""
-
-        });
-
-      };
-
-
-      /* -----------------------------------------------
-         上傳失敗
-      ------------------------------------------------ */
-
-      const finishError = (
-        message
-      ) => {
-
-        if (completed) {
-          return;
-        }
-
-        completed =
-          true;
-
-        clearTimeout(
-          timeoutId
-        );
-
-        cleanup();
-
-
-        reject(
-          new Error(
-            message ||
-            "Google Drive 上傳失敗。"
-          )
-        );
-
-      };
-
-
-      /* =================================================
-         5. ★★★ 接收 Apps Script 回覆
-         
-         這裡就是這次真正修復的地方
-      ================================================= */
-
-      const receiveMessage = (
-        event
-      ) => {
-
+          cleanup();
+          console.log(
+            "✅ 收據上傳成功：",
+            result
+          );
+          resolve({
+            success: true,
+            fileId:
+              result.fileId || "",
+            fileName:
+              result.fileName ||
+              fileName,
+            driveUrl:
+              result.driveUrl ||
+              result.url ||
+              ""
+          });
+        };
+      const failure =
+        message => {
+          if (finished) {
+            return;
+          }
+          finished =
+            true;
+          clearTimeout(
+            timeoutId
+          );
+          cleanup();
+          reject(
+            new Error(
+              message ||
+              "Google Drive 上傳失敗。"
+            )
+          );
+        };
+      /* ==============================================
+         Apps Script postMessage
+      ============================================== */
+      function receiveMessage(event) {
         try {
-
-          /* -------------------------------------------
-             確認訊息是不是來自這個 iframe
-          ------------------------------------------- */
-
+          /*
+             必須是我們建立的 iframe
+          */
           if (
             event.source !==
             iframe.contentWindow
           ) {
-
             return;
           }
-
-
           let data =
             event.data;
-
-
           console.log(
-            "📩 收到 Apps Script 回覆：",
+            "📩 Apps Script Message:",
             data
           );
-
-
-          /* -------------------------------------------
-             如果回傳是 JSON 字串
-          ------------------------------------------- */
-
+          /* ==========================================
+             字串 JSON
+          ========================================== */
           if (
             typeof data === "string"
           ) {
-
-            try {
-
-              data =
-                JSON.parse(data);
-
-            } catch (error) {
-
-              console.log(
-                "不是 JSON，忽略此次訊息"
-              );
-
+            const text =
+              data.trim();
+            if (!text) {
               return;
-
             }
-
+            /*
+              例如：
+              {"success":true,...}
+            */
+            try {
+              data =
+                JSON.parse(text);
+            } catch {
+              /*
+                有些 Apps Script 可能包在 HTML
+                中，嘗試擷取 JSON。
+              */
+              const start =
+                text.indexOf("{");
+              const end =
+                text.lastIndexOf("}");
+              if (
+                start !== -1 &&
+                end !== -1 &&
+                end > start
+              ) {
+                try {
+                  data =
+                    JSON.parse(
+                      text.substring(
+                        start,
+                        end + 1
+                      )
+                    );
+                } catch {
+                  return;
+                }
+              } else {
+                return;
+              }
+            }
           }
-
-
           if (
             !data ||
             typeof data !== "object"
           ) {
-
             return;
-
           }
-
-
-          /* =================================================
-             ★★★ 最重要的修正
-             
-             Apps Script 現在回傳：
-
-             {
-               source:
-                 "sataycelup-receipt-upload",
-
-               result: {
-                 success: true,
-                 fileId: "...",
-                 fileName: "...",
-                 driveUrl: "..."
-               }
-             }
-
-             所以要取得：
-
-             data.result
-          ================================================= */
-
+          /* ==========================================
+             取得 result
+          ========================================== */
           let result =
             data.result;
-
-
-          /* -------------------------------------------
-             舊版本如果直接回傳 data
-             也繼續支援
-          ------------------------------------------- */
-
+          /*
+             如果 Apps Script 直接回傳：
+             {
+               success:true,
+               fileId:"..."
+             }
+             也支援
+          */
           if (
             !result ||
             typeof result !== "object"
           ) {
-
             result =
               data;
-
           }
-
-
           console.log(
-            "📦 最終解析結果：",
+            "📦 Parsed Upload Result:",
             result
           );
-
-
-          /* -------------------------------------------
-             Apps Script 明確回傳失敗
-          ------------------------------------------- */
-
+          /* ==========================================
+             明確失敗
+          ========================================== */
           if (
             result.success === false
           ) {
-
-            finishError(
+            failure(
               result.error ||
+              result.message ||
               "Google Drive 上傳失敗。"
             );
-
             return;
-
           }
-
-
-          /* -------------------------------------------
-             ★★★ 成功
-          ------------------------------------------- */
-
+          /* ==========================================
+             成功
+          ========================================== */
           if (
             result.success === true &&
             (
               result.fileId ||
               result.fileName ||
-              result.driveUrl
+              result.driveUrl ||
+              result.url
             )
           ) {
-
-            finishSuccess(
+            success(
               result
             );
-
             return;
-
           }
-
-
-          /* -------------------------------------------
-             某些版本沒有 success:true
-             但有 fileId
-          ------------------------------------------- */
-
+          /*
+             某些舊版本沒有 success:true
+             只要有 fileId / URL 也視為成功
+          */
           if (
             result.fileId ||
             result.fileName ||
             result.driveUrl ||
             result.url
           ) {
-
-            finishSuccess(
+            success(
               result
             );
-
             return;
-
           }
-
         } catch (error) {
-
           console.error(
-            "❌ Google Drive 回覆解析錯誤：",
+            "postMessage Parse Error:",
             error
           );
-
-
-          finishError(
-            error.message ||
-            "無法解析 Google Drive 回覆。"
+          failure(
+            error.message
           );
-
         }
-
-      };
-
-
+      }
       window.addEventListener(
         "message",
         receiveMessage
       );
-
-
-      /* =================================================
-         6. 90 秒逾時
-      ================================================= */
-
+      /* ==============================================
+         90 秒 Timeout
+      ============================================== */
       timeoutId =
         setTimeout(
           () => {
-
-            finishError(
-              "Google Drive 上傳逾時。照片可能已上傳，但前端沒有收到回覆。請先檢查 Google Drive，再重新嘗試。"
+            failure(
+              "Google Drive 上傳逾時（90 秒）。" +
+              "請檢查 Apps Script 是否正常執行，" +
+              "以及 doPost 是否有使用 postMessage 回傳結果。"
             );
-
           },
           90000
         );
-
-
-      /* =================================================
-         7. 開始上傳
-      ================================================= */
-
+      /* ==============================================
+         Submit
+      ============================================== */
       try {
-
         console.log(
-          "⬆️ 開始上傳收據到 Google Drive..."
+          "⬆️ 正在提交收據到 Google Apps Script..."
         );
-
-
         uploadForm.submit();
-
-
       } catch (error) {
-
-        finishError(
+        failure(
           "無法開始上傳收據：" +
           error.message
         );
-
       }
-
     }
   );
-
 }
-
-/* 建立隱藏欄位 */
-
-function addHidden(form,name,value){
-
-  const input =
-    document.createElement("input");
-
-  input.type = "hidden";
-
-  input.name = name;
-
-  input.value = value;
-
-  form.appendChild(input);
-
-}
-
-
-/* 讀取檔案 Base64 */
-
-function base64(file){
-
-  return new Promise((resolve,reject) => {
-
-    const reader =
-      new FileReader();
-
-    reader.onload = () => {
-
-      resolve(
-        String(reader.result).split(",")[1]
+/* =========================================================
+   File → Base64
+========================================================= */
+function fileToBase64(
+  file
+) {
+  return new Promise(
+    (resolve, reject) => {
+      const reader =
+        new FileReader();
+      reader.onload =
+        () => {
+          try {
+            const result =
+              reader.result;
+            if (
+              typeof result !==
+              "string"
+            ) {
+              reject(
+                new Error(
+                  "圖片讀取結果無效。"
+                )
+              );
+              return;
+            }
+            const comma =
+              result.indexOf(",");
+            if (comma === -1) {
+              reject(
+                new Error(
+                  "無法解析圖片資料。"
+                )
+              );
+              return;
+            }
+            resolve(
+              result.substring(
+                comma + 1
+              )
+            );
+          } catch (error) {
+            reject(error);
+          }
+        };
+      reader.onerror =
+        () => {
+          reject(
+            new Error(
+              "無法讀取收據圖片。"
+            )
+          );
+        };
+      reader.readAsDataURL(
+        file
       );
-
-    };
-
-    reader.onerror = () => {
-
-      reject(
-        new Error(
-          "無法讀取收據圖片。"
-        )
-      );
-
-    };
-
-    reader.readAsDataURL(file);
-
-  });
-
-}
-
-
-/* 清理檔案名稱 */
-
-function safe(name){
-
-  return String(name)
-    .replace(/[\\/:*?"<>|#%{}]/g,"_")
-    .replace(/\s+/g,"_")
-    .slice(0,80);
-
-}
-
-
-/* 避免 HTML 注入 */
-
-function esc(value){
-
-  return String(value).replace(
-    /[&<>"']/g,
-    character => ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    }[character])
+    }
   );
-
 }
-
+/* =========================================================
+   Hidden Input
+========================================================= */
+function addHidden(
+  form,
+  name,
+  value
+) {
+  const input =
+    document.createElement(
+      "input"
+    );
+  input.type =
+    "hidden";
+  input.name =
+    name;
+  input.value =
+    String(value ?? "");
+  form.appendChild(
+    input
+  );
+}
+/* =========================================================
+   Get Value
+========================================================= */
+function getValue(
+  id
+) {
+  return String(
+    $(id)?.value || ""
+  ).trim();
+}
+/* =========================================================
+   Safe File Name
+========================================================= */
+function safeFileName(
+  name
+) {
+  return String(name)
+    .replace(
+      /[\\/:*?"<>|#%{}]/g,
+      "_"
+    )
+    .replace(
+      /\s+/g,
+      "_"
+    )
+    .slice(
+      0,
+      80
+    );
+}
+/* =========================================================
+   Error Message
+========================================================= */
+function errorMessage(
+  text
+) {
+  msg.textContent =
+    text;
+  msg.style.color =
+    "#c84b4b";
+  submit.disabled =
+    false;
+  submit.textContent =
+    isEdit
+      ? "💾 儲存修改"
+      : "🚀 提交活動報名";
+}
+/* =========================================================
+   Error Message
+========================================================= */
+function getErrorMessage(
+  error
+) {
+  if (!error) {
+    return "未知錯誤";
+  }
+  return (
+    error.message ||
+    error.code ||
+    String(error)
+  );
+}
+/* =========================================================
+   Submit Error
+========================================================= */
+function getSubmitErrorMessage(
+  error
+) {
+  console.error(
+    "Submit Error Detail:",
+    error
+  );
+  const message =
+    getErrorMessage(error);
+  /*
+     Firebase 常見錯誤
+  */
+  if (
+    message.includes(
+      "permission-denied"
+    )
+  ) {
+    return (
+      "Firestore 沒有寫入權限。" +
+      "請檢查 Firebase Firestore Rules。"
+    );
+  }
+  if (
+    message.includes(
+      "Missing or insufficient permissions"
+    )
+  ) {
+    return (
+      "Firestore 權限不足。" +
+      "請檢查 registrations 的 Firestore Rules。"
+    );
+  }
+  if (
+    message.includes(
+      "network"
+    )
+  ) {
+    return (
+      "網路連線失敗，請確認網路後再試。"
+    );
+  }
+  return (
+    "提交失敗：" +
+    message
+  );
+}
+/* =========================================================
+   Escape HTML
+========================================================= */
+function esc(
+  value
+) {
+  return String(value)
+    .replace(
+      /[&<>"']/g,
+      character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[character])
+    );
+}
 </script>
 
 </body>
