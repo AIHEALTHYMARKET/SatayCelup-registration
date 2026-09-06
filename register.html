@@ -1511,163 +1511,540 @@ function error(text){
 /* 上傳收據到 Google Drive */
 
 async function upload(file, englishName) {
+
   const APPS_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
 
+
+  /* =====================================================
+     1. 將圖片轉成 Base64
+  ===================================================== */
+
   const base64 = await new Promise((resolve, reject) => {
+
     const reader = new FileReader();
 
     reader.onload = () => {
+
       try {
+
         const result = reader.result;
 
-        if (typeof result !== "string" || !result.includes(",")) {
-          reject(new Error("收據檔案讀取失敗。"));
+        if (
+          typeof result !== "string" ||
+          !result.includes(",")
+        ) {
+
+          reject(
+            new Error(
+              "收據檔案讀取失敗。"
+            )
+          );
+
           return;
         }
 
-        resolve(result.split(",")[1]);
+        resolve(
+          result.split(",")[1]
+        );
+
       } catch (error) {
+
         reject(error);
+
       }
+
     };
 
     reader.onerror = () => {
-      reject(new Error("無法讀取收據檔案。"));
+
+      reject(
+        new Error(
+          "無法讀取收據檔案。"
+        )
+      );
+
     };
 
     reader.readAsDataURL(file);
+
   });
+
+
+  /* =====================================================
+     2. 建立 iframe
+  ===================================================== */
 
   const iframeName =
-    "upload_frame_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+    "upload_frame_" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .slice(2);
 
-  const iframe = document.createElement("iframe");
-  iframe.name = iframeName;
-  iframe.id = iframeName;
-  iframe.style.display = "none";
 
-  document.body.appendChild(iframe);
+  const iframe =
+    document.createElement("iframe");
 
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = APPS_SCRIPT_URL;
-  form.target = iframeName;
-  form.enctype = "application/x-www-form-urlencoded";
-  form.style.display = "none";
+  iframe.name =
+    iframeName;
+
+  iframe.id =
+    iframeName;
+
+  iframe.style.display =
+    "none";
+
+
+  document.body.appendChild(
+    iframe
+  );
+
+
+  /* =====================================================
+     3. 建立 POST Form
+  ===================================================== */
+
+  const uploadForm =
+    document.createElement("form");
+
+  uploadForm.method =
+    "POST";
+
+  uploadForm.action =
+    APPS_SCRIPT_URL;
+
+  uploadForm.target =
+    iframeName;
+
+  uploadForm.enctype =
+    "application/x-www-form-urlencoded";
+
+  uploadForm.style.display =
+    "none";
+
 
   const fields = {
-    type: "registration",
-    fileName: `${englishName || "registration"}_${Date.now()}.jpg`,
-    mimeType: file.type || "image/jpeg",
-    base64: base64
+
+    type:
+      "registration",
+
+    fileName:
+      `${englishName || "registration"}_${Date.now()}.jpg`,
+
+    mimeType:
+      file.type || "image/jpeg",
+
+    base64:
+      base64
+
   };
 
-  Object.entries(fields).forEach(([name, value]) => {
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = name;
-    input.value = value;
-    form.appendChild(input);
-  });
 
-  document.body.appendChild(form);
+  Object.entries(fields).forEach(
+    ([name, value]) => {
 
-  return new Promise((resolve, reject) => {
-    let completed = false;
+      const input =
+        document.createElement("input");
 
-    const cleanup = () => {
-      window.removeEventListener("message", receiveMessage);
+      input.type =
+        "hidden";
 
-      if (form.parentNode) {
-        form.parentNode.removeChild(form);
-      }
+      input.name =
+        name;
 
-      if (iframe.parentNode) {
-        iframe.parentNode.removeChild(iframe);
-      }
-    };
+      input.value =
+        value;
 
-    const finishSuccess = (data) => {
-      if (completed) return;
+      uploadForm.appendChild(
+        input
+      );
 
-      completed = true;
-      clearTimeout(timeoutId);
-      cleanup();
+    }
+  );
 
-      resolve({
-        fileId: data.fileId || "",
-        fileName: data.fileName || fields.fileName,
-        driveUrl: data.driveUrl || data.url || ""
-      });
-    };
 
-    const finishError = (message) => {
-      if (completed) return;
+  document.body.appendChild(
+    uploadForm
+  );
 
-      completed = true;
-      clearTimeout(timeoutId);
-      cleanup();
-      reject(new Error(message));
-    };
 
-    const receiveMessage = (event) => {
-      // 只接受來自這個 iframe 的訊息
-      if (event.source !== iframe.contentWindow) {
-        return;
-      }
+  /* =====================================================
+     4. 等待 Google Apps Script 回覆
+  ===================================================== */
 
-      let data = event.data;
+  return new Promise(
+    (resolve, reject) => {
 
-      // Apps Script 可能回傳 JSON 字串
-      if (typeof data === "string") {
-        try {
-          data = JSON.parse(data);
-        } catch (error) {
+      let completed =
+        false;
+
+      let timeoutId;
+
+
+      /* -----------------------------------------------
+         清理
+      ------------------------------------------------ */
+
+      const cleanup = () => {
+
+        window.removeEventListener(
+          "message",
+          receiveMessage
+        );
+
+
+        if (
+          uploadForm.parentNode
+        ) {
+
+          uploadForm.parentNode.removeChild(
+            uploadForm
+          );
+
+        }
+
+
+        if (
+          iframe.parentNode
+        ) {
+
+          iframe.parentNode.removeChild(
+            iframe
+          );
+
+        }
+
+      };
+
+
+      /* -----------------------------------------------
+         上傳成功
+      ------------------------------------------------ */
+
+      const finishSuccess = (
+        data
+      ) => {
+
+        if (completed) {
           return;
         }
-      }
 
-      if (!data || typeof data !== "object") {
-        return;
-      }
+        completed =
+          true;
 
-      // 忽略不是本次上傳的回覆
-      if (
-        data.type &&
-        data.type !== "registration" &&
-        data.type !== "upload"
-      ) {
-        return;
-      }
+        clearTimeout(
+          timeoutId
+        );
 
-      if (data.success === false || data.error) {
-        finishError(data.error || "Google Drive 上傳失敗。");
-        return;
-      }
+        cleanup();
 
-      // 成功回覆至少應有 fileId、fileName 或 driveUrl 其中一項
-      if (data.fileId || data.fileName || data.driveUrl || data.url) {
-        finishSuccess(data);
-      }
-    };
 
-    window.addEventListener("message", receiveMessage);
+        console.log(
+          "✅ Google Drive 收據上傳成功",
+          data
+        );
 
-    const timeoutId = setTimeout(() => {
-      finishError(
-        "Google Drive 上傳逾時。照片可能已上傳，但前端沒有收到回覆。請先檢查 Google Drive，再重新嘗試。"
+
+        resolve({
+
+          fileId:
+            data.fileId || "",
+
+          fileName:
+            data.fileName ||
+            fields.fileName,
+
+          driveUrl:
+            data.driveUrl ||
+            data.url ||
+            ""
+
+        });
+
+      };
+
+
+      /* -----------------------------------------------
+         上傳失敗
+      ------------------------------------------------ */
+
+      const finishError = (
+        message
+      ) => {
+
+        if (completed) {
+          return;
+        }
+
+        completed =
+          true;
+
+        clearTimeout(
+          timeoutId
+        );
+
+        cleanup();
+
+
+        reject(
+          new Error(
+            message ||
+            "Google Drive 上傳失敗。"
+          )
+        );
+
+      };
+
+
+      /* =================================================
+         5. ★★★ 接收 Apps Script 回覆
+         
+         這裡就是這次真正修復的地方
+      ================================================= */
+
+      const receiveMessage = (
+        event
+      ) => {
+
+        try {
+
+          /* -------------------------------------------
+             確認訊息是不是來自這個 iframe
+          ------------------------------------------- */
+
+          if (
+            event.source !==
+            iframe.contentWindow
+          ) {
+
+            return;
+          }
+
+
+          let data =
+            event.data;
+
+
+          console.log(
+            "📩 收到 Apps Script 回覆：",
+            data
+          );
+
+
+          /* -------------------------------------------
+             如果回傳是 JSON 字串
+          ------------------------------------------- */
+
+          if (
+            typeof data === "string"
+          ) {
+
+            try {
+
+              data =
+                JSON.parse(data);
+
+            } catch (error) {
+
+              console.log(
+                "不是 JSON，忽略此次訊息"
+              );
+
+              return;
+
+            }
+
+          }
+
+
+          if (
+            !data ||
+            typeof data !== "object"
+          ) {
+
+            return;
+
+          }
+
+
+          /* =================================================
+             ★★★ 最重要的修正
+             
+             Apps Script 現在回傳：
+
+             {
+               source:
+                 "sataycelup-receipt-upload",
+
+               result: {
+                 success: true,
+                 fileId: "...",
+                 fileName: "...",
+                 driveUrl: "..."
+               }
+             }
+
+             所以要取得：
+
+             data.result
+          ================================================= */
+
+          let result =
+            data.result;
+
+
+          /* -------------------------------------------
+             舊版本如果直接回傳 data
+             也繼續支援
+          ------------------------------------------- */
+
+          if (
+            !result ||
+            typeof result !== "object"
+          ) {
+
+            result =
+              data;
+
+          }
+
+
+          console.log(
+            "📦 最終解析結果：",
+            result
+          );
+
+
+          /* -------------------------------------------
+             Apps Script 明確回傳失敗
+          ------------------------------------------- */
+
+          if (
+            result.success === false
+          ) {
+
+            finishError(
+              result.error ||
+              "Google Drive 上傳失敗。"
+            );
+
+            return;
+
+          }
+
+
+          /* -------------------------------------------
+             ★★★ 成功
+          ------------------------------------------- */
+
+          if (
+            result.success === true &&
+            (
+              result.fileId ||
+              result.fileName ||
+              result.driveUrl
+            )
+          ) {
+
+            finishSuccess(
+              result
+            );
+
+            return;
+
+          }
+
+
+          /* -------------------------------------------
+             某些版本沒有 success:true
+             但有 fileId
+          ------------------------------------------- */
+
+          if (
+            result.fileId ||
+            result.fileName ||
+            result.driveUrl ||
+            result.url
+          ) {
+
+            finishSuccess(
+              result
+            );
+
+            return;
+
+          }
+
+        } catch (error) {
+
+          console.error(
+            "❌ Google Drive 回覆解析錯誤：",
+            error
+          );
+
+
+          finishError(
+            error.message ||
+            "無法解析 Google Drive 回覆。"
+          );
+
+        }
+
+      };
+
+
+      window.addEventListener(
+        "message",
+        receiveMessage
       );
-    }, 90000);
 
-    try {
-      form.submit();
-    } catch (error) {
-      finishError("無法開始上傳收據：" + error.message);
+
+      /* =================================================
+         6. 90 秒逾時
+      ================================================= */
+
+      timeoutId =
+        setTimeout(
+          () => {
+
+            finishError(
+              "Google Drive 上傳逾時。照片可能已上傳，但前端沒有收到回覆。請先檢查 Google Drive，再重新嘗試。"
+            );
+
+          },
+          90000
+        );
+
+
+      /* =================================================
+         7. 開始上傳
+      ================================================= */
+
+      try {
+
+        console.log(
+          "⬆️ 開始上傳收據到 Google Drive..."
+        );
+
+
+        uploadForm.submit();
+
+
+      } catch (error) {
+
+        finishError(
+          "無法開始上傳收據：" +
+          error.message
+        );
+
+      }
+
     }
-  });
-}
+  );
 
+}
 
 /* 建立隱藏欄位 */
 
