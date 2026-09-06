@@ -159,8 +159,23 @@
 
       text-align: center;
 
-      padding: 30px 20px;
+      padding: 20px;
       margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .shirt-preview img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 14px;
+      margin-bottom: 16px;
+    }
+
+    .shirt-preview img:last-child {
+      margin-bottom: 0;
     }
 
     .shirt-icon {
@@ -548,6 +563,7 @@
 
       .shirt-preview {
         min-height: 260px;
+        padding: 15px;
       }
 
       .size-grid {
@@ -594,24 +610,23 @@
 
       <div class="shirt-preview">
 
-        <div class="shirt-icon">
-          👕
-        </div>
+        <!-- 第一張：衣服設計圖 -->
+        <img
+          src="https://i.ibb.co/CsTg1WYf/file-0000000002b08211b0f462f8acbfa380.png"
+          alt="SatayCelup之戰活動衣服設計圖"
+        >
 
-        <h2>
-          活動衣服照片
-        </h2>
-
-        <p>
-          衣服設計圖準備後<br>
-          會放在這裡
-        </p>
+        <!-- 第二張：尺寸參考圖 -->
+        <img
+          src="https://i.ibb.co/4wnfcVCT/sg-11134202-7reqg-m20ukxe34cg05b.avif"
+          alt="SatayCelup之戰活動衣服尺寸參考圖"
+        >
 
       </div>
 
       <div class="notice">
-        💡 目前先開放登記尺寸與背面文字，
-        衣服正式設計圖確認後會再更新。
+        💡 請先查看以上衣服設計圖及尺寸參考圖，
+        再選擇適合的衣服尺寸與背面文字。
       </div>
 
       <div class="price">
@@ -736,19 +751,9 @@
               <input
                 type="radio"
                 name="shirtSize"
-                id="sizeXS"
-                value="XS"
-                required
-              >
-              <label for="sizeXS">XS</label>
-            </div>
-
-            <div class="size-option">
-              <input
-                type="radio"
-                name="shirtSize"
                 id="sizeS"
                 value="S"
+                required
               >
               <label for="sizeS">S</label>
             </div>
@@ -839,142 +844,65 @@
             <span class="required">*</span>
           </label>
 
-          <div class="platinum-grid">
+          <select
+            id="platinum"
+            name="platinum"
+            required
+          >
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p1"
-                value="Sense&Lavenier"
-                required
-              >
-              <label for="p1">
-                Sense&Lavenier
-              </label>
-            </div>
+            <option
+              value=""
+              selected
+              disabled
+            >
+              請選擇你的 Platinum
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p2"
-                value="Amos"
-              >
-              <label for="p2">
-                Amos
-              </label>
-            </div>
+            <option value="Sense&Lavenier">
+              Sense&Lavenier
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p3"
-                value="Sunny"
-              >
-              <label for="p3">
-                Sunny
-              </label>
-            </div>
+            <option value="Amos">
+              Amos
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p4"
-                value="Robin&Zoey"
-              >
-              <label for="p4">
-                Robin&Zoey
-              </label>
-            </div>
+            <option value="Sunny">
+              Sunny
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p5"
-                value="RyanLio"
-              >
-              <label for="p5">
-                RyanLio
-              </label>
-            </div>
+            <option value="Robin&Zoey">
+              Robin&Zoey
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p6"
-                value="Wyane&Momo"
-              >
-              <label for="p6">
-                Wyane&Momo
-              </label>
-            </div>
+            <option value="RyanLio">
+              RyanLio
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p7"
-                value="Jess"
-              >
-              <label for="p7">
-                Jess
-              </label>
-            </div>
+            <option value="Wyane&Momo">
+              Wyane&Momo
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p8"
-                value="Keong&Ngah"
-              >
-              <label for="p8">
-                Keong&Ngah
-              </label>
-            </div>
+            <option value="Jess">
+              Jess
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p9"
-                value="JayChew"
-              >
-              <label for="p9">
-                JayChew
-              </label>
-            </div>
+            <option value="Keong&Ngah">
+              Keong&Ngah
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p10"
-                value="Lynn"
-              >
-              <label for="p10">
-                Lynn
-              </label>
-            </div>
+            <option value="JayChew">
+              JayChew
+            </option>
 
-            <div class="platinum-option">
-              <input
-                type="radio"
-                name="platinum"
-                id="p11"
-                value="SzeChew"
-              >
-              <label for="p11">
-                SzeChew
-              </label>
-            </div>
+            <option value="Lynn">
+              Lynn
+            </option>
 
-          </div>
+            <option value="SzeChew">
+              SzeChew
+            </option>
+
+          </select>
 
           <div
             id="platinumLockMessage"
@@ -1561,17 +1489,15 @@
        */
       if (data.platinum) {
 
-        const platinumRadio =
-          document.querySelector(
-            `input[name="platinum"][value="${CSS.escape(
-              data.platinum
-            )}"]`
+        const platinumSelect =
+          document.getElementById(
+            "platinum"
           );
 
-        if (platinumRadio) {
+        if (platinumSelect) {
 
-          platinumRadio.checked =
-            true;
+          platinumSelect.value =
+            data.platinum;
 
         }
 
@@ -1582,36 +1508,18 @@
          Platinum 鎖定
          ===================================== */
 
-      const platinumRadios =
-        document.querySelectorAll(
-          'input[name="platinum"]'
+      const platinumSelect =
+        document.getElementById(
+          "platinum"
         );
 
 
-      platinumRadios.forEach(
-        (radio) => {
+      if (platinumSelect) {
 
-          radio.disabled = true;
+        platinumSelect.disabled =
+          true;
 
-        }
-      );
-
-
-      const platinumLabels =
-        document.querySelectorAll(
-          ".platinum-option label"
-        );
-
-
-      platinumLabels.forEach(
-        (label) => {
-
-          label.classList.add(
-            "platinum-locked"
-          );
-
-        }
-      );
+      }
 
 
       platinumLockMessage.style.display =
@@ -1772,8 +1680,8 @@
 
 
       const platinumElement =
-        document.querySelector(
-          'input[name="platinum"]:checked'
+        document.getElementById(
+          "platinum"
         );
 
 
@@ -1830,7 +1738,10 @@
       }
 
 
-      if (!platinumElement) {
+      if (
+        !platinumElement ||
+        !platinumElement.value
+      ) {
 
         showError(
           "請選擇你的 Platinum。"
@@ -2440,37 +2351,18 @@
         "inline";
 
 
-      const platinumRadios =
-        document.querySelectorAll(
-          'input[name="platinum"]'
+      const platinumSelect =
+        document.getElementById(
+          "platinum"
         );
 
 
-      platinumRadios.forEach(
-        (radio) => {
+      if (platinumSelect) {
 
-          radio.disabled =
-            false;
+        platinumSelect.disabled =
+          false;
 
-        }
-      );
-
-
-      const platinumLabels =
-        document.querySelectorAll(
-          ".platinum-option label"
-        );
-
-
-      platinumLabels.forEach(
-        (label) => {
-
-          label.classList.remove(
-            "platinum-locked"
-          );
-
-        }
-      );
+      }
 
 
       platinumLockMessage.style.display =
