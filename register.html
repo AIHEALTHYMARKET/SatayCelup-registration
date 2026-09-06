@@ -1516,86 +1516,80 @@ $("backToRecordBtn").addEventListener(
 /* =========================================================
    Upload Receipt
 ========================================================= */
-async function upload(file, englishName) {
-
-  const APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
-
+/* =========================================================
+   Upload Receipt
+========================================================= */
+async function uploadReceipt(file, englishName) {
 
   if (!file) {
-
     throw new Error("請選擇收據照片");
-
   }
-
 
   if (file.size > 5 * 1024 * 1024) {
-
     throw new Error("收據照片不能超過 5MB");
-
   }
-
 
   if (
     file.type !== "image/jpeg" &&
-    file.type !== "image/jpg"
+    file.type !== "image/jpg" &&
+    !/\.jpe?g$/i.test(file.name)
   ) {
-
     throw new Error("只允許 JPG / JPEG 格式");
-
   }
-
 
   /*
    * File → Base64
    */
+  const base64 = await new Promise((resolve, reject) => {
 
-  const base64 =
-    await new Promise((resolve, reject) => {
+    const reader = new FileReader();
 
-      const reader =
-        new FileReader();
+    reader.onload = function () {
 
+      try {
 
-      reader.onload = function() {
+        const result = reader.result;
 
-        try {
-
-          const result =
-            reader.result;
-
-          const base64Data =
-            result.split(",")[1];
-
-          resolve(base64Data);
-
-        } catch (error) {
-
-          reject(error);
-
+        if (
+          typeof result !== "string" ||
+          !result.includes(",")
+        ) {
+          reject(
+            new Error("無法解析收據圖片。")
+          );
+          return;
         }
 
-      };
-
-
-      reader.onerror = function() {
-
-        reject(
-          new Error("無法讀取收據照片")
+        resolve(
+          result.substring(
+            result.indexOf(",") + 1
+          )
         );
 
-      };
+      } catch (error) {
 
+        reject(error);
 
-      reader.readAsDataURL(file);
+      }
 
-    });
+    };
+
+    reader.onerror = function () {
+
+      reject(
+        new Error("無法讀取收據照片。")
+      );
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
 
 
   /*
-   * 建立唯一 token
+   * 建立唯一 Token
    */
-
   const token =
     "upload_" +
     Date.now() +
@@ -1608,10 +1602,8 @@ async function upload(file, englishName) {
   /*
    * 建立 iframe
    */
-
   const iframe =
     document.createElement("iframe");
-
 
   iframe.style.display = "none";
 
@@ -1622,25 +1614,23 @@ async function upload(file, englishName) {
 
 
   /*
-   * 建立 form
+   * 建立 POST Form
    */
-
-  const form =
+  const uploadForm =
     document.createElement("form");
 
+  uploadForm.method = "POST";
 
-  form.method = "POST";
-
-  form.action =
+  uploadForm.action =
     APPS_SCRIPT_URL;
 
-  form.target =
+  uploadForm.target =
     iframe.name;
 
-  form.style.display = "none";
+  uploadForm.style.display = "none";
 
 
-  function addHidden(
+  function addUploadInput(
     name,
     value
   ) {
@@ -1652,57 +1642,64 @@ async function upload(file, englishName) {
 
     input.name = name;
 
-    input.value = value;
+    input.value = String(
+      value ?? ""
+    );
 
-    form.appendChild(input);
+    uploadForm.appendChild(input);
 
   }
 
 
-  addHidden(
+  addUploadInput(
     "type",
     "registration"
   );
 
 
-  addHidden(
+  addUploadInput(
     "fileName",
-    englishName +
+    safeFileName(
+      englishName +
       "_" +
       Date.now() +
       ".jpg"
+    )
   );
 
 
-  addHidden(
+  addUploadInput(
     "mimeType",
     "image/jpeg"
   );
 
 
-  addHidden(
+  addUploadInput(
     "base64",
     base64
   );
 
 
-  addHidden(
+  addUploadInput(
     "token",
     token
   );
 
 
-  document.body.appendChild(form);
+  document.body.appendChild(
+    uploadForm
+  );
 
 
   /*
    * 等待 Apps Script 回覆
    */
-
-  return new Promise(
+  return await new Promise(
     (resolve, reject) => {
 
       let finished = false;
+
+      let timeoutId = null;
 
 
       function cleanup() {
@@ -1712,24 +1709,24 @@ async function upload(file, englishName) {
           messageHandler
         );
 
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
 
         try {
-
-          form.remove();
-
+          uploadForm.remove();
         } catch (e) {}
 
-
         try {
-
           iframe.remove();
-
         } catch (e) {}
 
       }
 
 
-      function finishSuccess(data) {
+      function finishSuccess(
+        result
+      ) {
 
         if (finished) return;
 
@@ -1737,12 +1734,14 @@ async function upload(file, englishName) {
 
         cleanup();
 
-        resolve(data);
+        resolve(result);
 
       }
 
 
-      function finishError(error) {
+      function finishError(
+        error
+      ) {
 
         if (finished) return;
 
@@ -1755,17 +1754,20 @@ async function upload(file, englishName) {
       }
 
 
-      function messageHandler(event) {
+      function messageHandler(
+        event
+      ) {
 
         let data =
           event.data;
 
 
         /*
-         * Apps Script 有時候回傳
-         * JSON string
+         * 有些環境會傳 JSON 字串
          */
-        if (typeof data === "string") {
+        if (
+          typeof data === "string"
+        ) {
 
           try {
 
@@ -1781,13 +1783,14 @@ async function upload(file, englishName) {
         }
 
 
-        if (!data) return;
+        if (!data) {
+          return;
+        }
 
 
         /*
-         * 確認是不是我們的訊息
+         * 只接受我們 Apps Script 的訊息
          */
-
         if (
           data.source !==
           "sataycelup-receipt-upload"
@@ -1803,9 +1806,8 @@ async function upload(file, englishName) {
 
 
         /*
-         * 確認 token
+         * Token 檢查
          */
-
         if (
           result.token &&
           result.token !== token
@@ -1817,9 +1819,8 @@ async function upload(file, englishName) {
 
 
         /*
-         * Apps Script 上傳失敗
+         * Apps Script 回報失敗
          */
-
         if (
           result.success === false
         ) {
@@ -1827,7 +1828,7 @@ async function upload(file, englishName) {
           finishError(
             new Error(
               result.error ||
-              "Google Drive 上傳失敗"
+              "Google Drive 上傳失敗。"
             )
           );
 
@@ -1837,9 +1838,8 @@ async function upload(file, englishName) {
 
 
         /*
-         * 成功
+         * Apps Script 回報成功
          */
-
         if (
           result.success === true &&
           (
@@ -1849,7 +1849,9 @@ async function upload(file, englishName) {
           )
         ) {
 
-          finishSuccess(result);
+          finishSuccess(
+            result
+          );
 
           return;
 
@@ -1857,15 +1859,16 @@ async function upload(file, englishName) {
 
 
         /*
-         * 某些舊版本沒有 success
+         * 相容沒有 success 的舊格式
          */
-
         if (
           result.fileId ||
           result.driveUrl
         ) {
 
-          finishSuccess(result);
+          finishSuccess(
+            result
+          );
 
         }
 
@@ -1879,31 +1882,37 @@ async function upload(file, englishName) {
 
 
       /*
-       * 開始送出
+       * 開始 POST
        */
+      try {
 
-      form.submit();
+        uploadForm.submit();
+
+      } catch (error) {
+
+        finishError(error);
+
+        return;
+
+      }
 
 
       /*
        * 最長等待 90 秒
        */
+      timeoutId =
+        setTimeout(
+          function () {
 
-      setTimeout(
-        function() {
+            finishError(
+              new Error(
+                "Google Drive 上傳逾時（90 秒）。請檢查 Apps Script 是否正常執行。"
+              )
+            );
 
-          if (finished) return;
-
-
-          finishError(
-            new Error(
-              "Google Drive 上傳逾時（90 秒）。請檢查 Apps Script 是否正常執行。"
-            )
-          );
-
-        },
-        90000
-      );
+          },
+          90000
+        );
 
     }
   );
