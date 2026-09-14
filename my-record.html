@@ -535,12 +535,14 @@ import {
     db
 } from "./js/firebase-config.js";
 
+
 import {
     GoogleAuthProvider,
     signInWithPopup,
     signOut,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
 import {
     collection,
@@ -575,7 +577,7 @@ const provider =
 
 
 /* ==================================================
-   登入
+   Google 登入
 ================================================== */
 
 loginButton.addEventListener(
@@ -589,6 +591,7 @@ loginButton.addEventListener(
             loginButton.textContent =
                 "正在登入……";
 
+
             await signInWithPopup(
                 auth,
                 provider
@@ -596,14 +599,22 @@ loginButton.addEventListener(
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "Google 登入失敗：",
+                error
+            );
+
 
             loginStatus.className =
                 "status error";
 
+
             loginStatus.textContent =
                 "登入失敗：" +
-                (error.message || "請稍後再試。");
+                (
+                    error.message ||
+                    "請稍後再試。"
+                );
 
         } finally {
 
@@ -632,9 +643,14 @@ logoutButton.addEventListener(
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "登出失敗：",
+                error
+            );
 
-            alert("登出失敗，請稍後再試。");
+            alert(
+                "登出失敗，請稍後再試。"
+            );
 
         }
 
@@ -654,15 +670,19 @@ function formatDate(value) {
 
     }
 
+
     if (
         typeof value.toDate === "function"
     ) {
 
         return value
             .toDate()
-            .toLocaleString("zh-Hant-MY");
+            .toLocaleString(
+                "zh-Hant-MY"
+            );
 
     }
+
 
     return String(value);
 
@@ -670,7 +690,7 @@ function formatDate(value) {
 
 
 /* ==================================================
-   顯示欄位
+   建立資料列
 ================================================== */
 
 function createRow(
@@ -681,6 +701,7 @@ function createRow(
     const row =
         document.createElement("div");
 
+
     row.className =
         "record-row";
 
@@ -688,8 +709,10 @@ function createRow(
     const labelElement =
         document.createElement("div");
 
+
     labelElement.className =
         "record-label";
+
 
     labelElement.textContent =
         label;
@@ -698,8 +721,10 @@ function createRow(
     const valueElement =
         document.createElement("div");
 
+
     valueElement.className =
         "record-value";
+
 
     valueElement.textContent =
         value || "—";
@@ -709,9 +734,11 @@ function createRow(
         labelElement
     );
 
+
     row.appendChild(
         valueElement
     );
+
 
     return row;
 
@@ -726,7 +753,38 @@ async function loadRegistrationRecords(
     user
 ) {
 
-    const result = [];
+    if (
+        !user ||
+        !user.uid ||
+        !user.email
+    ) {
+
+        throw new Error(
+            "Google 登入資料不完整，請重新登入。"
+        );
+
+    }
+
+
+    /*
+    ==================================================
+    重要修正
+
+    Firestore Rules 的一般報名者讀取條件是：
+
+    resource.data.email
+      == request.auth.token.email
+
+    所以 Query 必須直接使用 email。
+
+    不再使用：
+
+    where("uid", "==", user.uid)
+
+    否則 Firestore Rules 無法把 Query
+    證明為一定符合 read 規則。
+    ==================================================
+    */
 
     const registrationQuery =
         query(
@@ -735,9 +793,9 @@ async function loadRegistrationRecords(
                 "registrations"
             ),
             where(
-                "uid",
+                "email",
                 "==",
-                user.uid
+                user.email
             )
         );
 
@@ -748,13 +806,47 @@ async function loadRegistrationRecords(
         );
 
 
+    const result = [];
+
+
     snapshot.forEach(
         (docSnapshot) => {
 
-            result.push({
-                id: docSnapshot.id,
-                data: docSnapshot.data()
-            });
+            const data =
+                docSnapshot.data();
+
+
+            /*
+            ==================================================
+            額外安全驗證
+
+            即使 Query 已經使用 email，
+            前端仍確認：
+
+            1. email 必須是目前登入帳號
+            2. uid 必須是目前登入帳號
+
+            這是額外保護。
+            真正的安全性仍由 Firestore Rules 控制。
+            ==================================================
+            */
+
+            if (
+                data.email === user.email &&
+                data.uid === user.uid
+            ) {
+
+                result.push({
+
+                    id:
+                        docSnapshot.id,
+
+                    data:
+                        data
+
+                });
+
+            }
 
         }
     );
@@ -773,7 +865,29 @@ async function loadShirtRecords(
     user
 ) {
 
-    const result = [];
+    if (
+        !user ||
+        !user.uid ||
+        !user.email
+    ) {
+
+        throw new Error(
+            "Google 登入資料不完整，請重新登入。"
+        );
+
+    }
+
+
+    /*
+    ==================================================
+    同樣使用 email Query。
+
+    對應 Firestore Rules：
+
+    resource.data.email
+      == request.auth.token.email
+    ==================================================
+    */
 
     const shirtQuery =
         query(
@@ -782,9 +896,9 @@ async function loadShirtRecords(
                 "shirtOrders"
             ),
             where(
-                "uid",
+                "email",
                 "==",
-                user.uid
+                user.email
             )
         );
 
@@ -795,13 +909,36 @@ async function loadShirtRecords(
         );
 
 
+    const result = [];
+
+
     snapshot.forEach(
         (docSnapshot) => {
 
-            result.push({
-                id: docSnapshot.id,
-                data: docSnapshot.data()
-            });
+            const data =
+                docSnapshot.data();
+
+
+            /*
+            額外確認 email + uid。
+            */
+
+            if (
+                data.email === user.email &&
+                data.uid === user.uid
+            ) {
+
+                result.push({
+
+                    id:
+                        docSnapshot.id,
+
+                    data:
+                        data
+
+                });
+
+            }
 
         }
     );
@@ -827,6 +964,7 @@ function renderRegistrationRecord(
     const box =
         document.createElement("div");
 
+
     box.className =
         "record";
 
@@ -834,8 +972,10 @@ function renderRegistrationRecord(
     const title =
         document.createElement("div");
 
+
     title.className =
         "record-title";
+
 
     title.textContent =
         "🍢 活動報名資料";
@@ -907,14 +1047,17 @@ function renderRegistrationRecord(
     const editButton =
         document.createElement("a");
 
+
     editButton.className =
         "button";
+
 
     editButton.href =
         "register.html?edit=" +
         encodeURIComponent(
             record.id
         );
+
 
     editButton.textContent =
         "✏️ 修改活動報名資料";
@@ -945,6 +1088,7 @@ function renderShirtRecord(
     const box =
         document.createElement("div");
 
+
     box.className =
         "record shirt";
 
@@ -952,8 +1096,10 @@ function renderShirtRecord(
     const title =
         document.createElement("div");
 
+
     title.className =
         "record-title";
+
 
     title.textContent =
         "👕 活動衣服購買資料";
@@ -1018,14 +1164,17 @@ function renderShirtRecord(
     const editButton =
         document.createElement("a");
 
+
     editButton.className =
         "button";
+
 
     editButton.href =
         "shirt.html?edit=" +
         encodeURIComponent(
             record.id
         );
+
 
     editButton.textContent =
         "✏️ 修改衣服購買資料";
@@ -1064,8 +1213,15 @@ async function loadAllRecords(
             registrationRecords,
             shirtRecords
         ] = await Promise.all([
-            loadRegistrationRecords(user),
-            loadShirtRecords(user)
+
+            loadRegistrationRecords(
+                user
+            ),
+
+            loadShirtRecords(
+                user
+            )
+
         ]);
 
 
@@ -1082,8 +1238,10 @@ async function loadAllRecords(
             const empty =
                 document.createElement("div");
 
+
             empty.className =
                 "empty";
+
 
             empty.innerHTML = `
 
@@ -1095,9 +1253,11 @@ async function loadAllRecords(
 
             `;
 
+
             recordsArea.appendChild(
                 empty
             );
+
 
             return;
 
@@ -1108,9 +1268,11 @@ async function loadAllRecords(
             (record) => {
 
                 recordsArea.appendChild(
+
                     renderRegistrationRecord(
                         record
                     )
+
                 );
 
             }
@@ -1121,24 +1283,35 @@ async function loadAllRecords(
             (record) => {
 
                 recordsArea.appendChild(
+
                     renderShirtRecord(
                         record
                     )
+
                 );
 
             }
         );
 
+
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "讀取 Firestore 資料失敗：",
+            error
+        );
+
 
         recordsArea.className =
             "status error";
 
+
         recordsArea.textContent =
             "讀取資料失敗：" +
-            (error.message || "請稍後再試。");
+            (
+                error.message ||
+                "請稍後再試。"
+            );
 
     }
 
@@ -1158,8 +1331,10 @@ onAuthStateChanged(
             loginButton.style.display =
                 "none";
 
+
             logoutButton.style.display =
                 "block";
+
 
             recordsSection.style.display =
                 "block";
@@ -1168,22 +1343,29 @@ onAuthStateChanged(
             loginStatus.className =
                 "status success";
 
+
             loginStatus.textContent =
                 "已登入：" +
-                (user.email || "Google 帳號");
+                (
+                    user.email ||
+                    "Google 帳號"
+                );
 
 
             await loadAllRecords(
                 user
             );
 
+
         } else {
 
             loginButton.style.display =
                 "block";
 
+
             logoutButton.style.display =
                 "none";
+
 
             recordsSection.style.display =
                 "none";
@@ -1191,6 +1373,7 @@ onAuthStateChanged(
 
             loginStatus.className =
                 "status";
+
 
             loginStatus.textContent =
                 "尚未登入。";
