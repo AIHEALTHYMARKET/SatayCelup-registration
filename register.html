@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SatayCelup之戰｜活動報名</title>
+<title>BS pickleball友誼賽｜活動報名</title>
 
 <style>
 :root{
@@ -410,15 +410,18 @@ button{
 <div class="container">
 
   <div class="hero">
-    <div class="hero-icon">🍢</div>
-    <h1>SatayCelup之戰</h1>
+    <div class="hero-icon">🏓</div>
+    <h1>BS pickleball友誼賽</h1>
     <div class="subtitle">活動報名系統</div>
   </div>
 
   <div class="notice">
     <strong>📢 報名資訊</strong><br>
-    報名費：<strong>RM168</strong><br>
-    報名日期：<strong>2026.09.05 – 2026.09.25</strong><br>
+    活動日期：<strong>2026.11.28（星期六）</strong><br>
+    活動時間：<strong>晚上 7:30 – 10:30</strong><br>
+    活動地點：<strong>Finz Sports</strong><br>
+    報名費：<strong>RM38</strong>（包含球衣、場地費）<br>
+    報名日期：<strong>2026.11.01 – 2026.11.15</strong><br>
     完成付款後，請務必上傳
     <strong>JPG / JPEG 繳費收據</strong>。
   </div>
@@ -521,42 +524,6 @@ button{
 
       <div class="divider"></div>
 
-      <div class="field">
-        <label>
-          🍽️ 飲食
-          <span class="required">*</span>
-        </label>
-
-        <div class="radio-group">
-
-          <div class="radio-option">
-            <input
-              type="radio"
-              name="meal"
-              id="mealMeat"
-              value="葷"
-              required>
-
-            <label for="mealMeat">
-              🥩 葷食
-            </label>
-          </div>
-
-          <div class="radio-option">
-            <input
-              type="radio"
-              name="meal"
-              id="mealVeg"
-              value="素">
-
-            <label for="mealVeg">
-              🥬 素食
-            </label>
-          </div>
-
-        </div>
-      </div>
-
       <!-- 衣服設計圖 -->
       <div class="field">
         <label>👕 衣服設計圖</label>
@@ -567,8 +534,8 @@ button{
           </div>
 
           <img
-            src="https://i.ibb.co/BHX4SbG2/11c92888-71f6-43a0-a461-ff9ecb370183.jpg"
-            alt="SatayCelup之戰衣服設計圖">
+            src="https://i.ibb.co/GvVzsnMT/file-000000000dc48211bc0fdb2bc86c9bb9.png"
+            alt="BS pickleball友誼賽衣服設計圖">
         </div>
       </div>
 
@@ -583,7 +550,7 @@ button{
 
           <img
             src="https://i.ibb.co/4wnfcVCT/sg-11134202-7reqg-m20ukxe34cg05b.avif"
-            alt="SatayCelup之戰衣服尺寸參考圖">
+            alt="BS pickleball友誼賽衣服尺寸參考圖">
         </div>
       </div>
 
@@ -622,7 +589,7 @@ button{
 
       <div class="field">
         <label>
-          🏸 參與項目
+          🏓 參與項目
           <span class="required">*</span>
         </label>
 
@@ -632,36 +599,12 @@ button{
             <input
               type="radio"
               name="participation"
-              id="badminton"
-              value="羽球"
-              required>
-
-            <label for="badminton">
-              🏸 羽球
-            </label>
-          </div>
-
-          <div class="radio-option">
-            <input
-              type="radio"
-              name="participation"
               id="pickleball"
-              value="pickleball">
+              value="pickleball"
+              checked>
 
             <label for="pickleball">
-              🟡 Pickleball
-            </label>
-          </div>
-
-          <div class="radio-option">
-            <input
-              type="radio"
-              name="participation"
-              id="spectator"
-              value="觀眾">
-
-            <label for="spectator">
-              👀 觀眾
+              🏓 Pickleball
             </label>
           </div>
 
@@ -734,11 +677,11 @@ button{
       <div class="price-box">
 
         <div class="price-main">
-          RM168
+          RM38
         </div>
 
         <div class="price-detail">
-          SatayCelup之戰活動報名費
+          BS pickleball友誼賽活動報名費（包含球衣、場地費）
         </div>
 
         <div class="bank-info">
@@ -754,7 +697,7 @@ button{
           </div>
 
           <img
-            src="https://i.ibb.co/4nGyf3CR/GXBank-9789.png"
+            src="https://i.ibb.co/WN1qbJbQ/GXBank-9789.png"
             alt="GX Bank 繳費帳號圖片">
         </div>
 
@@ -842,7 +785,7 @@ button{
   </div>
 
   <div class="footer">
-    SatayCelup之戰<br>
+    BS pickleball友誼賽<br>
     活動報名系統
   </div>
 
@@ -1125,14 +1068,6 @@ async function loadEdit(user) {
       data.partner || "";
     $("platinum").value =
       data.platinum || "";
-    setRadio(
-      "meal",
-      data.meal
-    );
-    setRadio(
-      "participation",
-      data.participation
-    );
     updatePartnerRequirement();
     msg.textContent =
       "已載入你的資料，可以修改。";
@@ -1217,14 +1152,10 @@ form.addEventListener(
       isEdit
         ? (original?.platinum || "")
         : $("platinum").value;
-    const meal =
-      document.querySelector(
-        'input[name="meal"]:checked'
-      )?.value || "";
-    const participation =
-      document.querySelector(
-        'input[name="participation"]:checked'
-      )?.value || "";
+    /* 已取消飲食選項 */
+    const meal = "";
+    /* 只有 Pickleball */
+    const participation = "pickleball";
     const receipt =
       $("receipt").files?.[0] || null;
     /* ================================================
@@ -1235,7 +1166,6 @@ form.addEventListener(
       !icNumber ||
       !chineseName ||
       !phone ||
-      !meal ||
       !shirtSize ||
       !shirtText ||
       !participation ||

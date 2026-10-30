@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SatayCelup之戰｜管理員後台</title>
+  <title>BS pickleball友誼賽｜管理員後台</title>
 
   <style>
     :root {
@@ -573,6 +573,12 @@
       }
     }
   </style>
+
+  <style>
+    /* 已取消：飲食 / 羽球 / 觀眾 */
+    .col-meal { display: none !important; }
+    #mealFilterBox, .field-meal-filter { display: none !important; }
+  </style>
 </head>
 
 <body>
@@ -580,9 +586,9 @@
 
     <div class="topbar">
       <div class="brand">
-        <div class="brand-icon">🍢</div>
+        <div class="brand-icon">🏓</div>
         <div>
-          <h1>SatayCelup之戰</h1>
+          <h1>BS pickleball友誼賽</h1>
           <div class="subtitle">活動報名與衣服訂單管理後台</div>
         </div>
       </div>
@@ -640,17 +646,17 @@
           <div class="stat-number" id="totalShirts">0</div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="display:none;">
           <div class="stat-label">葷食</div>
           <div class="stat-number" id="totalMeat">0</div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="display:none;">
           <div class="stat-label">素食</div>
           <div class="stat-number" id="totalVegetarian">0</div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="display:none;">
           <div class="stat-label">羽球</div>
           <div class="stat-number" id="totalBadminton">0</div>
         </div>
@@ -660,7 +666,7 @@
           <div class="stat-number" id="totalPickleball">0</div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat-card" style="display:none;">
           <div class="stat-label">觀眾</div>
           <div class="stat-number" id="totalAudience">0</div>
         </div>
@@ -681,7 +687,7 @@
         <div class="tabs">
 
           <button class="tab active" id="attendanceTab">
-            🍢 出席報名
+            🏓 出席報名
           </button>
 
           <button class="tab" id="shirtsTab">
@@ -720,7 +726,7 @@
               />
             </div>
 
-            <div class="field">
+            <div class="field field-meal-filter">
               <label for="mealFilter">飲食</label>
 
               <select id="mealFilter">
@@ -735,9 +741,7 @@
 
               <select id="participationFilter">
                 <option value="">全部活動</option>
-                <option value="羽球">羽球</option>
                 <option value="pickleball">Pickleball</option>
-                <option value="觀眾">觀眾</option>
               </select>
             </div>
 
@@ -784,7 +788,7 @@
                   <th>IC English name</th>
                   <th>IC Number</th>
                   <th>電話</th>
-                  <th>飲食</th>
+                  <th class="col-meal">飲食</th>
                   <th>衣服尺寸</th>
                   <th>背面文字</th>
                   <th>活動</th>
@@ -1994,7 +1998,7 @@
                 </td>
 
 
-                <td>
+                <td class="col-meal">
 
                   <select
                     class="editable"
@@ -3131,7 +3135,7 @@
 
 
       downloadCsv(
-        "SatayCelup-出席報名.csv",
+        "BSPickleball-出席報名.csv",
         rows
       );
 
@@ -3200,7 +3204,7 @@
 
 
       downloadCsv(
-        "SatayCelup-只買衣服.csv",
+        "BSPickleball-只買衣服.csv",
         rows
       );
 
@@ -3322,7 +3326,7 @@
 
       downloadCsv(
 
-        "SatayCelup-全部衣服名單.csv",
+        "BSPickleball-全部衣服名單.csv",
 
         [
           header,

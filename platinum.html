@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SatayCelup之戰｜Platinum 專屬</title>
+  <title>BS pickleball友誼賽｜Platinum 專屬</title>
 
   <style>
     :root{
@@ -625,6 +625,12 @@
 
     }
   </style>
+
+  <style>
+    /* 已取消：飲食 / 羽球 / 觀眾 */
+    .col-meal { display: none !important; }
+    #mealFilterBox, .field-meal-filter { display: none !important; }
+  </style>
 </head>
 
 <body>
@@ -644,7 +650,7 @@
       <h2>Platinum 專屬管理</h2>
 
       <p>
-        SatayCelup之戰<br>
+        BS pickleball友誼賽<br>
         請使用你的 Email 與密碼登入。
       </p>
 
@@ -755,11 +761,11 @@
       <div class="brand">
 
         <div class="brand-icon">
-          🍢
+          🏓
         </div>
 
         <div>
-          <h1>SatayCelup之戰</h1>
+          <h1>BS pickleball友誼賽</h1>
           <p>Platinum 專屬團隊管理</p>
         </div>
 
@@ -836,17 +842,17 @@
         <div class="stat-value" id="totalShirts">0</div>
       </div>
 
-      <div class="stat">
+      <div class="stat" style="display:none;">
         <div class="stat-label">葷食</div>
         <div class="stat-value" id="totalMeat">0</div>
       </div>
 
-      <div class="stat">
+      <div class="stat" style="display:none;">
         <div class="stat-label">素食</div>
         <div class="stat-value" id="totalVegetarian">0</div>
       </div>
 
-      <div class="stat">
+      <div class="stat" style="display:none;">
         <div class="stat-label">羽球</div>
         <div class="stat-value" id="totalBadminton">0</div>
       </div>
@@ -856,7 +862,7 @@
         <div class="stat-value" id="totalPickleball">0</div>
       </div>
 
-      <div class="stat">
+      <div class="stat" style="display:none;">
         <div class="stat-label">觀眾</div>
         <div class="stat-value" id="totalAudience">0</div>
       </div>
@@ -934,9 +940,7 @@
           <select id="participationFilter">
 
             <option value="">全部</option>
-            <option value="羽球">羽球</option>
             <option value="pickleball">Pickleball</option>
-            <option value="觀眾">觀眾</option>
 
           </select>
 
@@ -2184,7 +2188,7 @@
 
               <th>電話</th>
 
-              <th>飲食</th>
+              <th class="col-meal">飲食</th>
 
               <th>衣服</th>
 
@@ -2274,7 +2278,7 @@
             </td>
 
 
-            <td>
+            <td class="col-meal">
 
               <select
                 data-field="meal">
