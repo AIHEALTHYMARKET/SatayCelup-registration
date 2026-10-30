@@ -1503,11 +1503,11 @@ const EVENT_MEDIA = {
 
 
     /* ================================================
-       ② 活動影片（支援 Facebook / YouTube）
+       ② 活動影片（支援 Instagram / Facebook / YouTube）
     ================================================ */
 
     video:
-        "https://www.facebook.com/share/r/1CQ5W1njJQ/",
+        "https://www.instagram.com/reel/DQjZyTRD_YT/",
 
 
     /* ================================================
@@ -1757,13 +1757,61 @@ const youtubeId =
     );
 
 
+const igMatch =
+    (EVENT_MEDIA.video || "").match(
+        /instagram\.com\/(?:reel|reels|p|tv)\/([A-Za-z0-9_-]+)/i
+    );
+
+
+if (igMatch) {
+
+    const igCode = igMatch[1];
+
+    videoArea.innerHTML = `
+
+        <div style="max-width:420px;margin:0 auto;">
+
+            <div style="position:relative;width:100%;height:600px;overflow:hidden;border-radius:20px;background:#edf5ee;box-shadow:0 10px 28px rgba(63,100,73,.08);">
+
+                <iframe
+                    src="https://www.instagram.com/reel/${igCode}/embed"
+                    title="BS pickleball友誼賽活動宣傳影片"
+                    style="width:100%;height:100%;border:0;"
+                    scrolling="no"
+                    allowtransparency="true"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
+
+        </div>
+
+        <p style="text-align:center;margin:12px 0 0;font-size:13px;">
+            <a
+                href="https://www.instagram.com/reel/${igCode}/"
+                target="_blank"
+                rel="noopener"
+                style="color:#4b915e;font-weight:800;text-decoration:none;">
+                ▶️ 無法播放？點此在 Instagram 觀看
+            </a>
+        </p>
+
+    `;
+
+}
+
+
 const isFacebookVideo =
     /facebook\.com|fb\.watch/i.test(
         EVENT_MEDIA.video || ""
     );
 
 
-if (isFacebookVideo) {
+if (igMatch) {
+
+    /* Instagram 已在上方處理 */
+
+} else if (isFacebookVideo) {
 
     const fbSrc =
         "https://www.facebook.com/plugins/video.php?href=" +
