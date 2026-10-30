@@ -3,2068 +3,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BS pickleball友誼賽｜活動報名</title>
-
-<style>
-:root{
-  --mint:#dff5e8;
-  --green:#247a55;
-  --orange:#f28b45;
-  --yellow:#fff3bd;
-  --cream:#fffaf0;
-  --text:#26352d;
-  --muted:#718078;
-  --border:#dce8df;
-  --white:#fff;
-  --danger:#c84b4b;
-  --shadow:0 10px 30px rgba(38,53,45,.08)
-}
-
-*{
-  box-sizing:border-box
-}
-
-body{
-  margin:0;
-  background:linear-gradient(
-    180deg,
-    var(--mint),
-    #f8fff9 42%,
-    var(--cream)
-  );
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,
-  "Segoe UI","Noto Sans TC",sans-serif
-}
-
-.container{
-  width:min(720px,calc(100% - 20px));
-  margin:auto;
-  padding:25px 0 45px
-}
-
-.hero{
-  text-align:center;
-  margin-bottom:20px
-}
-
-.hero-icon{
-  width:76px;
-  height:76px;
-  margin:auto auto 12px;
-  border-radius:24px;
-  background:#fff;
-  box-shadow:var(--shadow);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:42px
-}
-
-h1{
-  margin:0;
-  font-size:30px
-}
-
-.subtitle{
-  margin-top:8px;
-  color:var(--muted)
-}
-
-.notice{
-  background:var(--yellow);
-  border:1px solid #f0df91;
-  border-radius:16px;
-  padding:15px 17px;
-  margin:20px 0;
-  line-height:1.7;
-  font-size:14px
-}
-
-.notice strong{
-  color:#9a6815
-}
-
-.card{
-  background:rgba(255,255,255,.96);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:22px;
-  box-shadow:var(--shadow);
-  margin-bottom:18px
-}
-
-.section-title{
-  font-size:19px;
-  font-weight:800;
-  margin-bottom:17px
-}
-
-.field{
-  margin-bottom:17px
-}
-
-label{
-  display:block;
-  font-weight:700;
-  font-size:14px;
-  margin-bottom:7px
-}
-
-.required{
-  color:var(--danger)
-}
-
-input,
-select{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px 13px;
-  font-size:15px;
-  color:var(--text);
-  background:#fff;
-  outline:none;
-  font-family:inherit
-}
-
-input:focus,
-select:focus{
-  border-color:var(--green);
-  box-shadow:0 0 0 3px rgba(36,122,85,.1)
-}
-
-input[readonly]{
-  background:#f4f7f5;
-  color:#637068
-}
-
-input:disabled,
-select:disabled{
-  background:#f1f5f3;
-  color:#718078;
-  cursor:not-allowed
-}
-
-.help{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.6;
-  margin-top:6px
-}
-
-.radio-group{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px
-}
-
-.radio-option{
-  position:relative
-}
-
-.radio-option input{
-  position:absolute;
-  opacity:0;
-  pointer-events:none
-}
-
-.radio-option label{
-  cursor:pointer;
-  padding:12px 8px;
-  border:1px solid var(--border);
-  border-radius:12px;
-  background:#fff;
-  text-align:center;
-  font-weight:600
-}
-
-.radio-option input:checked + label{
-  background:var(--mint);
-  border-color:var(--green);
-  color:var(--green)
-}
-
-.price-box{
-  background:#fff8ee;
-  border:1px solid #f5d6b6;
-  border-radius:15px;
-  padding:14px 16px;
-  margin-bottom:18px
-}
-
-.price-main{
-  font-size:23px;
-  font-weight:800;
-  color:var(--orange)
-}
-
-.price-detail{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:12px
-}
-
-.bank-info{
-  border-top:1px solid #f1d7b8;
-  padding-top:12px;
-  font-size:13px;
-  line-height:1.9;
-  color:var(--text);
-  word-break:break-word
-}
-
-.bank-info strong{
-  color:#9a6815
-}
-
-.bank-image-box{
-  margin-top:14px;
-  text-align:center
-}
-
-.bank-image-box img{
-  display:block;
-  width:100%;
-  height:auto;
-  object-fit:contain;
-  border-radius:12px;
-  border:1px solid #f0d8bd;
-  background:#fff
-}
-
-.image-title{
-  font-size:13px;
-  font-weight:800;
-  color:var(--green);
-  margin:0 0 9px
-}
-
-.clothing-image-box{
-  margin:0 0 18px;
-  padding:12px;
-  border:1px solid var(--border);
-  border-radius:15px;
-  background:#fbfefc
-}
-
-.clothing-image-box img{
-  display:block;
-  width:100%;
-  height:auto;
-  max-width:100%;
-  object-fit:contain;
-  border-radius:10px;
-  background:#fff
-}
-
-.clothing-image-box + .clothing-image-box{
-  margin-top:12px
-}
-
-.upload-box{
-  border:2px dashed #c9ddd1;
-  border-radius:15px;
-  padding:16px;
-  background:#fbfefc
-}
-
-input[type=file]{
-  padding:10px
-}
-
-.login-box{
-  text-align:center;
-  padding:25px 15px
-}
-
-.login-box p{
-  color:var(--muted);
-  line-height:1.7;
-  font-size:14px
-}
-
-button{
-  width:100%;
-  border:0;
-  border-radius:14px;
-  padding:14px 18px;
-  font-size:16px;
-  font-weight:800;
-  cursor:pointer;
-  font-family:inherit
-}
-
-.btn-primary{
-  background:var(--green);
-  color:#fff
-}
-
-.btn-primary:disabled{
-  opacity:.55;
-  cursor:not-allowed
-}
-
-.btn-google{
-  background:#fff;
-  color:var(--text);
-  border:1px solid var(--border)
-}
-
-.btn-secondary{
-  margin-top:10px;
-  background:#f1f5f3;
-  color:var(--text)
-}
-
-.message{
-  margin-top:13px;
-  font-size:14px;
-  line-height:1.7;
-  text-align:center;
-  min-height:22px;
-  word-break:break-word
-}
-
-.success{
-  background:#edf9f2;
-  border:1px solid #c7e8d3;
-  border-radius:17px;
-  padding:24px 18px;
-  text-align:center
-}
-
-.success-icon{
-  font-size:48px
-}
-
-.success h2{
-  margin:0 0 8px;
-  color:var(--green)
-}
-
-.success p{
-  color:var(--muted);
-  line-height:1.7;
-  font-size:14px
-}
-
-.hidden{
-  display:none!important
-}
-
-.user-info{
-  background:#f4f9f6;
-  border-radius:13px;
-  padding:12px 14px;
-  font-size:13px;
-  color:var(--muted);
-  margin-bottom:18px;
-  word-break:break-word
-}
-
-.edit-notice{
-  background:#edf9f2;
-  border:1px solid #c7e8d3;
-  border-radius:13px;
-  padding:12px 14px;
-  color:var(--green);
-  font-size:13px;
-  line-height:1.7;
-  margin-bottom:18px
-}
-
-.divider{
-  height:1px;
-  background:var(--border);
-  margin:20px 0
-}
-
-.footer{
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.7;
-  margin-top:22px
-}
-
-@media(max-width:560px){
-  .card{
-    padding:17px;
-    border-radius:18px
-  }
-
-  h1{
-    font-size:26px
-  }
-
-  .radio-group{
-    grid-template-columns:repeat(2,1fr)
-  }
-}
-</style>
+<title>活動報名｜BS 活動報名中心</title>
+<link rel="stylesheet" href="css/common.css">
 </head>
-
 <body>
-
 <div class="container">
 
-  <div class="hero">
-    <div class="hero-icon">🏓</div>
-    <h1>BS pickleball友誼賽</h1>
-    <div class="subtitle">活動報名系統</div>
+  <section class="card hero" style="padding:24px 16px">
+    <div class="badge">📝 活動報名</div>
+    <h1 id="pageTitle">活動報名</h1>
+  </section>
+
+  <!-- 登入 -->
+  <div class="card" id="loginCard" style="text-align:center">
+    <div style="font-size:42px">🔐</div>
+    <h2>請先登入</h2>
+    <p class="muted">使用 Google 帳號登入後即可報名。<br>系統會自動帶入你的 Google Email。</p>
+    <button type="button" class="btn-google" id="googleLoginBtn">🔵 使用 Google 登入</button>
+    <div id="loginMessage" class="message"></div>
   </div>
 
-  <div class="notice">
-    <strong>📢 報名資訊</strong><br>
-    活動日期：<strong>2026.11.28（星期六）</strong><br>
-    活動時間：<strong>晚上 7:30 – 10:30</strong><br>
-    活動地點：<strong>Finz Sports</strong><br>
-    報名費：<strong>RM38</strong>（包含球衣、場地費）<br>
-    報名日期：<strong>2026.11.01 – 2026.11.15</strong><br>
-    完成付款後，請務必上傳
-    <strong>JPG / JPEG 繳費收據</strong>。
+  <!-- 活動分頁（避免報錯活動） -->
+  <div class="tabs hidden" id="tabs"></div>
+
+  <div class="card hidden" id="pickCard">
+    <div class="closed-box" style="background:#f7fbf7">👆 請先在上方選擇你要報名的活動</div>
   </div>
 
-  <!-- Google 登入 -->
-  <div class="card" id="loginCard">
-    <div class="login-box">
-      <div style="font-size:42px">🔐</div>
-      <h2>請先登入</h2>
-
-      <p>
-        使用 Google 帳號登入後即可開始報名。<br>
-        登入後，系統會自動帶入你的 Google Email。
-      </p>
-
-      <button
-        type="button"
-        class="btn-google"
-        id="googleLoginBtn">
-        🔵 使用 Google 登入
-      </button>
-
-      <div id="loginMessage" class="message"></div>
-    </div>
+  <div class="card hidden" id="closedCard">
+    <div class="closed-box">🔒 此活動目前未開放報名。<br>如有疑問請聯絡主辦單位。</div>
+    <a class="btn btn-secondary" href="index.html">← 返回活動頁</a>
   </div>
 
-  <!-- 報名表格 -->
+  <!-- 表單 -->
   <div class="card hidden" id="formCard">
-
-    <div class="section-title" id="formTitle">
-      📝 活動報名資料
-    </div>
-
-    <div id="editNotice" class="edit-notice hidden">
-      ✏️ 目前是修改模式。<br>
-      你可以修改活動報名資料；原本的繳費收據會保留，
-      如需更換才重新上傳即可。
-    </div>
-
+    <div class="event-banner" id="banner"></div>
     <div class="user-info" id="userInfo"></div>
+    <div class="notice-ok hidden" id="editNotice">✏️ 目前是修改模式；原本的收據會保留，如需更換才重新上傳。</div>
 
-    <form id="registrationForm">
-
+    <form id="regForm">
       <div class="field">
         <label>Google Email</label>
-        <input
-          type="email"
-          id="email"
-          readonly>
+        <input type="email" id="email" readonly>
       </div>
 
-      <div class="field">
-        <label>
-          IC English Name
-          <span class="required">*</span>
-        </label>
+      <div id="dynamicFields"></div>
 
-        <input
-          id="englishName"
-          required
-          placeholder="請輸入 IC 英文姓名">
+      <div class="field hidden" id="platinumField">
+        <label>💎 Platinum <span class="required">*</span></label>
+        <select id="platinum"><option value="">請選擇你的 Platinum</option></select>
+        <div class="help hidden" id="platinumHelp">修改模式不能更換原本的 Platinum。</div>
       </div>
 
-      <div class="field">
-        <label>
-          IC Number
-          <span class="required">*</span>
-        </label>
+      <div class="price-box hidden" id="priceBox"></div>
 
-        <input
-          id="icNumber"
-          required
-          placeholder="例如：900101-01-1234">
-      </div>
-
-      <div class="field">
-        <label>
-          中文姓名 / 匿名
-          <span class="required">*</span>
-        </label>
-
-        <input
-          id="chineseName"
-          required
-          placeholder="請輸入中文姓名或匿名名稱">
-      </div>
-
-      <div class="field">
-        <label>
-          電話
-          <span class="required">*</span>
-        </label>
-
-        <input
-          type="tel"
-          id="phone"
-          required
-          placeholder="請輸入聯絡電話">
-      </div>
-
-      <div class="divider"></div>
-
-      <!-- 衣服設計圖 -->
-      <div class="field">
-        <label>👕 衣服設計圖</label>
-
-        <div class="clothing-image-box">
-          <div class="image-title">
-            衣服設計
-          </div>
-
-          <img
-            src="https://i.ibb.co/GvVzsnMT/file-000000000dc48211bc0fdb2bc86c9bb9.png"
-            alt="BS pickleball友誼賽衣服設計圖">
-        </div>
-      </div>
-
-      <!-- 衣服尺寸參考圖 -->
-      <div class="field">
-        <label>📏 衣服尺寸參考圖</label>
-
-        <div class="clothing-image-box">
-          <div class="image-title">
-            尺寸參考
-          </div>
-
-          <img
-            src="https://i.ibb.co/4wnfcVCT/sg-11134202-7reqg-m20ukxe34cg05b.avif"
-            alt="BS pickleball友誼賽衣服尺寸參考圖">
-        </div>
-      </div>
-
-      <div class="field">
-        <label>
-          👕 衣服尺寸
-          <span class="required">*</span>
-        </label>
-
-        <select id="shirtSize" required>
-          <option value="">請選擇尺寸</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-          <option>XXL</option>
-          <option>XXXL</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>
-          👕 衣服背面文字
-          <span class="required">*</span>
-        </label>
-
-        <input
-          id="shirtText"
-          required
-          placeholder="請輸入英文名字或暱稱">
-
-        <div class="help">
-          此欄位為必填，例如：WEI EN。
-        </div>
-      </div>
-
-      <div class="field">
-        <label>
-          🏓 參與項目
-          <span class="required">*</span>
-        </label>
-
-        <div class="radio-group">
-
-          <div class="radio-option">
-            <input
-              type="radio"
-              name="participation"
-              id="pickleball"
-              value="pickleball"
-              checked>
-
-            <label for="pickleball">
-              🏓 Pickleball
-            </label>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- 球伴組別 -->
-      <div class="field">
-        <label>
-          👥 球伴組別
-          <span class="required">*</span>
-        </label>
-
-        <select id="partnerGroup" required>
-          <option value="">請選擇球伴組別</option>
-          <option value="指定搭檔">指定搭檔</option>
-          <option value="自由組隊">自由組隊</option>
-        </select>
-
-        <div class="help">
-          指定搭檔需要填寫球伴；自由組隊則可以不填。
-        </div>
-      </div>
-
-      <!-- 球伴 -->
-      <div class="field">
-        <label id="partnerLabel">
-          🤝 球伴
-          <span class="required hidden" id="partnerRequiredMark">*</span>
-        </label>
-
-        <input
-          id="partner"
-          placeholder="請輸入球伴姓名">
-
-        <div class="help" id="partnerHelp">
-          選擇「指定搭檔」時，此欄位必須填寫。
-        </div>
-      </div>
-
-      <div class="field">
-        <label>
-          💎 Platinum
-          <span class="required">*</span>
-        </label>
-
-        <select id="platinum" required>
-          <option value="">請選擇你的 Platinum</option>
-          <option>Sense&Lavenier</option>
-          <option>Amos</option>
-          <option>Sunny</option>
-          <option>Robin&Zoey</option>
-          <option>RyanLio</option>
-          <option>Wyane&Momo</option>
-          <option>Jess</option>
-          <option>Keong&Ngah</option>
-          <option>JayChew</option>
-          <option>Lynn</option>
-          <option>SzeChew</option>
-        </select>
-
-        <div
-          id="platinumHelp"
-          class="help hidden">
-          修改模式不能更換原本的 Platinum。
-        </div>
-      </div>
-
-      <!-- 費用及繳費資料 -->
-      <div class="price-box">
-
-        <div class="price-main">
-          RM38
-        </div>
-
-        <div class="price-detail">
-          BS pickleball友誼賽活動報名費（包含球衣、場地費）
-        </div>
-
-        <div class="bank-info">
-          <strong>💳 繳費帳號資料</strong><br>
-          Beneficiary name: Teo Wei En<br>
-          Account number: 8888001239789<br>
-          Bank name: GX Bank Berhad
-        </div>
-
-        <div class="bank-image-box">
-          <div class="image-title">
-            GX Bank 繳費資料
-          </div>
-
-          <img
-            src="https://i.ibb.co/WN1qbJbQ/GXBank-9789.png"
-            alt="GX Bank 繳費帳號圖片">
-        </div>
-
-      </div>
-
-      <!-- 收據 -->
-      <div class="field">
-        <label>
-          🧾 繳費收據 JPG
-          <span
-            class="required"
-            id="receiptRequiredMark">*</span>
-        </label>
-
+      <div class="field hidden" id="receiptField">
+        <label>🧾 繳費收據 JPG <span class="required" id="receiptReq">*</span></label>
         <div class="upload-box">
-
-          <input
-            type="file"
-            id="receipt"
-            accept=".jpg,.jpeg,image/jpeg">
-
-          <div
-            id="existingReceipt"
-            class="help hidden"
-            style="
-              padding:10px;
-              background:#edf9f2;
-              border:1px solid #c7e8d3;
-              border-radius:10px;
-              color:#247a55
-            ">
-            ✅ 原本的繳費收據已保存。<br>
-            如不需要更換收據，可以直接儲存修改。
-          </div>
-
-          <div class="help">
-            新增報名必須上傳 JPG / JPEG；
-            修改時可以保留原收據。圖片不可超過 5MB。
-          </div>
-
+          <input type="file" id="receipt" accept=".jpg,.jpeg,image/jpeg">
+          <div class="notice-ok hidden" id="existingReceipt" style="margin-top:10px">✅ 原本的繳費收據已保存，不需更換可直接儲存。</div>
+          <div class="help">必須是 JPG / JPEG，圖片不可超過 5MB。</div>
         </div>
       </div>
 
-      <button
-        type="submit"
-        class="btn-primary"
-        id="submitBtn">
-        🚀 提交活動報名
-      </button>
-
-      <div
-        id="formMessage"
-        class="message">
-      </div>
-
+      <button type="submit" class="btn-primary" id="submitBtn">🚀 提交報名</button>
+      <div id="formMessage" class="message"></div>
     </form>
   </div>
 
-  <!-- 成功區 -->
-  <div class="card hidden" id="successCard">
-
-    <div class="success">
-      <div class="success-icon">🎉</div>
-
-      <h2>報名成功！</h2>
-
-      <p>
-        你的活動報名資料已成功提交。<br>
-        繳費收據也已成功保存。
-      </p>
-
-      <button
-        class="btn-primary"
-        id="continueBtn">
-        ➕ 繼續幫其他人報名
-      </button>
-
-      <button
-        class="btn-secondary"
-        id="backToRecordBtn">
-        返回我的資料
-      </button>
-    </div>
-
+  <!-- 成功 -->
+  <div class="card hidden" id="successCard" style="text-align:center">
+    <div style="font-size:48px">🎉</div>
+    <h2 id="successTitle">報名成功！</h2>
+    <p class="muted pre" id="successText"></p>
+    <button class="btn-primary" id="continueBtn">➕ 繼續幫其他人報名</button>
+    <a class="btn btn-secondary" href="my-record.html">🔎 查看我的資料</a>
+    <a class="btn btn-secondary" href="index.html">🏠 返回活動頁</a>
   </div>
 
-  <div class="footer">
-    BS pickleball友誼賽<br>
-    活動報名系統
-  </div>
-
-  <div style="text-align:center;margin:30px 0 40px">
-    <a
-      href="index.html"
-      style="
-        display:inline-block;
-        padding:14px 28px;
-        border-radius:14px;
-        background:#f3f4f6;
-        color:#333;
-        text-decoration:none;
-        font-size:16px;
-        font-weight:700;
-        border:1px solid #ddd
-      ">
-      ← 返回活動頁
-    </a>
-  </div>
-
+  <div style="margin-top:24px"><a class="btn btn-secondary" href="index.html">← 返回活動頁</a></div>
 </div>
 
 <script type="module">
-/* =========================================================
-   Firebase
-========================================================= */
-import { auth, db }
-from "./js/firebase-config.js";
+import { auth, db } from "./js/firebase-config.js";
 import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+  GoogleAuthProvider, signInWithPopup, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import {
-  collection,
-  addDoc,
-  updateDoc,
-  getDoc,
-  doc,
-  serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-/* =========================================================
-   Google Apps Script
-========================================================= */
-const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxc1v7q7D1LH6y2OpGus2tjZFe7UtmaxF9n3VV3-B0wmVmoyGUG-CYiD562UdY97Za9/exec";
-/* =========================================================
-   Platinum UID
-========================================================= */
-const PLATINUM_UIDS = {
-  "Sense&Lavenier":
-    "2rNB2dEMwYeDxMPHxJGMq9F7vHU2",
-  "Amos":
-    "ZzWLiS9wR7dOy4lwpW9E3PxmNiE2",
-  "Sunny":
-    "TZHOLfx55dRfomerJJL1ZaxdfMm1",
-  "Robin&Zoey":
-    "NV6OKbVKe7QSX06nKUUEGhoBae32",
-  "RyanLio":
-    "cqW7ZHpWsmdjsc1zJiAL9MhRlIA2",
-  "Wyane&Momo":
-    "Zn6rj5cQ84P6wiPr6QpvFhACXkV2",
-  "Jess":
-    "6iYJHVztThdgj4jpN3pdewzUDbE2",
-  "Keong&Ngah":
-    "Zgil7YpCJsdD4qT5oAmfI0vLBl53",
-  "JayChew":
-    "UALJAeujRXazWubxSTRsFo5OxwI3",
-  "Lynn":
-    "x7Kp4XNKcBV4MzHIG7DBdwnSYWV2",
-  "SzeChew":
-    "hY1QzYljziQsprfbFFowNteqmuH2"
-};
-/* =========================================================
-   Helper
-========================================================= */
+  collection, addDoc, updateDoc, getDoc, doc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {
+  PLATINUM_UIDS, esc, loadEvents, controlHtml, readValues, uploadReceipt
+} from "./js/shared.js";
+
 const $ = id => document.getElementById(id);
-const params =
-  new URLSearchParams(window.location.search);
-const editDocId =
-  params.get("edit");
-const isEdit =
-  Boolean(editDocId);
-let original = null;
-/* =========================================================
-   DOM
-========================================================= */
-const loginCard =
-  $("loginCard");
-const formCard =
-  $("formCard");
-const successCard =
-  $("successCard");
-const form =
-  $("registrationForm");
-const submit =
-  $("submitBtn");
-const msg =
-  $("formMessage");
-const email =
-  $("email");
-/* =========================================================
-   Google Login
-========================================================= */
-$("googleLoginBtn").addEventListener(
-  "click",
-  async () => {
-    const button =
-      $("googleLoginBtn");
-    try {
-      button.disabled = true;
-      $("loginMessage").textContent =
-        "正在開啟 Google 登入...";
-      const provider =
-        new GoogleAuthProvider();
-      provider.setCustomParameters({
-        prompt: "select_account"
-      });
-      await signInWithPopup(
-        auth,
-        provider
-      );
-    } catch (error) {
-      console.error(
-        "Google Login Error:",
-        error
-      );
-      $("loginMessage").textContent =
-        "Google 登入失敗：" +
-        getErrorMessage(error);
-      button.disabled = false;
-    }
-  }
-);
-/* =========================================================
-   Partner Group
-========================================================= */
-$("partnerGroup").addEventListener(
-  "change",
-  updatePartnerRequirement
-);
-function updatePartnerRequirement() {
-  const group =
-    $("partnerGroup").value;
-  const partner =
-    $("partner");
-  const requiredMark =
-    $("partnerRequiredMark");
-  if (group === "指定搭檔") {
-    partner.required = true;
-    requiredMark.classList.remove(
-      "hidden"
-    );
-    $("partnerHelp").textContent =
-      "已選擇指定搭檔，請務必填寫球伴姓名。";
-  } else {
-    partner.required = false;
-    requiredMark.classList.add(
-      "hidden"
-    );
-    $("partnerHelp").textContent =
-      "自由組隊時，球伴欄位可以不填。";
-  }
+const params = new URLSearchParams(location.search);
+const editId = params.get("edit");
+const isEdit = Boolean(editId);
+let eventId = params.get("event") || "";
+let events = [], ev = null, original = null;
+
+function show(...ids) {
+  ["tabs","pickCard","closedCard","formCard","successCard"].forEach(i => $(i).classList.add("hidden"));
+  ids.forEach(i => $(i).classList.remove("hidden"));
 }
-/* =========================================================
-   Firebase Auth State
-========================================================= */
-onAuthStateChanged(
-  auth,
-  async user => {
-    try {
-      if (!user) {
-        loginCard.classList.remove(
-          "hidden"
-        );
-        formCard.classList.add(
-          "hidden"
-        );
-        successCard.classList.add(
-          "hidden"
-        );
-        return;
-      }
-      loginCard.classList.add(
-        "hidden"
-      );
-      formCard.classList.remove(
-        "hidden"
-      );
-      email.value =
-        user.email || "";
-      $("userInfo").innerHTML =
-        "✅ 已登入：<strong>" +
-        esc(user.email || "") +
-        "</strong>";
-      if (isEdit) {
-        await loadEdit(user);
-      } else {
-        msg.textContent = "";
-      }
-    } catch (error) {
-      console.error(
-        "Auth State Error:",
-        error
-      );
-      errorMessage(
-        getErrorMessage(error)
-      );
-    }
-  }
-);
-/* =========================================================
-   Load Edit Record
-========================================================= */
-async function loadEdit(user) {
+const msg = $("formMessage");
+function setMsg(text, color = "#718078") { msg.textContent = text; msg.style.color = color; }
+function fail(text) {
+  setMsg(text, "#c84b4b");
+  $("submitBtn").disabled = false;
+  $("submitBtn").textContent = isEdit ? "💾 儲存修改" : "🚀 提交報名";
+}
+function errText(e) { return e?.message || e?.code || String(e || "未知錯誤"); }
+
+$("googleLoginBtn").onclick = async () => {
+  const b = $("googleLoginBtn");
   try {
-    msg.textContent =
-      "正在載入你的報名資料...";
-    msg.style.color =
-      "#718078";
-    const recordRef =
-      doc(
-        db,
-        "registrations",
-        editDocId
-      );
-    const snapshot =
-      await getDoc(recordRef);
-    if (!snapshot.exists()) {
-      throw new Error(
-        "找不到這筆報名資料。"
-      );
-    }
-    const data =
-      snapshot.data();
-    if (data.uid !== user.uid) {
-      throw new Error(
-        "你沒有權限修改這筆資料。"
-      );
-    }
-    original =
-      data;
-    /* 標題 */
-    $("formTitle").textContent =
-      "✏️ 修改活動報名資料";
-    $("editNotice").classList.remove(
-      "hidden"
-    );
-    submit.textContent =
-      "💾 儲存修改";
-    /* 收據不是必填 */
-    $("receiptRequiredMark")
-      .classList.add("hidden");
-    $("existingReceipt")
-      .classList.remove("hidden");
-    /* Platinum 不可更改 */
-    $("platinumHelp")
-      .classList.remove("hidden");
-    $("platinum").disabled =
-      true;
-    /* 填入資料 */
-    $("englishName").value =
-      data.englishName || "";
-    $("icNumber").value =
-      data.icNumber || "";
-    $("chineseName").value =
-      data.chineseName || "";
-    $("phone").value =
-      data.phone || "";
-    $("shirtSize").value =
-      data.shirtSize || "";
-    $("shirtText").value =
-      data.shirtText || "";
-    $("partnerGroup").value =
-      data.partnerGroup || "";
-    $("partner").value =
-      data.partner || "";
-    $("platinum").value =
-      data.platinum || "";
-    updatePartnerRequirement();
-    msg.textContent =
-      "已載入你的資料，可以修改。";
-    msg.style.color =
-      "#247a55";
-  } catch (error) {
-    console.error(
-      "Load Edit Error:",
-      error
-    );
-    errorMessage(
-      "載入資料失敗：" +
-      getErrorMessage(error)
-    );
-    submit.disabled =
-      true;
+    b.disabled = true;
+    $("loginMessage").textContent = "正在開啟 Google 登入...";
+    const p = new GoogleAuthProvider();
+    p.setCustomParameters({ prompt: "select_account" });
+    await signInWithPopup(auth, p);
+  } catch (e) {
+    $("loginMessage").textContent = "Google 登入失敗：" + errText(e);
+    b.disabled = false;
   }
+};
+
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    $("loginCard").classList.remove("hidden");
+    show();
+    return;
+  }
+  $("loginCard").classList.add("hidden");
+  $("email").value = user.email || "";
+  $("userInfo").innerHTML = "✅ 已登入：<strong>" + esc(user.email || "") + "</strong>";
+  try { await init(user); } catch (e) { console.error(e); show("formCard"); fail(errText(e)); }
+});
+
+function renderTabs() {
+  // 修改模式不顯示分頁，避免換到別的活動
+  if (isEdit) { $("tabs").classList.add("hidden"); return; }
+  const list = events.filter(e => e.status === "open");
+  $("tabs").innerHTML = list.map(e =>
+    `<a class="tab ${e.id === eventId ? "active" : ""}" href="register.html?event=${encodeURIComponent(e.id)}">${esc(e.title)}</a>`
+  ).join("");
+  $("tabs").classList.remove("hidden");
 }
-/* =========================================================
-   Radio
-========================================================= */
-function setRadio(
-  name,
-  value
-) {
-  document
-    .querySelectorAll(
-      'input[name="' +
-      name +
-      '"]'
-    )
-    .forEach(
-      radio => {
-        radio.checked =
-          radio.value === value;
-      }
-    );
+
+async function init(user) {
+  events = await loadEvents(db);
+
+  if (isEdit) {
+    const snap = await getDoc(doc(db, "registrations", editId));
+    if (!snap.exists()) throw new Error("找不到這筆報名資料。");
+    original = snap.data();
+    if (original.uid !== user.uid) throw new Error("你沒有權限修改這筆資料。");
+    eventId = original.eventId || "";
+  }
+
+  ev = events.find(e => e.id === eventId) || null;
+
+  if (!ev) {
+    if (isEdit) throw new Error("這筆資料尚未歸入任何活動，請聯絡管理員。");
+    renderTabs();
+    $("pageTitle").textContent = "請選擇活動";
+    $("tabs").classList.remove("hidden");
+    $("pickCard").classList.remove("hidden");
+    return;
+  }
+
+  $("pageTitle").textContent = ev.title;
+  document.title = "報名｜" + ev.title;
+
+  if (!isEdit && ev.status !== "open") {
+    renderTabs();
+    $("tabs").classList.remove("hidden");
+    $("closedCard").classList.remove("hidden");
+    return;
+  }
+
+  renderForm();
+  renderTabs();
+  show("formCard");
+  if (!isEdit) $("tabs").classList.remove("hidden");
 }
-/* =========================================================
-   Form Submit
-========================================================= */
-form.addEventListener(
-  "submit",
-  async event => {
-    event.preventDefault();
-    msg.textContent =
-      "";
-    msg.style.color =
-      "#718078";
-    const user =
-      auth.currentUser;
-    if (!user) {
-      errorMessage(
-        "請先使用 Google 登入。"
-      );
-      return;
+
+function renderForm() {
+  $("banner").innerHTML = `${isEdit ? "✏️ 你正在修改" : "📢 你正在報名"}<br><strong>${esc(ev.title)}</strong>` +
+    (ev.subtitle ? `<br>${esc(ev.subtitle)}` : "");
+  $("editNotice").classList.toggle("hidden", !isEdit);
+
+  $("dynamicFields").innerHTML = (ev.fields || []).map(f => `
+    <div class="field">
+      <label>${esc(f.label)} ${f.required ? '<span class="required">*</span>' : '<span class="muted">（選填）</span>'}</label>
+      ${controlHtml(f, original ? original[f.key] : "", "form")}
+    </div>`).join("");
+
+  // Platinum
+  if (ev.platinumEnabled) {
+    $("platinumField").classList.remove("hidden");
+    $("platinum").innerHTML = `<option value="">請選擇你的 Platinum</option>` +
+      Object.keys(PLATINUM_UIDS).map(n => `<option>${esc(n)}</option>`).join("");
+    if (original) $("platinum").value = original.platinum || "";
+    if (isEdit) { $("platinum").disabled = true; $("platinumHelp").classList.remove("hidden"); }
+  }
+
+  // 費用與繳費資料
+  if (ev.fee || ev.paymentText || ev.paymentImage) {
+    $("priceBox").classList.remove("hidden");
+    $("priceBox").innerHTML =
+      (ev.fee ? `<div class="price-main">${esc(ev.fee)}</div>` : "") +
+      (ev.paymentText ? `<div class="pay">${esc(ev.paymentText)}</div>` : "") +
+      (ev.paymentImage ? `<img src="${esc(ev.paymentImage)}" alt="繳費資料">` : "");
+  }
+
+  // 收據
+  if (ev.receiptRequired) {
+    $("receiptField").classList.remove("hidden");
+    if (isEdit && original?.receiptFileId) {
+      $("receiptReq").classList.add("hidden");
+      $("existingReceipt").classList.remove("hidden");
     }
-    /* ================================================
-       取得表格資料
-    ================================================ */
-    const englishName =
-      getValue("englishName");
-    const icNumber =
-      getValue("icNumber");
-    const chineseName =
-      getValue("chineseName");
-    const phone =
-      getValue("phone");
-    const shirtSize =
-      $("shirtSize").value;
-    const shirtText =
-      getValue("shirtText");
-    const partnerGroup =
-      $("partnerGroup").value;
-    const partner =
-      getValue("partner");
-    /*
-      修改模式 Platinum disabled，
-      所以直接從 original 取得。
-    */
-    const platinum =
-      isEdit
-        ? (original?.platinum || "")
-        : $("platinum").value;
-    /* 已取消飲食選項 */
-    const meal = "";
-    /* 只有 Pickleball */
-    const participation = "pickleball";
-    const receipt =
-      $("receipt").files?.[0] || null;
-    /* ================================================
-       基本驗證
-    ================================================ */
-    if (
-      !englishName ||
-      !icNumber ||
-      !chineseName ||
-      !phone ||
-      !shirtSize ||
-      !shirtText ||
-      !participation ||
-      !partnerGroup ||
-      !platinum
-    ) {
-      errorMessage(
-        "請完整填寫所有必填資料。"
-      );
-      return;
-    }
-    /* ================================================
-       指定搭檔
-    ================================================ */
-    if (
-      partnerGroup === "指定搭檔" &&
-      !partner
-    ) {
-      errorMessage(
-        "選擇「指定搭檔」時，球伴欄位必須填寫。"
-      );
-      $("partner").focus();
-      return;
-    }
-    /* ================================================
-       收據
-    ================================================ */
-    if (
-      !isEdit &&
-      !receipt
-    ) {
-      errorMessage(
-        "請上傳繳費收據 JPG。"
-      );
-      return;
-    }
+  }
+  $("submitBtn").textContent = isEdit ? "💾 儲存修改" : "🚀 提交報名";
+}
+
+$("regForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  setMsg("");
+  const user = auth.currentUser;
+  if (!user) return fail("請先使用 Google 登入。");
+  if (!ev) return fail("找不到活動資料。");
+  if (!isEdit && ev.status !== "open") return fail("此活動已停止報名。");
+
+  const values = readValues($("regForm"), ev.fields || []);
+  for (const f of ev.fields || []) {
+    if (f.required && !values[f.key]) return fail(`請填寫「${f.label}」。`);
+  }
+
+  const platinum = ev.platinumEnabled ? (isEdit ? (original.platinum || "") : $("platinum").value) : "";
+  if (ev.platinumEnabled && !platinum) return fail("請選擇你的 Platinum。");
+  const platinumUid = ev.platinumEnabled
+    ? (isEdit ? (original.platinumUid || PLATINUM_UIDS[platinum] || "") : (PLATINUM_UIDS[platinum] || ""))
+    : "";
+
+  const receipt = $("receipt").files?.[0] || null;
+  if (ev.receiptRequired && !receipt && !(isEdit && original?.receiptFileId)) {
+    return fail("請上傳繳費收據 JPG。");
+  }
+  if (receipt) {
+    if (!(receipt.type === "image/jpeg" || /\.(jpg|jpeg)$/i.test(receipt.name))) return fail("收據只接受 JPG / JPEG 格式。");
+    if (receipt.size > 5 * 1024 * 1024) return fail("收據圖片不能超過 5MB。");
+  }
+
+  if (!isEdit && !confirm(`你正在報名「${ev.title}」，確定提交嗎？`)) return;
+
+  $("submitBtn").disabled = true;
+  $("submitBtn").textContent = "⏳ 處理中...";
+
+  try {
+    let drive = null;
     if (receipt) {
-      const isJpeg =
-        receipt.type === "image/jpeg" ||
-        /\.(jpg|jpeg)$/i.test(
-          receipt.name
-        );
-      if (!isJpeg) {
-        errorMessage(
-          "收據只接受 JPG / JPEG 格式。"
-        );
-        return;
-      }
-      if (
-        receipt.size >
-        5 * 1024 * 1024
-      ) {
-        errorMessage(
-          "收據圖片不能超過 5MB。"
-        );
-        return;
-      }
+      setMsg("🧾 正在上傳繳費收據，請不要關閉頁面...", "#9a6815");
+      const hint = (values.englishName || values.chineseName || user.displayName || "receipt");
+      drive = await uploadReceipt(receipt, ev.title + "_" + hint);
+      if (!drive?.success) throw new Error("繳費收據上傳失敗。");
     }
-    /* ================================================
-       防止重複提交
-    ================================================ */
-    submit.disabled =
-      true;
-    submit.textContent =
-      isEdit
-        ? "⏳ 正在保存修改..."
-        : "⏳ 正在處理報名...";
-    try {
-      let drive =
-        null;
-      /* ==============================================
-         上傳收據
-      ============================================== */
-      if (receipt) {
-        msg.textContent =
-          "🧾 正在上傳繳費收據，請不要關閉頁面...";
-        msg.style.color =
-          "#9a6815";
-        drive =
-          await uploadReceipt(
-            receipt,
-            englishName
-          );
-        console.log(
-          "Drive Upload Result:",
-          drive
-        );
-        if (
-          !drive ||
-          !drive.success
-        ) {
-          throw new Error(
-            "繳費收據上傳失敗。"
-          );
-        }
-        msg.textContent =
-          "✅ 收據已成功保存，正在提交報名資料...";
-        msg.style.color =
-          "#247a55";
-      }
-      /* ==============================================
-         Firestore Data
-      ============================================== */
-      const data = {
-        uid:
-          user.uid,
-        email:
-          user.email || "",
-        googleName:
-          user.displayName || "",
-        englishName,
-        icNumber,
-        chineseName,
-        phone,
-        meal,
-        shirtSize,
-        shirtText,
-        participation,
-        partnerGroup,
-        partner,
-        platinum,
-        platinumUid:
-          isEdit
-            ? (
-                original?.platinumUid ||
-                PLATINUM_UIDS[platinum] ||
-                ""
-              )
-            : (
-                PLATINUM_UIDS[platinum] ||
-                ""
-              )
-      };
-      /* ==============================================
-         收據資料
-      ============================================== */
-      if (drive) {
-        data.receiptName =
-          receipt.name;
-        data.receiptType =
-          receipt.type ||
-          "image/jpeg";
-        data.receiptSize =
-          receipt.size;
-        data.receiptFileId =
-          drive.fileId || "";
-        data.receiptFileName =
-          drive.fileName || "";
-        data.receiptDriveUrl =
-          drive.driveUrl || "";
-      } else if (isEdit) {
-        data.receiptName =
-          original?.receiptName || "";
-        data.receiptType =
-          original?.receiptType || "";
-        data.receiptSize =
-          original?.receiptSize || 0;
-        data.receiptFileId =
-          original?.receiptFileId || "";
-        data.receiptFileName =
-          original?.receiptFileName || "";
-        data.receiptDriveUrl =
-          original?.receiptDriveUrl || "";
-      }
-      /* ==============================================
-         EDIT
-      ============================================== */
-      if (isEdit) {
-        await updateDoc(
-          doc(
-            db,
-            "registrations",
-            editDocId
-          ),
-          data
-        );
-        alert(
-          "你的報名資料已成功更新！"
-        );
-        window.location.href =
-          "my-record.html";
-        return;
-      }
-      /* ==============================================
-         NEW REGISTRATION
-      ============================================== */
-      data.createdAt =
-        serverTimestamp();
-      const docRef =
-        await addDoc(
-          collection(
-            db,
-            "registrations"
-          ),
-          data
-        );
-      console.log(
-        "Firestore Registration Created:",
-        docRef.id
-      );
-      /* ==============================================
-         成功
-      ============================================== */
-      formCard.classList.add(
-        "hidden"
-      );
-      successCard.classList.remove(
-        "hidden"
-      );
-      form.reset();
-      email.value =
-        user.email || "";
-      updatePartnerRequirement();
-      msg.textContent =
-        "";
-    } catch (error) {
-      console.error(
-        "Registration Submit Error:",
-        error
-      );
-      errorMessage(
-        getSubmitErrorMessage(error)
-      );
-    } finally {
-      submit.disabled =
-        false;
-      submit.textContent =
-        isEdit
-          ? "💾 儲存修改"
-          : "🚀 提交活動報名";
-    }
-  }
-);
-/* =========================================================
-   Continue Registration
-========================================================= */
-$("continueBtn").addEventListener(
-  "click",
-  () => {
-    successCard.classList.add(
-      "hidden"
-    );
-    formCard.classList.remove(
-      "hidden"
-    );
-    form.reset();
-    email.value =
-      auth.currentUser?.email || "";
-    /*
-      新增下一個人的資料時，
-      Platinum 可以重新選擇。
-    */
-    $("platinum").disabled =
-      false;
-    $("platinumHelp")
-      .classList.add("hidden");
-    $("editNotice")
-      .classList.add("hidden");
-    $("receiptRequiredMark")
-      .classList.remove("hidden");
-    $("existingReceipt")
-      .classList.add("hidden");
-    $("formTitle").textContent =
-      "📝 活動報名資料";
-    updatePartnerRequirement();
-  }
-);
-/* =========================================================
-   Back To Record
-========================================================= */
-$("backToRecordBtn").addEventListener(
-  "click",
-  () => {
-    window.location.href =
-      "my-record.html";
-  }
-);
-/* =========================================================
-   Upload Receipt
-========================================================= */
-/* =========================================================
-   Upload Receipt
-========================================================= */
-async function uploadReceipt(file, englishName) {
 
-  if (!file) {
-    throw new Error("請選擇收據照片");
-  }
-
-  if (file.size > 5 * 1024 * 1024) {
-    throw new Error("收據照片不能超過 5MB");
-  }
-
-  if (
-    file.type !== "image/jpeg" &&
-    file.type !== "image/jpg" &&
-    !/\.jpe?g$/i.test(file.name)
-  ) {
-    throw new Error("只允許 JPG / JPEG 格式");
-  }
-
-  /*
-   * File → Base64
-   */
-  const base64 = await new Promise((resolve, reject) => {
-
-    const reader = new FileReader();
-
-    reader.onload = function () {
-
-      try {
-
-        const result = reader.result;
-
-        if (
-          typeof result !== "string" ||
-          !result.includes(",")
-        ) {
-          reject(
-            new Error("無法解析收據圖片。")
-          );
-          return;
-        }
-
-        resolve(
-          result.substring(
-            result.indexOf(",") + 1
-          )
-        );
-
-      } catch (error) {
-
-        reject(error);
-
-      }
-
+    const data = {
+      ...values,
+      uid: user.uid,
+      email: user.email || "",
+      googleName: user.displayName || "",
+      eventId: ev.id,
+      eventTitle: ev.title,
+      platinum,
+      platinumUid
     };
 
-    reader.onerror = function () {
-
-      reject(
-        new Error("無法讀取收據照片。")
-      );
-
-    };
-
-    reader.readAsDataURL(file);
-
-  });
-
-
-  /*
-   * 建立唯一 Token
-   */
-  const token =
-    "upload_" +
-    Date.now() +
-    "_" +
-    Math.random()
-      .toString(36)
-      .substring(2);
-
-
-  /*
-   * 建立 iframe
-   */
-  const iframe =
-    document.createElement("iframe");
-
-  iframe.style.display = "none";
-
-  iframe.name =
-    "sataycelup_upload_" + token;
-
-  document.body.appendChild(iframe);
-
-
-  /*
-   * 建立 POST Form
-   */
-  const uploadForm =
-    document.createElement("form");
-
-  uploadForm.method = "POST";
-
-  uploadForm.action =
-    APPS_SCRIPT_URL;
-
-  uploadForm.target =
-    iframe.name;
-
-  uploadForm.style.display = "none";
-
-
-  function addUploadInput(
-    name,
-    value
-  ) {
-
-    const input =
-      document.createElement("input");
-
-    input.type = "hidden";
-
-    input.name = name;
-
-    input.value = String(
-      value ?? ""
-    );
-
-    uploadForm.appendChild(input);
-
-  }
-
-
-  addUploadInput(
-    "type",
-    "registration"
-  );
-
-
-  addUploadInput(
-    "fileName",
-    safeFileName(
-      englishName +
-      "_" +
-      Date.now() +
-      ".jpg"
-    )
-  );
-
-
-  addUploadInput(
-    "mimeType",
-    "image/jpeg"
-  );
-
-
-  addUploadInput(
-    "base64",
-    base64
-  );
-
-
-  addUploadInput(
-    "token",
-    token
-  );
-
-
-  document.body.appendChild(
-    uploadForm
-  );
-
-
-  /*
-   * 等待 Apps Script 回覆
-   */
-  return await new Promise(
-    (resolve, reject) => {
-
-      let finished = false;
-
-      let timeoutId = null;
-
-
-      function cleanup() {
-
-        window.removeEventListener(
-          "message",
-          messageHandler
-        );
-
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
-
-        try {
-          uploadForm.remove();
-        } catch (e) {}
-
-        try {
-          iframe.remove();
-        } catch (e) {}
-
-      }
-
-
-      function finishSuccess(
-        result
-      ) {
-
-        if (finished) return;
-
-        finished = true;
-
-        cleanup();
-
-        resolve(result);
-
-      }
-
-
-      function finishError(
-        error
-      ) {
-
-        if (finished) return;
-
-        finished = true;
-
-        cleanup();
-
-        reject(error);
-
-      }
-
-
-      function messageHandler(
-        event
-      ) {
-
-        let data =
-          event.data;
-
-
-        /*
-         * 有些環境會傳 JSON 字串
-         */
-        if (
-          typeof data === "string"
-        ) {
-
-          try {
-
-            data =
-              JSON.parse(data);
-
-          } catch (e) {
-
-            return;
-
-          }
-
-        }
-
-
-        if (!data) {
-          return;
-        }
-
-
-        /*
-         * 只接受我們 Apps Script 的訊息
-         */
-        if (
-          data.source !==
-          "sataycelup-receipt-upload"
-        ) {
-
-          return;
-
-        }
-
-
-        const result =
-          data.result || data;
-
-
-        /*
-         * Token 檢查
-         */
-        if (
-          result.token &&
-          result.token !== token
-        ) {
-
-          return;
-
-        }
-
-
-        /*
-         * Apps Script 回報失敗
-         */
-        if (
-          result.success === false
-        ) {
-
-          finishError(
-            new Error(
-              result.error ||
-              "Google Drive 上傳失敗。"
-            )
-          );
-
-          return;
-
-        }
-
-
-        /*
-         * Apps Script 回報成功
-         */
-        if (
-          result.success === true &&
-          (
-            result.fileId ||
-            result.fileName ||
-            result.driveUrl
-          )
-        ) {
-
-          finishSuccess(
-            result
-          );
-
-          return;
-
-        }
-
-
-        /*
-         * 相容沒有 success 的舊格式
-         */
-        if (
-          result.fileId ||
-          result.driveUrl
-        ) {
-
-          finishSuccess(
-            result
-          );
-
-        }
-
-      }
-
-
-      window.addEventListener(
-        "message",
-        messageHandler
-      );
-
-
-      /*
-       * 開始 POST
-       */
-      try {
-
-        uploadForm.submit();
-
-      } catch (error) {
-
-        finishError(error);
-
-        return;
-
-      }
-
-
-      /*
-       * 最長等待 90 秒
-       */
-      timeoutId =
-        setTimeout(
-          function () {
-
-            finishError(
-              new Error(
-                "Google Drive 上傳逾時（90 秒）。請檢查 Apps Script 是否正常執行。"
-              )
-            );
-
-          },
-          90000
-        );
-
+    if (drive) {
+      data.receiptName = receipt.name;
+      data.receiptType = receipt.type || "image/jpeg";
+      data.receiptSize = receipt.size;
+      data.receiptFileId = drive.fileId || "";
+      data.receiptFileName = drive.fileName || "";
+      data.receiptDriveUrl = drive.driveUrl || "";
+    } else if (isEdit) {
+      ["receiptName","receiptType","receiptSize","receiptFileId","receiptFileName","receiptDriveUrl"]
+        .forEach(k => data[k] = original?.[k] ?? (k === "receiptSize" ? 0 : ""));
     }
-  );
 
-}
-/* =========================================================
-   File → Base64
-========================================================= */
-function fileToBase64(
-  file
-) {
-  return new Promise(
-    (resolve, reject) => {
-      const reader =
-        new FileReader();
-      reader.onload =
-        () => {
-          try {
-            const result =
-              reader.result;
-            if (
-              typeof result !==
-              "string"
-            ) {
-              reject(
-                new Error(
-                  "圖片讀取結果無效。"
-                )
-              );
-              return;
-            }
-            const comma =
-              result.indexOf(",");
-            if (comma === -1) {
-              reject(
-                new Error(
-                  "無法解析圖片資料。"
-                )
-              );
-              return;
-            }
-            resolve(
-              result.substring(
-                comma + 1
-              )
-            );
-          } catch (error) {
-            reject(error);
-          }
-        };
-      reader.onerror =
-        () => {
-          reject(
-            new Error(
-              "無法讀取收據圖片。"
-            )
-          );
-        };
-      reader.readAsDataURL(
-        file
-      );
+    if (isEdit) {
+      await updateDoc(doc(db, "registrations", editId), data);
+      alert("你的資料已成功更新！");
+      location.href = "my-record.html";
+      return;
     }
-  );
-}
-/* =========================================================
-   Hidden Input
-========================================================= */
-function addHidden(
-  form,
-  name,
-  value
-) {
-  const input =
-    document.createElement(
-      "input"
-    );
-  input.type =
-    "hidden";
-  input.name =
-    name;
-  input.value =
-    String(value ?? "");
-  form.appendChild(
-    input
-  );
-}
-/* =========================================================
-   Get Value
-========================================================= */
-function getValue(
-  id
-) {
-  return String(
-    $(id)?.value || ""
-  ).trim();
-}
-/* =========================================================
-   Safe File Name
-========================================================= */
-function safeFileName(
-  name
-) {
-  return String(name)
-    .replace(
-      /[\\/:*?"<>|#%{}]/g,
-      "_"
-    )
-    .replace(
-      /\s+/g,
-      "_"
-    )
-    .slice(
-      0,
-      80
-    );
-}
-/* =========================================================
-   Error Message
-========================================================= */
-function errorMessage(
-  text
-) {
-  msg.textContent =
-    text;
-  msg.style.color =
-    "#c84b4b";
-  submit.disabled =
-    false;
-  submit.textContent =
-    isEdit
-      ? "💾 儲存修改"
-      : "🚀 提交活動報名";
-}
-/* =========================================================
-   Error Message
-========================================================= */
-function getErrorMessage(
-  error
-) {
-  if (!error) {
-    return "未知錯誤";
+
+    data.createdAt = serverTimestamp();
+    await addDoc(collection(db, "registrations"), data);
+
+    $("successText").textContent = ev.successMessage ||
+      `你已成功報名「${ev.title}」。` + (ev.receiptRequired ? "\n繳費收據也已成功保存。" : "");
+    show("successCard");
+  } catch (err) {
+    console.error(err);
+    let t = errText(err);
+    if (/permission|insufficient/i.test(t)) t = "沒有寫入權限（可能活動已關閉報名或 Firestore Rules 未更新）。";
+    fail("提交失敗：" + t);
+    return;
   }
-  return (
-    error.message ||
-    error.code ||
-    String(error)
-  );
-}
-/* =========================================================
-   Submit Error
-========================================================= */
-function getSubmitErrorMessage(
-  error
-) {
-  console.error(
-    "Submit Error Detail:",
-    error
-  );
-  const message =
-    getErrorMessage(error);
-  /*
-     Firebase 常見錯誤
-  */
-  if (
-    message.includes(
-      "permission-denied"
-    )
-  ) {
-    return (
-      "Firestore 沒有寫入權限。" +
-      "請檢查 Firebase Firestore Rules。"
-    );
-  }
-  if (
-    message.includes(
-      "Missing or insufficient permissions"
-    )
-  ) {
-    return (
-      "Firestore 權限不足。" +
-      "請檢查 registrations 的 Firestore Rules。"
-    );
-  }
-  if (
-    message.includes(
-      "network"
-    )
-  ) {
-    return (
-      "網路連線失敗，請確認網路後再試。"
-    );
-  }
-  return (
-    "提交失敗：" +
-    message
-  );
-}
-/* =========================================================
-   Escape HTML
-========================================================= */
-function esc(
-  value
-) {
-  return String(value)
-    .replace(
-      /[&<>"']/g,
-      character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      }[character])
-    );
-}
-  async function upload(file, englishName) {
-  return await uploadReceipt(file, englishName);
-}
-  
+  $("submitBtn").disabled = false;
+});
+
+$("continueBtn").onclick = () => {
+  $("regForm").reset();
+  $("receipt").value = "";
+  original = null;
+  renderForm();
+  $("email").value = auth.currentUser?.email || "";
+  show("formCard");
+  $("tabs").classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 </script>
-
 </body>
 </html>
-
-
