@@ -1507,7 +1507,7 @@ const EVENT_MEDIA = {
     ================================================ */
 
     video:
-        "https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F847220367746110%2F&show_text=false&width=265&t=0" width="265" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true">",
+        "https://www.facebook.com/reel/847220367746110/",
 
 
     /* ================================================
@@ -1814,21 +1814,26 @@ if (igMatch) {
 } else if (isFacebookVideo) {
 
     const fbSrc =
-        "https://www.facebook.com/plugins/video.php?href=" +
+        "https://www.facebook.com/plugins/video.php?height=640&href=" +
         encodeURIComponent(EVENT_MEDIA.video) +
-        "&show_text=false&width=560";
+        "&show_text=false&width=360&t=0";
 
     videoArea.innerHTML = `
 
-        <div class="video-container">
+        <div style="max-width:360px;margin:0 auto;">
 
-            <iframe
-                src="${fbSrc}"
-                title="BS pickleball友誼賽活動宣傳影片"
-                scrolling="no"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                allowfullscreen>
-            </iframe>
+            <div style="position:relative;width:100%;aspect-ratio:9/16;overflow:hidden;border-radius:20px;background:#edf5ee;box-shadow:0 10px 28px rgba(63,100,73,.08);">
+
+                <iframe
+                    src="${fbSrc}"
+                    title="BS pickleball友誼賽活動宣傳影片"
+                    style="position:absolute;inset:0;width:100%;height:100%;border:0;overflow:hidden;"
+                    scrolling="no"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
 
         </div>
 
